@@ -10,7 +10,7 @@ import hashlib
 import json
 from urllib.parse import urlparse
 from transactions import Transactions
-from requests import request
+import requests
 
 # Part 1 - Building a Blockchain 
 class Blockchain:
@@ -81,7 +81,7 @@ class Blockchain:
     longest_chain = None
     max_length = len(self.chain)
     for node in network:
-      response = request.get(f'http://{node}/get_chain')
+      response = requests.get(f'http://{node}/get_chain')
       if response.status_code == 200:
         new_length = response.json()['length']
         new_chain = response.json()['chain']
