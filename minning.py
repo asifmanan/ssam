@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from blockchain import Blockchain
 from uuid import uuid4
 
-#Part 2 - Minning the Blockchain
+# Minning the Blockchain
 
 # Creating an address for the node 
 node_address = str(uuid4()).replace('-','')

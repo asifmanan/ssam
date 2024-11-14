@@ -1,4 +1,4 @@
-# Module 1 - Create a blockchain
+# Blockchain Class
 
 # Requirements
 # 1. Flask 
