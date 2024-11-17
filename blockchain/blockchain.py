@@ -9,7 +9,7 @@ import datetime
 import hashlib
 import json
 from urllib.parse import urlparse
-from transactions import Transactions
+from blockchain.transactions import Transactions
 import requests
 
 # Part 1 - Building a Blockchain 
