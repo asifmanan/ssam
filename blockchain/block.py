@@ -13,12 +13,12 @@ class Block:
     self.__proof = proof
     self.__previous_hash = previous_hash
 
-  def compute_hash(self):
+  def _compute_hash(self):
     """
       Compute the hash of the block based on its content.
     """
-    block_string = json.dumps(self.__dict__, sort_keys=True).encode()
-    block_hash = hashlib.sha256(block_string).hexdigest()
+    encoded_block_string = json.dumps(self.__dict__, sort_keys=True).encode()
+    block_hash = hashlib.sha256(encoded_block_string).hexdigest()
     return block_hash
   
   @property
@@ -40,3 +40,7 @@ class Block:
   @property
   def transactions(self):
     return self.__transactions
+  
+  @property
+  def hash(self):
+    return self.compute_hash()
