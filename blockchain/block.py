@@ -13,6 +13,27 @@ class Block:
     self.__proof = proof
     self.__previous_hash = previous_hash
 
+  @classmethod
+  def from_dict(cls, block_data):
+    return cls(index = block_data["index"],
+               timestamp = block_data["timestamp"], 
+               transactions = block_data["transactions"], 
+               proof = block_data["proof"], 
+               previous_hash = block_data["previous_hash"])
+
+  def to_dict(self):
+    """
+      Convert the block object into a dictionary for JSON serialization.
+    """
+    return {
+            "index":self.index,
+            "timestamp":self.timestamp,
+            "transactions":self.transactions,
+            "proof":self.proof,
+            "previous_hash":self.previous_hash,
+            "block_hash":self.hash
+            }
+  
   def _compute_hash(self):
     """
       Compute the hash of the block based on its content.
@@ -43,4 +64,4 @@ class Block:
   
   @property
   def hash(self):
-    return self.compute_hash()
+    return self._compute_hash()
