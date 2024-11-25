@@ -1,0 +1,4 @@
+# Requirements
+Flask 
+Requests==2.32.3
+pytest
