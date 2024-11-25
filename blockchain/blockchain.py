@@ -1,23 +1,10 @@
-<<<<<<< HEAD:blockchain.py
-# Blockchain Class
-
-# Requirements
-# 1. Flask 
-# 2. Postman for testing 
-# 3. Requests==2.32.3
-=======
->>>>>>> modularization:blockchain/blockchain.py
 
 import datetime
 import hashlib
 import json
 from urllib.parse import urlparse
-<<<<<<< HEAD:blockchain.py
-from transactions import Transactions
-=======
 from blockchain.transactions import Transactions
 from blockchain.block import Block
->>>>>>> modularization:blockchain/blockchain.py
 import requests
 
 # Blockchain Class 
