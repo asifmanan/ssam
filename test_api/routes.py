@@ -1,12 +1,19 @@
+"""
+This Flask API serves as a testing interface for the blockchain project.
+It is not intended for production use and focuses on exposing basic blockchain functionality. 
+"""
+
 from flask import Flask, jsonify, request
-from blockchain import Blockchain
+from blockchain.blockchain import Blockchain
 from uuid import uuid4
 
-# Minning the Blockchain
+from blockchain.block import Block
+
+#Part 2 - Minning the Blockchain
 
 # Creating an address for the node 
 node_address = str(uuid4()).replace('-','')
-owner_name = "Asif"
+owner_id = "test_api"
 
 
 # Creating a webapp
@@ -18,19 +25,22 @@ blockchain = Blockchain()
 # Minning a new block 
 @app.route("/mine_block", methods = ['GET'])
 def mine_block():
-  previous_block = blockchain.get_previous_block()
-  previous_proof = previous_block['proof']
+  """
+    Mines a new block, simulating the mining process and adding a reward transaction.
+  """
+  previous_block = blockchain.get_last_block()
+  previous_proof = previous_block.proof
   proof = blockchain.proof_of_work(previous_proof)
-  previous_hash = blockchain.hash(previous_block)
-  blockchain.record_transactions(sender=node_address, receiver=owner_name,amount=10)
+  previous_hash = previous_block.hash
+  blockchain.record_transactions(sender=node_address, receiver=owner_id,amount=10)
   block = blockchain.create_block(proof, previous_hash)
   response = {
               'message': 'Congragulations! A new block was created',
-              'index': block['index'], 
-              'timestamp': block['timestamp'], 
-              'proof': block['proof'], 
-              'previous_hash': block['previous_hash'] , 
-              'transactions': block['transactions']
+              'index': block.index, 
+              'timestamp': block.timestamp, 
+              'proof': block.proof, 
+              'previous_hash': block.previous_hash , 
+              'transactions': block.transactions
               }
   return jsonify(response), 200
 
@@ -38,8 +48,11 @@ def mine_block():
 # Getting the full blockchain
 @app.route('/get_chain', methods = ['GET'])
 def get_chain():
+  """
+    Retrieves the entire blockchain.
+  """
   response = {
-              'chain' : blockchain.chain, 
+              'chain' : [block.to_dict() for block in blockchain.chain], 
               'length' : len(blockchain.chain)
               }
   return jsonify(response), 200
@@ -47,6 +60,9 @@ def get_chain():
 # Checking is the blockchain is valid
 @app.route("/is_valid", methods = ['GET'])
 def is_valid():
+  """
+    Validates the current blockchain.
+  """
   is_valid = blockchain.is_chain_valid(blockchain.chain)
   if is_valid:
     response = {"message":"The blockchain is valid"}
@@ -91,4 +107,5 @@ def replace_chain():
   return jsonify(response), 200
 
 # Running the app 
-app.run(host='0.0.0.0', port = 5000)
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port = 5000)
