@@ -35,7 +35,7 @@ def mine_block():
   blockchain.record_transactions(sender=node_address, receiver=owner_id,amount=10)
   block = blockchain.create_block(proof, previous_hash)
   response = {
-              'message': 'Congragulations! A new block was created',
+              'message': 'New block created',
               'index': block.index, 
               'timestamp': block.timestamp, 
               'proof': block.proof, 

@@ -19,7 +19,6 @@ class Mining:
 
       # Perform proof of work
       proof = self.blockchain.proof_of_work(last_proof)
-      # last_block_hash = self.blockchain.hash(last_block)
 
       # Record the reward transaction
       self.blockchain.record_transactions(
@@ -28,7 +27,7 @@ class Mining:
       
       # Create a new block 
       block = self.blockchain.create_block(proof, last_block.hash)
-      print("block index = "+ block.index)
+      print("New Block Mined, Block Index = " + block.index)
 
       # Returning a structured message 
       response = {

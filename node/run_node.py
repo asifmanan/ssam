@@ -17,11 +17,12 @@ if __name__ == '__main__':
     # Start the miner 
     print("Starting the miner...")
     miner.start_mining() 
+    
+    # And let it run for a while (x seconds)
     time.sleep(10)
     
   except KeyboardInterrupt: 
     print("Interrup received! Stopping Miner...")
-    # And let it run for a while 
   finally:
     print("Stopping the miner")
     miner.stop_mining()

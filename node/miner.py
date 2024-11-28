@@ -26,7 +26,7 @@ class Miner:
 
     self.thread = threading.Thread(target=self._mine, daemon=True)
     self.thread.start()
-    print("Miner has Started...")
+    # print("Miner has Started...")
 
   def _mine(self):
     """
