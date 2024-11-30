@@ -15,6 +15,9 @@ class Block:
 
   @classmethod
   def from_dict(cls, block_data):
+    """
+      Convert JSON Data into an instance of a Block class.
+    """
     return cls(index = block_data["index"],
                timestamp = block_data["timestamp"], 
                transactions = block_data["transactions"], 
