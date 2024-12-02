@@ -16,5 +16,6 @@
       "addr": "/ip4/127.0.0.1/tcp/5004",
       "public_key": "sample_public_key_4"
     }
-  ]
+  ],
+  "discovery_key": "blockchain_test_key"
 }
