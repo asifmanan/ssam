@@ -20,7 +20,7 @@ class Host:
 
     #  Initialize components
     self.peer_manager = PeerManager()
-    self.peer_discovery = PeerDiscovery(self.listen_port, self.bootstrap_nodes)
+    self.peer_discovery = PeerDiscovery(bootstrap_nodes_list = self.bootstrap_nodes)
     self.message_handler = MessageHandler(self)
     self.peer_connections = {} 
 

@@ -1,28 +1,49 @@
 import logging 
+import socket
 from urllib.parse import urlparse
 from kademlia.network import Server
 from network.utils import MuxAddressParser
+from network.utils import InterfaceInfo
 
 
 class PeerDiscovery:
-  def __init__(self, listen_port: int, bootstrap_nodes = None):
+  def __init__(self, listen_port: int=None, bootstrap_nodes_list = None):
     """
     Initialize the PeerDiscovery class.
 
     :param bootstrap_nodes: A list of bootstrap nodes to start the DHT.
     """
-    if bootstrap_nodes is None:
-      bootstrap_nodes = []
-    if not isinstance(bootstrap_nodes, list):
+    listen_ip = InterfaceInfo.get_local_ip()
+    print(f"Host IP: {listen_ip}")
+
+    if listen_port is None or not isinstance(listen_port, int):
+      if not isinstance(listen_port, int):
+        logging.error("Invalid listen port number, acquiring a random port.")
+      listen_port = InterfaceInfo.get_port()
+      print(f"Host Port: {listen_port}")
+
+    if bootstrap_nodes_list is None:
+      bootstrap_nodes_list = []
+
+    self.bootstrap_nodes = self.validate_nodes(bootstrap_nodes_list)
+    self.listen_port = listen_port
+    self.listen_ip = listen_ip
+
+    print(f"Bootstrap nodes: {self.bootstrap_nodes}")
+    self.server = Server()
+
+  def validate_nodes(self, bootstrap_nodes_list):
+    """
+    Validate the list of bootstrap nodes.
+
+    :param nodes: The list of bootstrap nodes.
+    :return: True if the nodes are valid, False otherwise.
+    """
+    valid_bootstrap_nodes = []
+    if not isinstance(bootstrap_nodes_list, list):
       raise ValueError("Invalid bootstrap nodes list")
     
-    if not isinstance(listen_port, int):
-      raise ValueError("Invalid port number")
-    
-    self.bootstrap_nodes = []
-    self.listen_port = listen_port
-
-    for node in bootstrap_nodes:
+    for node in bootstrap_nodes_list:
       if isinstance(node, dict) and "addr" in node:
         addr = node["addr"]
       
@@ -30,7 +51,7 @@ class PeerDiscovery:
           parsed = MuxAddressParser.parse(addr)
         
           if parsed:
-            self.bootstrap_nodes.append(parsed)
+            valid_bootstrap_nodes.append(parsed)
           else:
             raise ValueError(f"Invalid Multi-address format: {addr}")
         
@@ -39,9 +60,9 @@ class PeerDiscovery:
         
       else:
         raise ValueError(f"Unsupported bootstrap node type: {type(node)}. Expected a dictionary.")
+      
+    return valid_bootstrap_nodes
 
-    print(f"Bootstrap nodes: {self.bootstrap_nodes}")
-    self.server = Server()
 
   async def start(self):
     """

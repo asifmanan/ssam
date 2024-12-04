@@ -1,3 +1,5 @@
+import socket
+import logging
 class MuxAddressParser:
   @staticmethod
   def parse(address: str):
@@ -49,3 +51,40 @@ class MuxAddressParser:
     parts = MuxAddressParser.validate_address(address)
     port = int(parts[4])
     return port
+  
+class InterfaceInfo:
+  @staticmethod
+  def get_local_ip():
+    """
+    Get the local IP address of the host.
+
+    :return: The local IP address.
+    """
+    try:
+      with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        s.connect(("192.168.1.1",80))
+        print("got the IP using the good method")
+        return s.getsockname()[0]
+    except Exception as e:
+      print(f"Fallback to gethostbyname: {e}")
+      try:
+        hostname = socket.gethostname()
+        return socket.gethostbyname(hostname)
+      except Exception as e2:
+        print(f"Failed to determine IP: {e2}")
+        # Fallback to localhost
+        return "127.0.0.1"
+
+  @staticmethod
+  def get_port(default_port=5000):
+    """
+    Get a random port number.
+
+    :return: A random port number.
+    """
+    try:
+      with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", default_port))
+        return s.getsockname()[1]
+    except Exception as e:
+      logging.error(f"Failed to bind port {default_port}: {e}")
