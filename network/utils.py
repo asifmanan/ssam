@@ -63,7 +63,6 @@ class InterfaceInfo:
     try:
       with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         s.connect(("192.168.1.1",80))
-        print("got the IP using the good method")
         return s.getsockname()[0]
     except Exception as e:
       print(f"Fallback to gethostbyname: {e}")

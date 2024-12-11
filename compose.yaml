@@ -7,12 +7,57 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+networks:
+  blockchain_network:
+    driver: bridge
+  
 services:
-  server:
+  node0:
     build:
       context: .
+    container_name: node0
+    networks:
+      - blockchain_network
     ports:
       - 5000:5000
+    volumes:
+      - ./_config/config_bootstrap.json:/app/config.json
+    environment:
+      - BOOTSTRAP=true
+    healthcheck:
+      test: ["CMD",  "./_scripts/healthcheck.sh"]
+      interval: 5s
+      retries: 2
+      start_period: 5s  # Wait 20 seconds before running the first healthcheck
+
+
+  node1:
+    build:
+      context: .
+    container_name: node1
+    depends_on:
+      node0:
+        condition: service_healthy
+    networks:
+      - blockchain_network
+    ports:
+      - 5001:5000
+    environment:
+      - BOOTSTRAP=false
+
+  node2:
+    build:
+      context: .
+    container_name: node2
+    depends_on:
+      node0:
+        condition: service_healthy
+    networks:
+      - blockchain_network
+    ports:
+      - 5002:5000
+    environment:
+      - BOOTSTRAP=false
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

@@ -1,3 +1,4 @@
+import logging
 class PeerManager:
   def __init__(self):
     """
@@ -6,7 +7,7 @@ class PeerManager:
     """
     self.peers = {}
 
-  def add_peer(self, peer_id: str, connection=None, public_key=None):
+  def add_peer(self, peer_id: str, address: str = None, connection=None, public_key=None):
     """
     Add a new peer to the peer manager.
 
@@ -15,11 +16,12 @@ class PeerManager:
     :param public_key: The public key of the peer for cryptographic validation.
     """
     if peer_id not in self.peers:
-      self.peers[peer_id] = {} 
+      self.peers[peer_id] = {"address": address} 
     if connection:
       self.peers[peer_id]["connection"] = connection
     if public_key:
       self.peers[peer_id]["public_key"] = public_key
+    logging.info(f"Peer {peer_id} added with address {address}.")
 
   def update_peer(self, peer_id: str, connection=None, public_key=None):
     """

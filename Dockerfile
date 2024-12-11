@@ -30,6 +30,10 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+# Install netcat and netstat for healthcheck and networking
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y net-tools && rm -rf /var/lib/apt/lists/*
+
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
@@ -38,14 +42,19 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-# Switch to the non-privileged user to run the application.
-USER appuser
+# Copy entrypoint script
+COPY _scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Copy the source code into the container.
 COPY . .
+
+# Switch to the non-privileged user to run the application.
+USER appuser
 
 # Expose the port that the application listens on.
 EXPOSE 5000
 
 # Run the application.
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD python -m network.node_network

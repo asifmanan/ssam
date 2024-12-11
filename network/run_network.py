@@ -24,7 +24,7 @@ async def main():
     # Discover peers using a test key
     key = "test_key"
     print("Discovering peers...")
-    discovered_peers = await host.discover_peers(key)
+    discovered_peers = await host.start_peer_discovery(key)
     print(f"Discovered peers: {discovered_peers}")
 
     # Connect to the first discovered peer

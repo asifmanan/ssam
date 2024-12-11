@@ -33,18 +33,17 @@ class NodeNetwork:
         await self.host.start()
 
         # Discover peers using DHT
-        logging.info("Discovering peers...")
-        key = self.config.get("discovery_key", "default_key")
-        discovered_peers = await self.host.discover_peers(key)
+        await self.host.start_peer_discovery()
+        discovered_peers = self.host.peer_manager.list_peers()
         logging.info(f"Discovered peers: {discovered_peers}")
 
         # Keep the node running
-        logging.info("NodeNetwork is now running. Press Ctrl+C to stop.")
+        logging.info("Network is now running. Press Ctrl+C to stop.")
         while True:
             await asyncio.sleep(10)
 
     except asyncio.CancelledError:
-        logging.info("NodeNetwork shutting down...")
+        logging.info("Network shutting down...")
     except Exception as e:
         logging.error(f"Error in NodeNetwork: {e}")
         raise

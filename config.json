@@ -2,19 +2,14 @@
   "listen_addr": "/ip4/127.0.0.1/tcp/5001",
   "peers": [
     {
-      "peer_id": "node2",
-      "addr": "/ip4/127.0.0.1/tcp/5002",
-      "public_key": "sample_public_key_2"
+      "peer_id": "node0",
+      "addr": "/ip4/node0/tcp/5000",
+      "public_key": "sample_public_key_0"
     },
     {
-      "peer_id": "node3",
-      "addr": "/ip4/127.0.0.1/tcp/5003",
-      "public_key": "sample_public_key_3"
-    },
-    {
-      "peer_id": "node4",
-      "addr": "/ip4/127.0.0.1/tcp/5004",
-      "public_key": "sample_public_key_4"
+      "peer_id": "node0",
+      "addr": "/ip4/127.0.0.0/tcp/5000",
+      "public_key": "sample_public_key_0"
     }
   ],
   "discovery_key": "blockchain_test_key"

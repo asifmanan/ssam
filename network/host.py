@@ -6,6 +6,7 @@ from network.peer_discovery import PeerDiscovery
 from network.peer_manager import PeerManager
 from network.message_handler import MessageHandler
 from network.utils import MuxAddressParser
+from network.utils import InterfaceInfo
 
 class Host:
   def __init__(self, config_path: str):
@@ -13,14 +14,16 @@ class Host:
     config = load_config(config_path)
 
     self.bootstrap_nodes = config["peers"]
-    listen_addr = config["listen_addr"]
+    listen_ip = InterfaceInfo.get_local_ip()
 
-    listen_port = MuxAddressParser.parse_port(listen_addr)
-    self.listen_port = listen_port
+    listen_port = InterfaceInfo.get_port()
+    self.listen_addr = f"{listen_ip}:{listen_port}"
 
     #  Initialize components
     self.peer_manager = PeerManager()
-    self.peer_discovery = PeerDiscovery(bootstrap_nodes_list = self.bootstrap_nodes)
+    self.peer_discovery = PeerDiscovery(listen_ip = listen_ip, 
+                                        listen_port = listen_port,
+                                        bootstrap_nodes_list = self.bootstrap_nodes)
     self.message_handler = MessageHandler(self)
     self.peer_connections = {} 
 
@@ -30,11 +33,9 @@ class Host:
     """
     try:  
       await self.peer_discovery.start()
-      print("Host started, Discovering peers...")
-      # logging.info(f"Host started, Discovering peers...")
+      await self.peer_discovery.announce_peer()
     except Exception as e:
-      # logging.error(f"Failed to start host: {e}")
-      print(f"Failed to start host: {e}")
+      logging.error(f"Failed to start host: {e}")
 
   async def connect_to_peer(self, peer_addr: str) -> None:
     """
@@ -57,7 +58,7 @@ class Host:
 
       @data_channel.on("message")
       def on_message(message):
-        print(f"Received message from {peer_addr}: {message}")
+        logging.info(f"Received message from {peer_addr}: {message}")
 
       # Create an offer and send an offer to the pper
       offer = await pc.createOffer()
@@ -65,12 +66,10 @@ class Host:
 
       # Use peer discovery (Kademlia DHT) to send the offer
       await self.peer_discovery.server.set(peer_addr, offer.sdp)
-      # logging.info(f"Offer sent to peer {peer_addr}")
-      print(f"Offer sent to peer {peer_addr}")
+      logging.info(f"Offer sent to peer {peer_addr}")
 
     except Exception as e:
-      # logging.error(f"Failed to connect to {peer_addr}: {e}")
-      print(f"Failed to connect to {peer_addr}: {e}")
+      logging.error(f"Failed to connect to {peer_addr}: {e}")
 
   async def handle_incomming_offer(self, peer_addr: str, offer: str) -> None:
     """
@@ -93,7 +92,7 @@ class Host:
 
         @channel.on("message")
         def on_message(message):
-          print(f"Received message from {peer_addr}: {message}")
+          logging.info(f"Received message from {peer_addr}: {message}")
 
       # Set the remote description using the received offer
       offer = RTCSessionDescription(sdp=offer, type="offer")
@@ -105,10 +104,10 @@ class Host:
 
       # Use peer discovery (Kademlia DHT) to send the answer
       await self.peer_discovery.server.set(peer_addr, answer.sdp)
-      print(f"Answer sent to peer {peer_addr}")
+      logging.info(f"Answer sent to peer {peer_addr}")
 
     except Exception as e:
-      print(f"Failed to handle incoming offer from {peer_addr}: {e}")
+      logging.error(f"Failed to handle incoming offer from {peer_addr}: {e}")
 
   
   async def send_message(self, peer, protocol: str, message: str) -> None:
@@ -122,15 +121,15 @@ class Host:
       Broadcast a message to all connected peers.
     """
     if not self.peer_manager.list_peers():
-        print("No connected peers to broadcast to.")
+        logging.info("No connected peers to broadcast to.")
         return
     for peer_id in self.peer_manager.list_peers():
       try:
         # Use the message handler object to send the message
         await self.message_handler.send_message(peer_id, message)
-        print(f"Message broadcasted to {peer_id}")
+        logging.info(f"Message broadcasted to {peer_id}")
       except Exception as e:
-        print(f"Failed to broadcast message to {peer_id}: {e}")
+        logging.error(f"Failed to broadcast message to {peer_id}: {e}")
 
   def set_stream_handler(self, protocol: str, handler) -> None:
     """
@@ -138,18 +137,18 @@ class Host:
     """
     self.host.set_stream_handler(protocol, handler)
   
-  async def discover_peers(self, key: str, limit: int = 10):
+  async def start_peer_discovery(self, key: str = None, limit: int = 10):
     """
       Discover peers using DHT.
     """
     try:
-      discovered_peers = await self.peer_discovery.discover_peers(key, limit)
+      discovered_peers = await self.peer_discovery.discover_peers(limit=limit)
       for peer in discovered_peers:
-        if peer not in self.peer_manager.list_peers():
-          self.peer_manager.add_peer(peer)
+        if peer["node_id"] not in self.peer_manager.list_peers():
+          self.peer_manager.add_peer(peer["node_id"], peer["address"])
       return discovered_peers
     except Exception as e:
-      print(f"Peer discovery failed: {e}")
+      logging.error(f"Peer discovery failed: {e}")
 
   async def stop(self):
     """
@@ -157,6 +156,4 @@ class Host:
     """
     for pc in self.peer_connections.values():
         await pc.close()
-        print("Host stopped.")
-    # else:
-    #     print("Host was not initialized, skipping stop.")
+        logging.info("Host stopped.")
