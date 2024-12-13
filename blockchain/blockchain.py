@@ -1,115 +1,83 @@
-
-import datetime
-import hashlib
-import json
-from urllib.parse import urlparse
-from blockchain.transactions import Transactions
+import time
 from blockchain.block import Block
-import requests
+from blockchain.proof_of_work import ProofOfWork
 
 # Blockchain Class 
 class Blockchain:
   def __init__(self):
     self.chain = []
-    self.transactions = Transactions()
-    self._create_genesis_block()
-    self.nodes = set()
+    self.pow = ProofOfWork()
 
-  def _create_genesis_block(self):
+  def create_block(self, tx_root=None, nonce=0, nbits=None):
     """
-      Creates a genesis block
+    Creates a new block with the given transaction root.
     """
+    if nbits is None:
+      nbits = self.pow.target_to_nbits(self.pow.MAX_TARGET)
+    
     if len(self.chain) == 0:
-      genesis_block = Block(index=0, 
-                            timestamp=str(datetime.datetime.now()), 
-                            proof=1,
-                            previous_hash="0",
-                            transactions=[]
-                            )
-      # block_hash = genesis_block.hash
-      self.chain.append(genesis_block)
-
-  def create_block(self, proof, previous_hash):
-    """
-      Creates a normal block
-    """
-    previous_block = self.get_last_block()
-    new_block = Block(index = len(self.chain) + 1,
-                      timestamp=str(datetime.datetime.now()),
-                      proof=proof,
-                      previous_hash=previous_block.hash,
-                      transactions=self.transactions.get_transactions()
-                      )
-
-    self.chain.append(new_block)
-    self.transactions.clear_transactions()
+      previous_hash = "0"
+    else:
+      previous_block = self.get_previous_block()
+      previous_hash = previous_block.compute_hash()
+    
+    new_block = Block(
+      index=len(self.chain),
+      timestamp = str(time.time()),
+      previous_hash = previous_hash,
+      tx_root = tx_root,
+      nbits = nbits,
+      nonce = nonce
+    )
     return new_block
   
-  # Returns the last block in the chain
-  def get_last_block(self):
+  def add_block(self, block):
     """
-      Returns the last block in the chain
+    Add a block to the blockchain after validation.
     """
-    return self.chain[-1]  
-
-  def proof_of_work(self, previous_proof):
-    new_proof = 1
-    check_proof = False
-    while check_proof is False:
-      hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
-      if hash_operation[:4] == '0000':
-        check_proof = True
-      else:
-        new_proof +=1
-    return new_proof
-  
-  # For blockchain validation 
-  def hash(self, block):
-    encoded_block = json.dumps(block, sort_keys=True).encode()
-    return hashlib.sha256(encoded_block).hexdigest()
-  
-  def get_block_by_index(self, index):
-    return self.chain[index]
-  
-  def is_chain_valid(self, chain):
-    previous_block = chain[0]
-    block_index = 1
-    while block_index < len(chain):
-      block = chain[block_index]
-      if block.previous_hash != previous_block.hash:
-        return False
-      previous_proof = previous_block.proof
-      proof = block.proof
-      hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
-      if hash_operation[:4] != '0000':
-        return False
-      previous_block = chain[block_index]
-      block_index += 1
+    if not self.is_block_valid(block):
+      return False
+    self.chain.append(block)
     return True
   
-  def record_transactions(self, sender, receiver, amount):
-    self.transactions.add_transaction(sender, receiver, amount)
-    # previous_block = Block.from_block(self.get_last_block())
-    previous_block = self.get_last_block()
-    return previous_block.index
+  def get_previous_block(self):
+    """
+    Returns the last block in the chain
+    """
+    return self.chain[-1]
   
-  def add_node(self, address):
-    parsed_url = urlparse(address)
-    self.nodes.add(parsed_url.netloc)
+  def is_block_valid(self, block):
+    """
+    Validates the block by checking its proof of work and previous.
+    """
+    # validate proof of work
+    target = self.pow.nbits_to_target(block.nbits)
+    if not self.pow.is_valid_proof(block, target):
+      return False
+    
+    # Validate previous hash
+    if block.index != 0:
+      # Skip genesis block validation of previous hash
+      previous_block = self.get_previous_block()
+
+      # Validate previous hash
+      if block.previous_hash != previous_block.compute_hash():
+        return False
+    
+    return True
+  
+  def is_chain_valid(self):
+    """
+    Validates the entire blockchain.
+    """
+    for i in range(1, len(self.chain)):
+      current_block = self.chain[i]   
+
+      # validate hash chain
+      if not self.is_block_valid(current_block):
+        return False
+      
+    return True   
 
   def replace_chain(self):
-    network = self.nodes
-    longest_chain = None
-    max_length = len(self.chain)
-    for node in network:
-      response = requests.get(f'http://{node}/get_chain')
-      if response.status_code == 200:
-        new_length = response.json()['length']
-        new_chain = response.json()['chain']
-        if new_length > max_length and self.is_chain_valid(new_chain):
-          max_length = new_length
-          longest_chain = new_chain
-    if longest_chain: 
-      self.chain = longest_chain
-      return True
-    return False
+    pass

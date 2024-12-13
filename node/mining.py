@@ -28,16 +28,7 @@ class Mining:
       # Create a new block 
       block = self.blockchain.create_block(proof, last_block.hash)
       print("New Block Mined, Block Index = " + block.index)
-
-      # Returning a structured message 
-      response = {
-                  'message': 'A new block was created',
-                  'index': block.index, 
-                  'timestamp': block.timestamp, 
-                  'proof': block.proof, 
-                  'previous_hash': block.previous_hash , 
-                  'transactions': block.transactions
-                  }
+      
     except Exception as e:
       response = {
                   'message': f'An error occured while mining the block: {e}',
