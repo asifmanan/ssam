@@ -8,14 +8,27 @@ blockchain = Blockchain()
 proof_of_work = ProofOfWork()
 miner = Miner(blockchain, proof_of_work)
 
-# Mine a new block with a sample transaction root
-tx_root = "0x1234567890abcdef"
-mined_block = miner.mine_block(tx_root=tx_root)
+# Print the block information
+def print_block(block):
+    print(f"New block added! Index: {block.index}")
+    print(f"Hash: {block.compute_hash()}")
+    print(f"Previous Hash: {block.previous_hash}")
+    print(f"Nonce: {block.nonce}")
+    print(f"Timestamp: {block.timestamp}")
+    print(f"Tx Root: {block.tx_root}")
+    print(f"nbits: {block.nbits}")
+    print(f"Target: {proof_of_work.nbits_to_target(block.nbits):064x}")
+    print(f"Transactions: ")
+    for tx in block.transactions:
+        print(f"  Sender: {tx.sender}, Receiver: {tx.recipient}, Amount: {tx.amount}, Signature: {tx.signature}")
 
-if mined_block:
-    print(f"New block added! Index: {mined_block.index}, Hash: {mined_block.compute_hash()}")
-    print(f"Previous Hash: {mined_block.previous_hash}, Nonce: {mined_block.nonce}")
-    print(f"Timestamp: {mined_block.timestamp}, Tx Root: {mined_block.tx_root}")
-    print(f"Target: {proof_of_work.nbits_to_target(mined_block.nbits):064x}")
-else:
-    logging.warning("Failed to mine the block.")
+    print(f"-{'-'*10}-")
+
+for i in range(3):
+    # Mine a new block
+    mined_block = miner.mine_block()
+
+    if mined_block:
+        print_block(mined_block)
+    else:
+        logging.warning("Failed to mine the block.")

@@ -1,21 +1,20 @@
 import logging
-from blockchain.blockchain import Blockchain
 
 class Miner:
-  def __init__(self, blockchain, proof_of_work):
+  def __init__(self, blockchain):
     """
     Initialize the miner with a reference to the blockchain and ProofOfWork.
     """
     self.blockchain = blockchain
-    self.pow = proof_of_work
-
-  def mine_block(self, tx_root=None, nbits=None):
+    self.pow = self.blockchain.pow
+  
+  def mine_block(self):
     """
     Mines a new block with the given transaction root.
     """
 
     # Create a new block with the given parameters
-    new_block = self.blockchain.create_block(tx_root=tx_root)
+    new_block = self.blockchain.create_block()
     
     # Get the target from (difficulty) nbits
     golden_nonce = self.pow.find_valid_nonce(new_block)

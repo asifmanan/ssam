@@ -110,7 +110,7 @@ class Host:
       logging.error(f"Failed to handle incoming offer from {peer_addr}: {e}")
 
   
-  async def send_message(self, peer, protocol: str, message: str) -> None:
+  async def send_message(self, peer, message: str, protocol: str=None) -> None:
     """
         Send a message to a peer using a specific protocol.
     """

@@ -1,6 +1,6 @@
 from blockchain.proof_of_work import ProofOfWork
 
-nbits = ProofOfWork.target_to_nbits(int("0000ffff00000000000000000000000000000000000000000000000000000000",16))
+nbits = ProofOfWork.target_to_nbits(int("00000ffff0000000000000000000000000000000000000000000000000000000",16))
 print(nbits)
 
 target = ProofOfWork.nbits_to_target(nbits)

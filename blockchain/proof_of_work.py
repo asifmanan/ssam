@@ -1,4 +1,10 @@
 class ProofOfWork:
+  """
+  The Proof of Work algorithm for mining blocks.
+  refs: https://en.bitcoin.it/wiki/Difficulty
+          https://bitcoin.stackexchange.com/questions/30467/what-are-the-equations-to-convert-between-bits-and-difficulty
+          https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
+  """
   MAX_TARGET = MAX_TARGET = int("00000FFFF0000000000000000000000000000000000000000000000000000000", 16)
   MAX_NONCE = 2**32 - 1 # Limit the nonce to 32 bits (max 4,294,967,295)
   
@@ -19,9 +25,6 @@ class ProofOfWork:
   def target_to_nbits(target):
     """
     Converts a 256-bit target to the compact 'nbits' format.
-    refs: https://en.bitcoin.it/wiki/Difficulty
-          https://bitcoin.stackexchange.com/questions/30467/what-are-the-equations-to-convert-between-bits-and-difficulty
-          https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
     :param target: 256-bit target value
     """
     target_hex = f"{target:064x}"

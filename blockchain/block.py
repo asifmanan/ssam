@@ -1,8 +1,9 @@
 import json
 import hashlib
+from transaction.transaction_manager import TransactionManager
 
 class Block:
-  def __init__(self, index, timestamp, tx_root, previous_hash, nbits, nonce):
+  def __init__(self, index, timestamp, tx_root, previous_hash, nbits, nonce, transactions=[]):
     """
     Initialize a new block.
     """
@@ -12,6 +13,7 @@ class Block:
     self.tx_root = tx_root
     self.nbits = nbits
     self.nonce = nonce
+    self.transactions = transactions
 
   @classmethod
   def from_dict(cls, block_data):
@@ -24,6 +26,7 @@ class Block:
                tx_root = block_data["tx_root"], 
                nbits = block_data["nbits"],
                nonce = block_data["nonce"],
+               transactions = block_data["transactions"] if "transactions" in block_data else []
                )
 
   def to_dict(self):
@@ -36,12 +39,13 @@ class Block:
             "previous_hash":self.previous_hash,
             "tx_root":self.tx_root,
             "nbits":self.nbits,
-            "nonce":self.nonce
+            "nonce":self.nonce,
+            "transactions":self.transactions
             }
   
   def compute_hash(self):
     """
-    Compute the hash of the block by including the nonce.
+    Compute the hash of the block.
     """
     block_content = {
       "index":self.index,
@@ -49,7 +53,7 @@ class Block:
       "previous_hash":self.previous_hash,
       "tx_root":self.tx_root,
       "nbits":self.nbits,
-      "nonce":self.nonce
+      "nonce":self.nonce,
     }
     
     encoded_block_string = json.dumps(block_content, sort_keys=True).encode()

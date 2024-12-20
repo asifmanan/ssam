@@ -1,0 +1,12 @@
+[
+  {
+    "sender": "Network",
+    "recipient": "Miner",
+    "amount": 100,
+    "timestamp": "",
+    "metadata": {
+      "sub_nonce": 0
+    },
+    "signature": null
+  }
+]
