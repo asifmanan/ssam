@@ -4,6 +4,7 @@ from blockchain.blockchain import Blockchain
 from blockchain.proof_of_work import ProofOfWork
 from blockchain.miner import Miner
 from network.host import Host
+from network.message import Message
 
 
 class BlockchainNode:
@@ -54,7 +55,7 @@ class BlockchainNode:
 
                 # Broadcast the new block to peers
                 block = new_block.to_dict()
-                message = (f"BLOCK {block}")
+                message = Message(content_type="BK", content=block)
                 print(f"Message: {message}")
                 await self.host.broadcast_message(message)
 

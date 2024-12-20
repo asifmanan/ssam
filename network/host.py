@@ -7,6 +7,7 @@ from network.peer_manager import PeerManager
 from network.message_handler import MessageHandler
 from network.utils import MuxAddressParser
 from network.utils import InterfaceInfo
+from network.message import Message
 
 class Host:
   def __init__(self, config_path: str):
@@ -110,13 +111,14 @@ class Host:
       logging.error(f"Failed to handle incoming offer from {peer_addr}: {e}")
 
   
-  async def send_message(self, peer, message: str, protocol: str=None) -> None:
+  async def send_message(self, peer, message: Message, protocol: str=None) -> None:
     """
         Send a message to a peer using a specific protocol.
     """
-    await self.message_handler.send_message(peer, message)
+    serialized_message = message.to_json()
+    await self.message_handler.send_message(peer, serialized_message)
   
-  async def broadcast_message(self, message: str) -> None:
+  async def broadcast_message(self, message: Message) -> None:
     """
       Broadcast a message to all connected peers.
     """

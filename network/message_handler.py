@@ -1,5 +1,6 @@
 import asyncio
 import hashlib
+from network.message import Message
 
 class MessageHandler:
   def __init__(self, host):
@@ -44,15 +45,16 @@ class MessageHandler:
     :param message: The content of the incoming message.
     """
     try:
+      parsed_message = Message.from_json(message)
       # Logic for handling different types of messages
-      if message.startswith("BLOCK"):
+      if parsed_message.get_content_type() == "BK":
         print(f"Received a new block from {sender}")
         # Can add blockchain specific logic here
-      elif message.startswith("TX"):
+      elif parsed_message.get_content_type("TX"):
         print(f"Received a new transaction from {sender}: {message}")
         # Can add transaction specific logic here
       else:
-        print(f"Received an unknown message from {sender}: {message}")
+        print(f"Received an unknown message type from {sender}: {message}")
     except Exception as e:
       # logging.error(f"Failed to handle incoming message: {e}")
       print(f"Failed to handle incoming message from {sender}: {e}")

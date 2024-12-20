@@ -1,6 +1,7 @@
 import logging 
 from kademlia.network import Server
 from network.utils import MuxAddressParser
+from network.message import Message
 
 
 class PeerDiscovery:
@@ -114,6 +115,7 @@ class PeerDiscovery:
     :param signaling_data: The signaling data to store (WebRTC offers/answers).
     """
     try:
+      message = Message(content_type="SD", content=signaling_data)
       await self.server.set(peer_id, signaling_data)
       logging.info(f"Signaling data stored for peer {peer_id}")
     except Exception as e:
@@ -127,11 +129,12 @@ class PeerDiscovery:
     :return: The retreived signaling data (WebRTC offers/answers) for the peer (or None of not found).
     """
     try:
-      signaling_data = await self.server.get(peer_id)
-      if signaling_data:
+      serialized_message = await self.server.get(peer_id)
+      if serialized_message:
+        message = Message(content_type=serialized_message["content_type"], content=serialized_message["content"])
         logging.info(f"Retrieved signaling data for peer {peer_id}")
-        return signaling_data
-      else:
+        return message.get_content()
+      else: 
         logging.info(f"No signaling data found for peer {peer_id}")
         return None
     except Exception as e:

@@ -43,11 +43,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python -m pip install -r requirements.txt
 
 # Copy entrypoint script
-COPY _scripts/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# COPY _scripts/entrypoint.sh /app/entrypoint.sh
+
 
 # Copy the source code into the container.
 COPY . .
+RUN chmod +x /app/entrypoint.sh
 
 # Switch to the non-privileged user to run the application.
 USER appuser
@@ -56,5 +57,5 @@ USER appuser
 EXPOSE 5000
 
 # Run the application.
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD python -m network.node_network
+ENTRYPOINT [ "./entrypoint.sh" ]
+CMD python -m blockchain.main
