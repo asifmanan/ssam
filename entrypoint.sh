@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Note: If you are working on a windows machine, you will need to change the EOL sequence to LF for this file in order to correctly work with docker
 # Check if this is the bootstrap node
 if [ "$BOOTSTRAP" != "true" ]; then
   # Wait for the bootstrap node to become accessible

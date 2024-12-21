@@ -1,0 +1,388 @@
+node2  | Checking connectivity to bootstrap node at node0:5000...
+node1  | Checking connectivity to bootstrap node at node0:5000...
+node2  | Bootstrap node is reachable. Starting the application...
+node1  | Bootstrap node is reachable. Starting the application...
+node2  | 2024-12-20 21:19:56,320 - INFO - Starting blockchain node...
+node1  | 2024-12-20 21:19:56,126 - INFO - Starting blockchain node...
+node2  | 2024-12-20 21:19:56,321 - INFO - Node 1181534391375020454602187846821442280974484464294 listening on 172.18.0.4:5000
+node1  | 2024-12-20 21:19:56,126 - INFO - Node 625451644687389940995954384350818101749173211595 listening on 172.18.0.3:5000
+node0  | This is the bootstrap node. Skipping connectivity checks.
+node0  | 2024-12-20 21:19:50,594 - INFO - Starting blockchain node...
+node0  | 2024-12-20 21:19:50,594 - INFO - Node 983529079644662361973285237317392369459339169050 listening on 172.18.0.2:5000
+node0  | 2024-12-20 21:19:50,594 - INFO - Kademlia server started at 172.18.0.2:5000
+node1  | 2024-12-20 21:19:56,126 - INFO - Kademlia server started at 172.18.0.3:5000
+node0  | 2024-12-20 21:19:50,594 - INFO - No bootstrap nodes provided, Operating in standalone mode.
+node1  | 2024-12-20 21:19:56,126 - INFO - Starting PeerDiscovery and bootstrapping...
+node1  | 2024-12-20 21:19:56,128 - INFO - creating spider with peers: [[983529079644662361973285237317392369459339169050, 'node0', 5000]]
+node0  | 2024-12-20 21:19:50,594 - INFO - setting '983529079644662361973285237317392369459339169050' = '172.18.0.2:5000' on network
+node1  | 2024-12-20 21:19:56,128 - INFO - crawling network with nearest: ([983529079644662361973285237317392369459339169050, 'node0', 5000],)
+node0  | 2024-12-20 21:19:50,594 - WARNING - There are no known neighbors to set key ce4b6111ac273937c08a5b64c57e41db22db78e4
+node2  | 2024-12-20 21:19:56,322 - INFO - Kademlia server started at 172.18.0.4:5000
+node1  | 2024-12-20 21:19:56,130 - INFO - got successful response from node0:5000
+node2  | 2024-12-20 21:19:56,322 - INFO - Starting PeerDiscovery and bootstrapping...
+node1  | 2024-12-20 21:19:56,130 - INFO - never seen node0:5000 before, adding to router
+node1  | Node ID: 625451644687389940995954384350818101749173211595
+node0  | 2024-12-20 21:19:50,595 - INFO - Announced peer 983529079644662361973285237317392369459339169050 at 172.18.0.2:5000
+node2  | 2024-12-20 21:20:01,324 - ERROR - Did not receive reply for msg id b'v2LgzFSkajDg71FJcfJ7wSrcwGc=' within 5 seconds
+node0  | 2024-12-20 21:19:50,595 - INFO - No peers found.
+node1  | 2024-12-20 21:19:56,130 - INFO - PeerDiscovery started and bootstrapped.
+node2  | 2024-12-20 21:20:01,324 - INFO - creating spider with peers: []
+node2  | 2024-12-20 21:20:01,324 - INFO - crawling network with nearest: ()
+node2  | 2024-12-20 21:20:01,324 - INFO - PeerDiscovery started and bootstrapped.
+node0  | 2024-12-20 21:19:50,595 - INFO - setting '983529079644662361973285237317392369459339169050' = '172.18.0.2:5000' on network
+node2  | 2024-12-20 21:20:01,324 - INFO - setting '1181534391375020454602187846821442280974484464294' = '172.18.0.4:5000' on network
+node2  | Node ID: 1181534391375020454602187846821442280974484464294
+node0  | 2024-12-20 21:19:50,595 - WARNING - There are no known neighbors to set key ce4b6111ac273937c08a5b64c57e41db22db78e4
+node2  | 2024-12-20 21:20:01,325 - WARNING - There are no known neighbors to set key 2eb9f635d0f264b1bf480919a70afe651ea9ac51
+node2  | 2024-12-20 21:20:01,325 - INFO - Announced peer 1181534391375020454602187846821442280974484464294 at 172.18.0.4:5000
+node2  | 2024-12-20 21:20:01,325 - INFO - No peers found.
+node2  | 2024-12-20 21:20:01,325 - INFO - setting '1181534391375020454602187846821442280974484464294' = '172.18.0.4:5000' on network
+node2  | 2024-12-20 21:20:01,325 - WARNING - There are no known neighbors to set key 2eb9f635d0f264b1bf480919a70afe651ea9ac51
+node1  | 2024-12-20 21:19:56,130 - INFO - setting '625451644687389940995954384350818101749173211595' = '172.18.0.3:5000' on network
+node2  | 2024-12-20 21:20:01,325 - INFO - Announced peer 1181534391375020454602187846821442280974484464294 at 172.18.0.4:5000
+node1  | 2024-12-20 21:19:56,130 - INFO - creating spider with peers: [[983529079644662361973285237317392369459339169050, 'node0', 5000]]
+node1  | 2024-12-20 21:19:56,130 - INFO - crawling network with nearest: ([983529079644662361973285237317392369459339169050, 'node0', 5000],)
+node0  | 2024-12-20 21:19:50,595 - INFO - Announced peer 983529079644662361973285237317392369459339169050 at 172.18.0.2:5000
+node1  | 2024-12-20 21:19:56,132 - INFO - got successful response from node0:5000
+node1  | 2024-12-20 21:19:56,132 - INFO - setting '0d9ab56b8222bd6650c95d5157f472076c3d6e6c' on ['node0:5000']
+node2  | 2024-12-20 21:20:07,588 - INFO - New block mined: Index = 1, Hash = 000004732add5515e6b5c73205de6e210103ae91c9e1a96edcf2e6052d56cb52
+node2  | 2024-12-20 21:20:07,588 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:19:56,133 - INFO - got successful response from node0:5000
+node1  | 2024-12-20 21:19:56,133 - INFO - Announced peer 625451644687389940995954384350818101749173211595 at 172.18.0.3:5000
+node1  | 2024-12-20 21:19:56,133 - INFO - Discovered peers: [[983529079644662361973285237317392369459339169050, 'node0', 5000]]
+node2  | Message: Content Type: BK
+node1  | 2024-12-20 21:19:56,133 - INFO - Peer 983529079644662361973285237317392369459339169050 added with address node0:5000.
+node1  | 2024-12-20 21:19:56,133 - INFO - setting '625451644687389940995954384350818101749173211595' = '172.18.0.3:5000' on network
+node0  | 2024-12-20 21:19:55,180 - INFO - New block mined: Index = 1, Hash = 0000007e2a0810b62a2240995d548bb1c66892759edc67802d662ae4539c1658
+node1  | 2024-12-20 21:19:56,133 - INFO - creating spider with peers: [[983529079644662361973285237317392369459339169050, 'node0', 5000]]
+node0  | 2024-12-20 21:19:55,181 - INFO - No connected peers to broadcast to.
+node2  | Content: {'index': 1, 'timestamp': '1734729601.3254514', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 581037, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node0  | Message: Content Type: BK
+node1  | 2024-12-20 21:19:56,133 - INFO - crawling network with nearest: ([983529079644662361973285237317392369459339169050, 'node0', 5000],)
+node0  | Content: {'index': 1, 'timestamp': '1734729590.5953825', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 817118, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node0  | 2024-12-20 21:19:56,127 - INFO - never seen 172.18.0.3:5000 before, adding to router
+node0  | 2024-12-20 21:19:56,129 - INFO - finding neighbors of 625451644687389940995954384350818101749173211595 in local table
+node2  | 2024-12-20 21:20:11,908 - INFO - New block mined: Index = 2, Hash = 00000c6ce2626fce0c06d5d82d586d07f13a323f9b366b91aea514ecda37d9c0
+node2  | 2024-12-20 21:20:11,908 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node1  | 2024-12-20 21:19:56,134 - INFO - got successful response from node0:5000
+node2  | Content: {'index': 2, 'timestamp': '1734729608.5893128', 'previous_hash': '000004732add5515e6b5c73205de6e210103ae91c9e1a96edcf2e6052d56cb52', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 465932, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node2  | 2024-12-20 21:20:11,908 - WARNING - received unknown message b'v2LgzFSkajDg71FJcfJ7wSrcwGc=' from ('172.18.0.2', 5000); ignoring
+node1  | 2024-12-20 21:19:56,134 - INFO - setting '0d9ab56b8222bd6650c95d5157f472076c3d6e6c' on ['node0:5000']
+node2  | Message: Content Type: BK
+node1  | 2024-12-20 21:19:56,135 - INFO - got successful response from node0:5000
+node2  | Content: {'index': 3, 'timestamp': '1734729612.90975', 'previous_hash': '00000c6ce2626fce0c06d5d82d586d07f13a323f9b366b91aea514ecda37d9c0', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 475664, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node0  | 2024-12-20 21:19:56,131 - INFO - finding neighbors of 625451644687389940995954384350818101749173211595 in local table
+node1  | 2024-12-20 21:19:56,135 - INFO - Announced peer 625451644687389940995954384350818101749173211595 at 172.18.0.3:5000
+node0  | 2024-12-20 21:19:56,134 - INFO - finding neighbors of 625451644687389940995954384350818101749173211595 in local table
+node0  | 2024-12-20 21:20:10,454 - INFO - New block mined: Index = 2, Hash = 0000000bf068e8fd2656e2560eb5358f2cbb77d5f8fd6dc6b2ba071cb29f28ef
+node0  | 2024-12-20 21:20:10,455 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:20:06,283 - INFO - New block mined: Index = 1, Hash = 00000e6bea7f7b54c68f6c76ae565fc551bb5532006c4132659aa42fbd587172
+node0  | Message: Content Type: BK
+node1  | 2024-12-20 21:20:06,284 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node2  | 2024-12-20 21:20:16,514 - INFO - New block mined: Index = 3, Hash = 0000051aae577fe3041607b2cdc90bc6bd243da3d5a8cb5cf4f4f119b65ae2a1
+node1  | Message: Content Type: BK
+node0  | Content: {'index': 2, 'timestamp': '1734729596.181855', 'previous_hash': '0000007e2a0810b62a2240995d548bb1c66892759edc67802d662ae4539c1658', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1769730, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node2  | 2024-12-20 21:20:16,514 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:20:10,455 - INFO - never seen 172.18.0.4:5000 before, adding to router
+node2  | Message: Content Type: BK
+node0  | Message: Content Type: BK
+node2  | Content: {'index': 4, 'timestamp': '1734729617.5161219', 'previous_hash': '0000051aae577fe3041607b2cdc90bc6bd243da3d5a8cb5cf4f4f119b65ae2a1', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1977464, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node0  | Content: {'index': 3, 'timestamp': '1734729611.456638', 'previous_hash': '0000000bf068e8fd2656e2560eb5358f2cbb77d5f8fd6dc6b2ba071cb29f28ef', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1374477, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node1  | Content: {'index': 1, 'timestamp': '1734729596.1359801', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1215917, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 2, 'timestamp': '1734729607.2852724', 'previous_hash': '00000e6bea7f7b54c68f6c76ae565fc551bb5532006c4132659aa42fbd587172', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 140297, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node1  | 2024-12-20 21:20:08,365 - INFO - New block mined: Index = 2, Hash = 00000db2d594a40cde4b907a126e502aca4bffdd8624c94f4b0d39c51bbb4d0a
+node1  | 2024-12-20 21:20:08,365 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | 2024-12-20 21:20:29,323 - INFO - New block mined: Index = 3, Hash = 0000046176ffc580178479a68aef3c786e0d7c854d1dd0e61896c7e12dbc5d4b
+node1  | 2024-12-20 21:20:29,324 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node0  | 2024-12-20 21:20:22,033 - INFO - New block mined: Index = 3, Hash = 00000d054a70307219bdda38e126c8aaa5f375db130e6774f180259914f6aed2
+node1  | Message: Content Type: BK
+node0  | 2024-12-20 21:20:22,033 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:20:36,449 - INFO - New block mined: Index = 4, Hash = 000001540f80fcc5afcdc941691537fecb75dc0ffcfe2e366a59315ded414a18
+node2  | 2024-12-20 21:20:36,450 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:20:39,995 - INFO - New block mined: Index = 5, Hash = 0000055b06c0eefe68d15561bddb215dd80b25b91b9f9bc64f497eec61976858
+node1  | Content: {'index': 3, 'timestamp': '1734729609.3671381', 'previous_hash': '00000db2d594a40cde4b907a126e502aca4bffdd8624c94f4b0d39c51bbb4d0a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2510322, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node2  | 2024-12-20 21:20:39,995 - INFO - No connected peers to broadcast to.
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 4, 'timestamp': '1734729630.3262572', 'previous_hash': '0000046176ffc580178479a68aef3c786e0d7c854d1dd0e61896c7e12dbc5d4b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 58313, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node0  | 2024-12-20 21:20:37,474 - INFO - New block mined: Index = 4, Hash = 00000c27fc2730097db8e39bf42368143b07f2448a017e3190df09cd3bba4e27
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node0  | 2024-12-20 21:20:37,474 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:20:30,805 - INFO - New block mined: Index = 4, Hash = 000003351461f608e1d7337da5165c29e8093018967be5dd8379a4ff9b922b23
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 5, 'timestamp': '1734729637.4512455', 'previous_hash': '000001540f80fcc5afcdc941691537fecb75dc0ffcfe2e366a59315ded414a18', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 326475, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node1  | 2024-12-20 21:20:30,806 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | 2024-12-20 21:20:38,169 - INFO - New block mined: Index = 5, Hash = 00000725d550053e17146bbbeb30581e7fe03c6576c7f4b7b15a4ae318fe8a44
+node1  | 2024-12-20 21:20:38,169 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 5, 'timestamp': '1734729631.8069649', 'previous_hash': '000003351461f608e1d7337da5165c29e8093018967be5dd8379a4ff9b922b23', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 514628, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node2  | Message: Content Type: BK
+node0  | Message: Content Type: BK
+node2  | Content: {'index': 6, 'timestamp': '1734729640.9965496', 'previous_hash': '0000055b06c0eefe68d15561bddb215dd80b25b91b9f9bc64f497eec61976858', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 991149, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node1  | 2024-12-20 21:20:39,515 - INFO - New block mined: Index = 6, Hash = 0000085a70d945b664e295ac19f793a8b1cc954649f7260a903373a1e5f1e1e7
+node2  | 2024-12-20 21:20:48,813 - INFO - New block mined: Index = 6, Hash = 00000158dd93b5d6b58b8d74bf190c965f7949f87521f24b1c5da835fcd83f3e
+node1  | 2024-12-20 21:20:39,515 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node2  | 2024-12-20 21:20:48,813 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:20:50,384 - INFO - New block mined: Index = 7, Hash = 0000025bb4e109d015de03400dab31ccd00eaf4ff771baec3c291854888ac1b0
+node1  | Content: {'index': 6, 'timestamp': '1734729639.1705117', 'previous_hash': '00000725d550053e17146bbbeb30581e7fe03c6576c7f4b7b15a4ae318fe8a44', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 40291, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node2  | 2024-12-20 21:20:50,385 - INFO - No connected peers to broadcast to.
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node2  | Message: Content Type: BK
+node1  | 2024-12-20 21:20:42,598 - INFO - New block mined: Index = 7, Hash = 00000cef26560f5fcc1fa1ea5bd03df6c8e8c45cb71ef3b8497a366b5f5eccec
+node0  | Content: {'index': 4, 'timestamp': '1734729623.0345418', 'previous_hash': '00000d054a70307219bdda38e126c8aaa5f375db130e6774f180259914f6aed2', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1438941, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node1  | 2024-12-20 21:20:42,598 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node0  | 2024-12-20 21:20:49,746 - INFO - New block mined: Index = 5, Hash = 000002b5acc89ebe0e70d0c3c09640fd1fe508c47e60028a58ead1023fae9e22
+node2  | Content: {'index': 7, 'timestamp': '1734729649.8147585', 'previous_hash': '00000158dd93b5d6b58b8d74bf190c965f7949f87521f24b1c5da835fcd83f3e', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 80677, 'transactions': [<transaction.transaction.Transaction object at 0x7fb0b5b9e090>]}
+node2  | Checking connectivity to bootstrap node at node0:5000...
+node0  | 2024-12-20 21:20:49,746 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 5, 'timestamp': '1734729638.4760804', 'previous_hash': '00000c27fc2730097db8e39bf42368143b07f2448a017e3190df09cd3bba4e27', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1432102, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node0  | 2024-12-20 21:20:59,124 - INFO - New block mined: Index = 6, Hash = 00000495079680076af907d370a9d6e3af677eafcb5014a45765753e154b6258
+node1  | Message: Content Type: BK
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 6, 'timestamp': '1734729650.7475376', 'previous_hash': '000002b5acc89ebe0e70d0c3c09640fd1fe508c47e60028a58ead1023fae9e22', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 905845, 'transactions': [<transaction.transaction.Transaction object at 0x7f36f22e5c10>]}
+node1  | Content: {'index': 7, 'timestamp': '1734729640.5163915', 'previous_hash': '0000085a70d945b664e295ac19f793a8b1cc954649f7260a903373a1e5f1e1e7', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 264237, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node0  | 2024-12-20 21:20:59,124 - INFO - No connected peers to broadcast to.
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node0  | This is the bootstrap node. Skipping connectivity checks.
+node0  | 2024-12-20 21:26:48,384 - INFO - Starting blockchain node...
+node0  | 2024-12-20 21:26:48,385 - INFO - Node 1224007031900475866783722880992314391425414690395 listening on 172.18.0.2:5000
+node0  | 2024-12-20 21:26:48,385 - INFO - Kademlia server started at 172.18.0.2:5000
+node0  | 2024-12-20 21:26:48,385 - INFO - No bootstrap nodes provided, Operating in standalone mode.
+node0  | 2024-12-20 21:26:48,385 - INFO - setting '1224007031900475866783722880992314391425414690395' = '172.18.0.2:5000' on network
+node0  | 2024-12-20 21:26:48,385 - WARNING - There are no known neighbors to set key 4093971c901a7895d7c1ba1580dd1a7afe8b0b1c
+node2  | Bootstrap node is reachable. Starting the application...
+node0  | 2024-12-20 21:26:48,386 - INFO - Announced peer 1224007031900475866783722880992314391425414690395 at 172.18.0.2:5000
+node2  | 2024-12-20 21:26:54,041 - INFO - Starting blockchain node...
+node0  | 2024-12-20 21:26:48,386 - INFO - No peers found.
+node2  | 2024-12-20 21:26:54,042 - INFO - Node 511889871916735414071944637395694428734008824814 listening on 172.18.0.4:5000
+node0  | 2024-12-20 21:26:48,386 - INFO - setting '1224007031900475866783722880992314391425414690395' = '172.18.0.2:5000' on network
+node2  | 2024-12-20 21:26:54,042 - INFO - Kademlia server started at 172.18.0.4:5000
+node0  | 2024-12-20 21:26:48,386 - WARNING - There are no known neighbors to set key 4093971c901a7895d7c1ba1580dd1a7afe8b0b1c
+node2  | 2024-12-20 21:26:54,042 - INFO - Starting PeerDiscovery and bootstrapping...
+node0  | 2024-12-20 21:26:48,386 - INFO - Announced peer 1224007031900475866783722880992314391425414690395 at 172.18.0.2:5000
+node2  | 2024-12-20 21:27:01,001 - ERROR - Did not receive reply for msg id b'hSme8NPcAwJrDY+PHvauW/RABZY=' within 5 seconds
+node0  | Message: Content Type: BK
+node2  | 2024-12-20 21:27:01,001 - INFO - creating spider with peers: []
+node0  | Content: {'index': 1, 'timestamp': '1734730008.386369', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 4167167, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node2  | 2024-12-20 21:27:01,002 - INFO - crawling network with nearest: ()
+node0  | 2024-12-20 21:27:17,404 - INFO - New block mined: Index = 1, Hash = 0000004a3539e349034c9a0aca58fcc1b7822143afafb2c51e9748b1bde34bf5
+node2  | 2024-12-20 21:27:01,002 - INFO - PeerDiscovery started and bootstrapped.
+node0  | 2024-12-20 21:27:17,405 - INFO - No connected peers to broadcast to.
+node2  | Node ID: 511889871916735414071944637395694428734008824814
+node0  | 2024-12-20 21:27:17,405 - INFO - never seen 172.18.0.3:5000 before, adding to router
+node2  | 2024-12-20 21:27:01,002 - INFO - setting '511889871916735414071944637395694428734008824814' = '172.18.0.4:5000' on network
+node0  | 2024-12-20 21:27:17,405 - INFO - never seen 172.18.0.4:5000 before, adding to router
+node2  | 2024-12-20 21:27:01,002 - WARNING - There are no known neighbors to set key f79cf50069aa404f094cd5e79db33a056a1ff2e9
+node0  | Message: Content Type: BK
+node2  | 2024-12-20 21:27:01,002 - INFO - Announced peer 511889871916735414071944637395694428734008824814 at 172.18.0.4:5000
+node0  | Content: {'index': 2, 'timestamp': '1734730038.4072237', 'previous_hash': '0000004a3539e349034c9a0aca58fcc1b7822143afafb2c51e9748b1bde34bf5', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 227359, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node2  | 2024-12-20 21:27:01,002 - INFO - No peers found.
+node1  | 2024-12-20 21:20:45,718 - INFO - New block mined: Index = 8, Hash = 000009758f5e8f2de2180fb29cf67047198dab24dd51aab5be17e1c79b85afc1
+node2  | 2024-12-20 21:27:01,002 - INFO - setting '511889871916735414071944637395694428734008824814' = '172.18.0.4:5000' on network
+node0  | 2024-12-20 21:27:19,889 - INFO - New block mined: Index = 2, Hash = 00000809ec6cd34f9f53570de7f46b6900cf349a872e416e95f3310bcdb0c99e
+node2  | 2024-12-20 21:27:01,002 - WARNING - There are no known neighbors to set key f79cf50069aa404f094cd5e79db33a056a1ff2e9
+node1  | 2024-12-20 21:20:45,718 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 8, 'timestamp': '1734729643.5992434', 'previous_hash': '00000cef26560f5fcc1fa1ea5bd03df6c8e8c45cb71ef3b8497a366b5f5eccec', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 247892, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node1  | 2024-12-20 21:21:02,088 - INFO - New block mined: Index = 9, Hash = 000008cf45d3dbb5445dfa3d26d3d8c705e4d34d5ba50a2c7e91851848b510b3
+node1  | 2024-12-20 21:21:02,088 - INFO - Message broadcasted to 983529079644662361973285237317392369459339169050
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 9, 'timestamp': '1734729646.7194388', 'previous_hash': '000009758f5e8f2de2180fb29cf67047198dab24dd51aab5be17e1c79b85afc1', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1793883, 'transactions': [<transaction.transaction.Transaction object at 0x7f294ee8e150>]}
+node1  | Failed to send message to 983529079644662361973285237317392369459339169050: No connection to peer 983529079644662361973285237317392369459339169050
+node2  | 2024-12-20 21:27:01,002 - INFO - Announced peer 511889871916735414071944637395694428734008824814 at 172.18.0.4:5000
+node1  | Checking connectivity to bootstrap node at node0:5000...
+node2  | 2024-12-20 21:27:06,732 - INFO - New block mined: Index = 1, Hash = 000009c5f64b9336db4c4dc47b1f9ef0fa38c0c6e1436b790a0b58a48343c6bf
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 1, 'timestamp': '1734730021.0028436', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 764255, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node0  | 2024-12-20 21:27:19,889 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:27:22,961 - INFO - New block mined: Index = 3, Hash = 0000076d1a0b91379842c528b33a16ce3e33b7880bc1554b5868c387c764c9c3
+node1  | Bootstrap node is reachable. Starting the application...
+node1  | 2024-12-20 21:26:53,963 - INFO - Starting blockchain node...
+node1  | 2024-12-20 21:26:53,963 - INFO - Node 28681939438726493447430200499644676323150381274 listening on 172.18.0.3:5000
+node0  | 2024-12-20 21:27:22,961 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:26:53,963 - INFO - Kademlia server started at 172.18.0.3:5000
+node1  | 2024-12-20 21:26:53,964 - INFO - Starting PeerDiscovery and bootstrapping...
+node0  | Message: Content Type: BK
+node1  | 2024-12-20 21:27:00,924 - ERROR - Did not receive reply for msg id b'siYHRqOq5n8BXNe/jWyMnCl6gmA=' within 5 seconds
+node0  | Content: {'index': 3, 'timestamp': '1734730040.8903759', 'previous_hash': '00000809ec6cd34f9f53570de7f46b6900cf349a872e416e95f3310bcdb0c99e', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 267000, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | 2024-12-20 21:27:00,924 - INFO - creating spider with peers: []
+node0  | 2024-12-20 21:27:31,880 - INFO - New block mined: Index = 4, Hash = 00000ed3fbf2dd1555375611c54d1a3c1c44a35b0441379cbd38dccea187dc5a
+node0  | 2024-12-20 21:27:31,880 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 4, 'timestamp': '1734730043.9627712', 'previous_hash': '0000076d1a0b91379842c528b33a16ce3e33b7880bc1554b5868c387c764c9c3', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 695983, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | Node ID: 28681939438726493447430200499644676323150381274
+node1  | 2024-12-20 21:27:00,925 - INFO - crawling network with nearest: ()
+node1  | 2024-12-20 21:27:00,925 - INFO - PeerDiscovery started and bootstrapped.
+node1  | 2024-12-20 21:27:00,925 - INFO - setting '28681939438726493447430200499644676323150381274' = '172.18.0.3:5000' on network
+node1  | 2024-12-20 21:27:00,925 - WARNING - There are no known neighbors to set key 4c6e54af5a16ed223706d8745f5dbb48be916f32
+node1  | 2024-12-20 21:27:00,925 - INFO - Announced peer 28681939438726493447430200499644676323150381274 at 172.18.0.3:5000
+node2  | 2024-12-20 21:27:06,732 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 2, 'timestamp': '1734730027.733491', 'previous_hash': '000009c5f64b9336db4c4dc47b1f9ef0fa38c0c6e1436b790a0b58a48343c6bf', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1209963, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node2  | 2024-12-20 21:27:16,959 - INFO - New block mined: Index = 2, Hash = 0000090d9f6c0b21a4d57168c775a7421ca6834ceae0861d850fa28b2576b3e2
+node2  | 2024-12-20 21:27:16,959 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:27:17,406 - WARNING - received unknown message b'hSme8NPcAwJrDY+PHvauW/RABZY=' from ('172.18.0.2', 5000); ignoring
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 3, 'timestamp': '1734730037.9601572', 'previous_hash': '0000090d9f6c0b21a4d57168c775a7421ca6834ceae0861d850fa28b2576b3e2', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 168925, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node2  | 2024-12-20 21:27:19,134 - INFO - New block mined: Index = 3, Hash = 00000d9a8158d8c5f072b3383edc58d1e811754160fe9d26fc8b61e206881e34
+node2  | 2024-12-20 21:27:19,134 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:27:20,382 - INFO - New block mined: Index = 4, Hash = 000002f0d6fb41c336c63d6d477d2ef5cd03493d7c1218dddd203b3fa7b76b91
+node2  | 2024-12-20 21:27:20,382 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 4, 'timestamp': '1734730040.1355264', 'previous_hash': '00000d9a8158d8c5f072b3383edc58d1e811754160fe9d26fc8b61e206881e34', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 34932, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node0  | 2024-12-20 21:27:36,639 - INFO - New block mined: Index = 5, Hash = 00000a2065f3342f8892039d66e36f74cacd9ad172f200040f518d48ab0768dd
+node0  | 2024-12-20 21:27:36,640 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 5, 'timestamp': '1734730052.8813698', 'previous_hash': '00000ed3fbf2dd1555375611c54d1a3c1c44a35b0441379cbd38dccea187dc5a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 441250, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:27:41,029 - INFO - New block mined: Index = 6, Hash = 0000046e09afa9862043f94fd3445da11f981f997ce983b51cab6463c9a34166
+node0  | 2024-12-20 21:27:41,029 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 6, 'timestamp': '1734730057.6415768', 'previous_hash': '00000a2065f3342f8892039d66e36f74cacd9ad172f200040f518d48ab0768dd', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 420022, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 7, 'timestamp': '1734730062.0305734', 'previous_hash': '0000046e09afa9862043f94fd3445da11f981f997ce983b51cab6463c9a34166', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 346090, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | 2024-12-20 21:27:00,925 - INFO - No peers found.
+node1  | 2024-12-20 21:27:00,925 - INFO - setting '28681939438726493447430200499644676323150381274' = '172.18.0.3:5000' on network
+node1  | 2024-12-20 21:27:00,925 - WARNING - There are no known neighbors to set key 4c6e54af5a16ed223706d8745f5dbb48be916f32
+node1  | 2024-12-20 21:27:00,925 - INFO - Announced peer 28681939438726493447430200499644676323150381274 at 172.18.0.3:5000
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 1, 'timestamp': '1734730020.9259486', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 790442, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node0  | 2024-12-20 21:27:44,702 - INFO - New block mined: Index = 7, Hash = 00000707fcae80831b4ea45c36cd82c511452f0dacdb977623a8d4c11705ab39
+node1  | 2024-12-20 21:27:06,612 - INFO - New block mined: Index = 1, Hash = 00000fdf2124df46d260488f40d6703894896e9d992c9d300ebbfaa464e5b76a
+node1  | 2024-12-20 21:27:06,612 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:27:13,157 - INFO - New block mined: Index = 2, Hash = 00000f4bb21b0f3936f3317515551357404abb216c5bc2d4776866a9a6d2c21d
+node1  | 2024-12-20 21:27:13,157 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node2  | 2024-12-20 21:27:24,984 - INFO - New block mined: Index = 5, Hash = 00000a6589db021c981a8acb0e8596667c799d1d6630df9599a39feffb25037e
+node2  | 2024-12-20 21:27:24,984 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node1  | Content: {'index': 2, 'timestamp': '1734730027.6140995', 'previous_hash': '00000fdf2124df46d260488f40d6703894896e9d992c9d300ebbfaa464e5b76a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 723942, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node2  | Content: {'index': 5, 'timestamp': '1734730041.3834405', 'previous_hash': '000002f0d6fb41c336c63d6d477d2ef5cd03493d7c1218dddd203b3fa7b76b91', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 424091, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node0  | 2024-12-20 21:27:44,702 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node0  | 2024-12-20 21:27:45,733 - INFO - New block mined: Index = 8, Hash = 0000080e1670875c3e7ec457ab3a40c2a811e3e92aba1fe5fd8e081327d9ec89
+node0  | 2024-12-20 21:27:45,733 - INFO - No connected peers to broadcast to.
+node2  | Content: {'index': 6, 'timestamp': '1734730045.9860697', 'previous_hash': '00000a6589db021c981a8acb0e8596667c799d1d6630df9599a39feffb25037e', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2645543, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node2  | 2024-12-20 21:27:49,402 - INFO - New block mined: Index = 6, Hash = 000008206633a09fd0997d5e7fc9147caa5955804d8ab51c01660ba9e0fb9cd9
+node2  | 2024-12-20 21:27:49,402 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node0  | Message: Content Type: BK
+node1  | Content: {'index': 3, 'timestamp': '1734730034.1591623', 'previous_hash': '00000f4bb21b0f3936f3317515551357404abb216c5bc2d4776866a9a6d2c21d', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1622130, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node0  | Content: {'index': 8, 'timestamp': '1734730065.7038531', 'previous_hash': '00000707fcae80831b4ea45c36cd82c511452f0dacdb977623a8d4c11705ab39', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 3358, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | 2024-12-20 21:27:25,931 - INFO - New block mined: Index = 3, Hash = 00000547703126bd0c2d3e3e3cd661cda522ed5d4f184f14a96e89926d323a2c
+node1  | 2024-12-20 21:27:25,931 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:27:25,931 - WARNING - received unknown message b'siYHRqOq5n8BXNe/jWyMnCl6gmA=' from ('172.18.0.2', 5000); ignoring
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 4, 'timestamp': '1734730046.9327397', 'previous_hash': '00000547703126bd0c2d3e3e3cd661cda522ed5d4f184f14a96e89926d323a2c', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 105643, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:27:27,858 - INFO - New block mined: Index = 4, Hash = 00000309399bbaca697fe98b8f2272ac827841f75595994dfda31c1c80a7d3f8
+node1  | 2024-12-20 21:27:27,859 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 5, 'timestamp': '1734730050.768218', 'previous_hash': '00000309399bbaca697fe98b8f2272ac827841f75595994dfda31c1c80a7d3f8', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 856793, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:27:37,679 - INFO - New block mined: Index = 5, Hash = 0000090129b6594a75471a9121ce97e331b2a140923ac8c3c3a84c690b3cc1e9
+node1  | 2024-12-20 21:27:37,680 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 6, 'timestamp': '1734730058.6809707', 'previous_hash': '0000090129b6594a75471a9121ce97e331b2a140923ac8c3c3a84c690b3cc1e9', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 556715, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:27:43,302 - INFO - New block mined: Index = 6, Hash = 00000816369e28b13e1927698003f450589aaa9e7880d88261cc6e5ba0df030c
+node1  | 2024-12-20 21:27:43,302 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:27:56,267 - INFO - New block mined: Index = 9, Hash = 00000145f68213b3c788726420abcff959a952b8637559db5ef8d92316465b3a
+node0  | 2024-12-20 21:27:56,268 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 9, 'timestamp': '1734730066.7346196', 'previous_hash': '0000080e1670875c3e7ec457ab3a40c2a811e3e92aba1fe5fd8e081327d9ec89', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1130151, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node2  | 2024-12-20 21:27:58,796 - INFO - New block mined: Index = 7, Hash = 00000accc0a37c908555673b38735e5f6997a951d7f2f1d922a38990191e0f02
+node2  | 2024-12-20 21:27:58,796 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 7, 'timestamp': '1734730070.4039078', 'previous_hash': '000008206633a09fd0997d5e7fc9147caa5955804d8ab51c01660ba9e0fb9cd9', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1020407, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 7, 'timestamp': '1734730064.3037622', 'previous_hash': '00000816369e28b13e1927698003f450589aaa9e7880d88261cc6e5ba0df030c', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2024085, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:28:00,430 - INFO - New block mined: Index = 7, Hash = 000005ec911de9bedf44d2a12bb86ba35d269a85634e1630205fecc145b72c6b
+node1  | 2024-12-20 21:28:00,430 - INFO - No connected peers to broadcast to.
+node1  | 2024-12-20 21:28:06,204 - INFO - New block mined: Index = 8, Hash = 000001ba404630d3f531db5b280e24d4ebbe0701d26c7016e8f4a2ec12ff7f23
+node1  | 2024-12-20 21:28:06,204 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 8, 'timestamp': '1734730083.3970778', 'previous_hash': '000005ec911de9bedf44d2a12bb86ba35d269a85634e1630205fecc145b72c6b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 351575, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node0  | 2024-12-20 21:28:07,036 - INFO - New block mined: Index = 10, Hash = 00000d794982b712a0b2c9d31352294df2c1a2468cf9ccca677b99edba5cbb4f
+node0  | 2024-12-20 21:28:07,036 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 10, 'timestamp': '1734730077.2689052', 'previous_hash': '00000145f68213b3c788726420abcff959a952b8637559db5ef8d92316465b3a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1041273, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node2  | 2024-12-20 21:28:07,398 - INFO - New block mined: Index = 8, Hash = 000007cd9b2ce4048742108fdabb126051cc02866d9fbfe9d9ab4c38ba7e07f4
+node2  | 2024-12-20 21:28:07,398 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 8, 'timestamp': '1734730079.7982821', 'previous_hash': '00000accc0a37c908555673b38735e5f6997a951d7f2f1d922a38990191e0f02', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 766922, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 11, 'timestamp': '1734730088.0372283', 'previous_hash': '00000d794982b712a0b2c9d31352294df2c1a2468cf9ccca677b99edba5cbb4f', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 187764, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:28:09,391 - INFO - New block mined: Index = 11, Hash = 00000f77467555d43dddc9f3a7475a8f6ba901e7b80ec5ba8de5d072f534dc8b
+node0  | 2024-12-20 21:28:09,392 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:28:09,978 - INFO - New block mined: Index = 9, Hash = 0000092f6ba66dae5431a54edc9d1b2bd46ebd2e78f1fdbdf698407ceff62a70
+node2  | 2024-12-20 21:28:09,978 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 9, 'timestamp': '1734730088.3991394', 'previous_hash': '000007cd9b2ce4048742108fdabb126051cc02866d9fbfe9d9ab4c38ba7e07f4', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 216244, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node1  | 2024-12-20 21:28:10,426 - INFO - New block mined: Index = 9, Hash = 000009940296028159c29a28f7e4a4995c9375277c41876eca3a2af581336c1b
+node1  | 2024-12-20 21:28:10,426 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 9, 'timestamp': '1734730087.2057366', 'previous_hash': '000001ba404630d3f531db5b280e24d4ebbe0701d26c7016e8f4a2ec12ff7f23', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 506241, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 12, 'timestamp': '1734730090.3929825', 'previous_hash': '00000f77467555d43dddc9f3a7475a8f6ba901e7b80ec5ba8de5d072f534dc8b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 322434, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:28:12,630 - INFO - New block mined: Index = 12, Hash = 0000022e46709786bb0ec406609d4e1a3be0d827ac6b646a8c6494d16c65a239
+node0  | 2024-12-20 21:28:12,630 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:28:16,536 - INFO - New block mined: Index = 13, Hash = 000005cb92197d796f7f34848a61a07dc052da3397403021e9606338637049e2
+node0  | 2024-12-20 21:28:16,536 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 13, 'timestamp': '1734730093.6316183', 'previous_hash': '0000022e46709786bb0ec406609d4e1a3be0d827ac6b646a8c6494d16c65a239', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 368007, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 10, 'timestamp': '1734730091.4278488', 'previous_hash': '000009940296028159c29a28f7e4a4995c9375277c41876eca3a2af581336c1b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1378964, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:28:22,149 - INFO - New block mined: Index = 10, Hash = 00000867825c6efc84058942045f7f2f4c59b23e6f8084e05ae390c00aaea222
+node1  | 2024-12-20 21:28:22,150 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 14, 'timestamp': '1734730097.5376482', 'previous_hash': '000005cb92197d796f7f34848a61a07dc052da3397403021e9606338637049e2', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 846033, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:28:24,132 - INFO - New block mined: Index = 14, Hash = 00000fa9a1a3153432350f4e92f17d51ad25bd0f80627737069e7625c4149c4a
+node0  | 2024-12-20 21:28:24,132 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:28:35,872 - INFO - New block mined: Index = 15, Hash = 00000bd571f82c5282226094ee260382ed26e4ce5b2552caa7403579dc7af36b
+node0  | 2024-12-20 21:28:35,872 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 15, 'timestamp': '1734730105.1335652', 'previous_hash': '00000fa9a1a3153432350f4e92f17d51ad25bd0f80627737069e7625c4149c4a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1074701, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 11, 'timestamp': '1734730103.1505532', 'previous_hash': '00000867825c6efc84058942045f7f2f4c59b23e6f8084e05ae390c00aaea222', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1950752, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node1  | 2024-12-20 21:28:40,634 - INFO - New block mined: Index = 11, Hash = 0000097c7493778dc50ef4c35b5925f973a2ff549eb20ffbcaa76d3d812c07ce
+node1  | 2024-12-20 21:28:40,635 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 10, 'timestamp': '1734730090.979407', 'previous_hash': '0000092f6ba66dae5431a54edc9d1b2bd46ebd2e78f1fdbdf698407ceff62a70', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 4687349, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+node2  | 2024-12-20 21:28:49,768 - INFO - New block mined: Index = 10, Hash = 0000035e032b9af780cc37353b5f6eea69d6806d79b2cd12c0a5f97179a0589a
+node2  | 2024-12-20 21:28:49,769 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 16, 'timestamp': '1734730116.8741663', 'previous_hash': '00000bd571f82c5282226094ee260382ed26e4ce5b2552caa7403579dc7af36b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1669209, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:28:50,232 - INFO - New block mined: Index = 16, Hash = 00000f7da78b97b602785890eafe361a95ef0ed925de708ff0b5667687650d5b
+node0  | 2024-12-20 21:28:50,232 - INFO - No connected peers to broadcast to.
+node0  | 2024-12-20 21:28:51,972 - INFO - New block mined: Index = 17, Hash = 0000048a8beebaefc4e534a6a1caf40d2ae58dc0fddd0caf8adbce257bb6aacb
+node0  | 2024-12-20 21:28:51,972 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 17, 'timestamp': '1734730131.23343', 'previous_hash': '00000f7da78b97b602785890eafe361a95ef0ed925de708ff0b5667687650d5b', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 88925, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node1  | 2024-12-20 21:28:53,061 - INFO - New block mined: Index = 12, Hash = 00000ae7bb29d183c07d6098f1b1ec06ef4fe3b38945acf0fad10e220fc17558
+node1  | 2024-12-20 21:28:53,061 - INFO - No connected peers to broadcast to.
+node1  | Message: Content Type: BK
+node1  | Content: {'index': 12, 'timestamp': '1734730121.6363769', 'previous_hash': '0000097c7493778dc50ef4c35b5925f973a2ff549eb20ffbcaa76d3d812c07ce', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1442981, 'transactions': [<transaction.transaction.Transaction object at 0x7fca83bd2210>]}
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 18, 'timestamp': '1734730132.9726236', 'previous_hash': '0000048a8beebaefc4e534a6a1caf40d2ae58dc0fddd0caf8adbce257bb6aacb', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 24366, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+node0  | 2024-12-20 21:28:53,184 - INFO - New block mined: Index = 18, Hash = 00000ea14eeee76baee4d2d6a6366afa7acd9bc9eeba3849b7205d99e7797ebe
+node0  | 2024-12-20 21:28:53,184 - INFO - No connected peers to broadcast to.
+node2  | 2024-12-20 21:28:53,806 - INFO - New block mined: Index = 11, Hash = 00000ec86be9a4edd6aae1330757b752d323b4286f461dc229583df9f8a5b54a
+node2  | 2024-12-20 21:28:53,806 - INFO - No connected peers to broadcast to.
+node2  | Message: Content Type: BK
+node2  | Content: {'index': 11, 'timestamp': '1734730130.769962', 'previous_hash': '0000035e032b9af780cc37353b5f6eea69d6806d79b2cd12c0a5f97179a0589a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 402649, 'transactions': [<transaction.transaction.Transaction object at 0x7f4c6d949fd0>]}
+
+node2 exited with code 137
+
+node1 exited with code 137
+node0  | 2024-12-20 21:28:59,178 - INFO - New block mined: Index = 19, Hash = 0000070f18bace9bc41a251638e3207d2dc36e6243ae29b51a0ad1645608024a
+node0  | 2024-12-20 21:28:59,178 - INFO - No connected peers to broadcast to.
+node0  | Message: Content Type: BK
+node0  | Content: {'index': 19, 'timestamp': '1734730134.1856704', 'previous_hash': '00000ea14eeee76baee4d2d6a6366afa7acd9bc9eeba3849b7205d99e7797ebe', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 726237, 'transactions': [<transaction.transaction.Transaction object at 0x7f2156b01d00>]}
+
+node0 exited with code 137
+

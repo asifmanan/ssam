@@ -42,35 +42,38 @@ class Host:
     """
       Connect to a peer using its multiaddress.
     """
-    try:
-      # Create a new peer connection 
-      pc = RTCPeerConnection()
-      
-      # To track data channels
-      pc.dataChannels = {} 
+    async def connect_to_peer(self, peer_addr: str) -> None:
+      try:
+          pc = RTCPeerConnection()
+          pc.dataChannels = {}  # Track data channels
+          self.peer_connections[peer_addr] = pc
 
-      self.peer_connections[peer_addr] = pc
+          # Create a data channel if one doesn't exist
+          if "data_channel" not in pc.dataChannels:
+              data_channel = pc.createDataChannel("data_channel")
+              pc.dataChannels["data_channel"] = data_channel
 
-      # Create a data channel 
-      data_channel = pc.createDataChannel("data_channel")
-      pc.dataChannels["data_channel"] = data_channel
+              @data_channel.on("open")
+              def on_open():
+                  logging.info(f"Data channel with {peer_addr} is open.")
 
-      # Handle incomming messages on the data_channel
+              @data_channel.on("message")
+              def on_message(message):
+                  logging.info(f"Received message from {peer_addr}: {message}")
 
-      @data_channel.on("message")
-      def on_message(message):
-        logging.info(f"Received message from {peer_addr}: {message}")
+          # Create and send offer
+          offer = await pc.createOffer()
+          await pc.setLocalDescription(offer)
 
-      # Create an offer and send an offer to the pper
-      offer = await pc.createOffer()
-      await pc.setLocalDescription(offer)
+          # Store signaling data in DHT
+          await self.peer_discovery.store_signaling_data(peer_addr, {"type": "offer", "sdp": offer.sdp})
+          logging.info(f"Offer sent to peer {peer_addr}")
 
-      # Use peer discovery (Kademlia DHT) to send the offer
-      await self.peer_discovery.server.set(peer_addr, offer.sdp)
-      logging.info(f"Offer sent to peer {peer_addr}")
+          # Add peer to PeerManager
+          self.peer_manager.add_peer(peer_addr, address=peer_addr, connection=pc)
 
-    except Exception as e:
-      logging.error(f"Failed to connect to {peer_addr}: {e}")
+      except Exception as e:
+          logging.error(f"Failed to connect to {peer_addr}: {e}")
 
   async def handle_incomming_offer(self, peer_addr: str, offer: str) -> None:
     """

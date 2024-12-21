@@ -57,5 +57,5 @@ USER appuser
 EXPOSE 5000
 
 # Run the application.
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
 CMD python -m blockchain.main

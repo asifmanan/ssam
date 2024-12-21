@@ -1,5 +1,6 @@
 import asyncio
 import hashlib
+import logging
 from network.message import Message
 
 class MessageHandler:
@@ -18,24 +19,16 @@ class MessageHandler:
     :param message: The message to send
     """
     try:
-      # Retrieve the WebRTC connection to the peer
-      pc = self.host.peer_manager.get_peer_connection(peer_id)
-      if not pc:
-        raise Exception(f"No connection to peer {peer_id}")
-      
-      # Create or retrieve an existing data channel
-      channel = pc.dataChannels.get("data_channel")
-      
-      if not channel:
-        channel = pc.createDataChannel("data_channel")
-        pc.dataChannels["data_channel"] = channel
+        pc = self.host.peer_manager.get_peer_connection(peer_id)
+        if not pc or "data_channel" not in pc.dataChannels:
+            raise Exception(f"No active connection or data channel with peer {peer_id}")
 
-      # Send the message
-      channel.send(message)
-      print(f"Message sent to {peer_id}: {message}")
+        channel = pc.dataChannels["data_channel"]
+        channel.send(message)
+        logging.info(f"Message sent to {peer_id}: {message}")
 
     except Exception as e:
-      print(f"Failed to send message to {peer_id}: {e}")
+        logging.error(f"Failed to send message to {peer_id}: {e}")
   
   async def handle_incoming(self, sender: str, message:str):
     """
@@ -67,26 +60,20 @@ class MessageHandler:
     :param pc: The WebRTC peer connection object.
     """
     try:
-      # Create a data channel
-      @pc.on("datachannel")
-      def on_datachannel(channel):
-        """
-        Callback for receiving a new data channel from the peer.
-        """
-        # Track by label
-        pc.dataChannels[channel.label] = channel
-        
-        @channel.on("message")
-        def on_message(message):
-          """
-          Callback for receiving a message from the peer.
-          """
-          print(f"Incoming message from {sender}: {message}")
-          asyncio.create_task(self.handle_incoming(sender, message))
+        @pc.on("datachannel")
+        def on_datachannel(channel):
+            pc.dataChannels[channel.label] = channel
+
+            @channel.on("open")
+            def on_open():
+                logging.info(f"Data channel with {sender} is open.")
+
+            @channel.on("message")
+            def on_message(message):
+                asyncio.create_task(self.handle_incoming(sender, message))
 
     except Exception as e:
-      print(f"Failed to set up channel listeners for {sender}: {e}")
-      # logging.error(f"Failed to set up channel listeners for {peer_id}: {e}")
+        logging.error(f"Failed to set up channel listeners for {sender}: {e}")
   
   def verify_signature(self, message: str, signature: str, public_key: str) -> bool:
     """

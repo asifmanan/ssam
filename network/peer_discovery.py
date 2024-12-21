@@ -80,10 +80,15 @@ class PeerDiscovery:
     Announce this node's presence in the DHT using its node id as the key.
     """
     try:
-      await self.server.set(self.node_id, self.address)
-      logging.info(f"Announced peer {self.node_id} at {self.address}")
+        await self.server.set(self.node_id, self.address)
+        logging.info(f"Announced peer {self.node_id} at {self.address}")
+        
+        # Propagate the peer list to connected peers
+        closest_peers = await self.discover_peers(limit=10)
+        for peer in closest_peers:
+            await self.server.set(peer["node_id"], peer["address"])
     except Exception as e:
-      logging.error(f"Failed to announce peer {self.node_id}: {e}")
+        logging.error(f"Failed to announce peer {self.node_id}: {e}")
   
   async def discover_peers(self, limit: int = 10):
     """
@@ -93,19 +98,18 @@ class PeerDiscovery:
     :return: A list of discovered peers. 
     """
     try:
-      
       closest_peers = self.server.protocol.router.find_neighbors(self.server.node, k=limit)
-
-      if closest_peers:
-        logging.info(f"Discovered peers: {closest_peers}")
-        return [{"node_id": peer.long_id, "address": f"{peer.ip}:{peer.port}"} for peer in closest_peers]
-      else:
-        logging.info("No peers found.")
-        return []
+      discovered_peers = [{"node_id": peer.long_id, "address": f"{peer.ip}:{peer.port}"} for peer in closest_peers]
       
+      # Propagate the list of discovered peers to others
+      for peer in discovered_peers:
+          await self.server.set(peer["node_id"], peer["address"])
+      
+      logging.info(f"Discovered and propagated peers: {discovered_peers}")
+      return discovered_peers
     except Exception as e:
-      logging.error(f"Failed to discover peers: {e}")
-      return []
+        logging.error(f"Failed to discover peers: {e}")
+        return []
     
   async def store_signaling_data(self, peer_id: str, signaling_data: dict):
     """
