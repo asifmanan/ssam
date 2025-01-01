@@ -1,0 +1,9 @@
+{
+  "network_config": {
+      "peers": ["node0:5000", "node1:5000", "node2:5000"]
+  },
+  
+  "mining_config": {
+      "nbits":"0x1dffff00"
+  }
+}

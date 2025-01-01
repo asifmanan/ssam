@@ -34,6 +34,9 @@ RUN adduser \
 RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y net-tools && rm -rf /var/lib/apt/lists/*
 
+# Install ping utility
+RUN apt-get update && apt-get install -y iputils-ping && rm -rf /var/lib/apt/lists/*
+
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
@@ -48,7 +51,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Copy the source code into the container.
 COPY . .
-RUN chmod +x /app/entrypoint.sh
 
 # Switch to the non-privileged user to run the application.
 USER appuser
@@ -57,5 +59,4 @@ USER appuser
 EXPOSE 5000
 
 # Run the application.
-ENTRYPOINT [ "/app/entrypoint.sh" ]
 CMD python -m blockchain.main

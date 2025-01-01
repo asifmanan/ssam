@@ -1,0 +1,75 @@
+node0  | 2024-12-22 00:19:11,064 - INFO - Starting blockchain node...
+node0  | 2024-12-22 00:19:11,076 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (1/3)
+node0  | 2024-12-22 00:19:13,080 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (2/3)
+node0  | 2024-12-22 00:19:15,085 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (3/3)
+node0  | 2024-12-22 00:19:17,087 - ERROR - Failed to connect to node1:5000 after 3 retries.
+node0  | 2024-12-22 00:19:17,090 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (1/3)
+node0  | 2024-12-22 00:19:19,094 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (2/3)
+node0  | 2024-12-22 00:19:21,098 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (3/3)
+node0  | 2024-12-22 00:19:23,100 - ERROR - Failed to connect to node2:5000 after 3 retries.
+node0  | 2024-12-22 00:19:27,352 - INFO - New block mined: Index = 1, Hash = 000009b89c33ef636e6fc0d14a718ce22fe83f503b663dfa17748c3a88daa0d5
+node0  | 2024-12-22 00:19:27,352 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node1  | 2024-12-22 00:19:11,066 - INFO - Starting blockchain node...
+node0  | 2024-12-22 00:19:27,352 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node1  | 2024-12-22 00:19:11,077 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (1/3)
+node1  | 2024-12-22 00:19:13,082 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (2/3)
+node1  | 2024-12-22 00:19:15,086 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (3/3)
+node1  | 2024-12-22 00:19:17,088 - ERROR - Failed to connect to node0:5000 after 3 retries.
+node1  | 2024-12-22 00:19:17,090 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (1/3)
+node1  | 2024-12-22 00:19:19,094 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (2/3)
+node0  | 2024-12-22 00:19:27,353 - INFO - Listening for incoming connections at node0:5000
+node1  | 2024-12-22 00:19:21,098 - WARNING - Failed to connect to node2:5000, retrying in 2 seconds (3/3)
+node1  | 2024-12-22 00:19:23,101 - ERROR - Failed to connect to node2:5000 after 3 retries.
+node0  | 2024-12-22 00:19:30,776 - INFO - New block mined: Index = 2, Hash = 00000a42bcf965c63805d913347343362c2260a530988574b2fa394d61b5137a
+node0  | 2024-12-22 00:19:30,776 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node0  | 2024-12-22 00:19:30,776 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node0  | 2024-12-22 00:19:34,116 - INFO - New block mined: Index = 3, Hash = 0000051167f37bb860003ba2c33ac9f8bb18e6511500123c07bf5f73f22a20cb
+node1  | 2024-12-22 00:19:27,672 - INFO - New block mined: Index = 1, Hash = 00000badb249d373614060e16610fafef198a16a069b4b9ae2def85e2c34c20a
+node1  | 2024-12-22 00:19:27,673 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node0  | 2024-12-22 00:19:34,116 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node0  | 2024-12-22 00:19:34,116 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node1  | 2024-12-22 00:19:27,673 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node0  | 2024-12-22 00:19:49,751 - INFO - New block mined: Index = 4, Hash = 000008b031bc24484344c0ae43ee62d2dd9fd49f1c2ade1a7a873442ef0f1bef
+node0  | 2024-12-22 00:19:49,752 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node1  | 2024-12-22 00:19:27,674 - INFO - Listening for incoming connections at node1:5000
+node1  | 2024-12-22 00:19:31,687 - INFO - New block mined: Index = 2, Hash = 00000132c89fa2d96cd4cb127a3de17bdf5328ba17988b124e8b49433d364776
+node1  | 2024-12-22 00:19:31,688 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node0  | 2024-12-22 00:19:49,752 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node1  | 2024-12-22 00:19:31,688 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node0  | 2024-12-22 00:19:51,450 - INFO - New block mined: Index = 5, Hash = 00000d2ac45519bde1c53643736a736b615490de3cb31a00178b82299cc7676a
+node1  | 2024-12-22 00:19:54,001 - INFO - New block mined: Index = 3, Hash = 000006398666e1a63a96e0905c710dd9130548efd6b6486dd9ffb881707789ff
+node1  | 2024-12-22 00:19:54,001 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node1  | 2024-12-22 00:19:54,001 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node1  | 2024-12-22 00:19:55,484 - INFO - New block mined: Index = 4, Hash = 00000a14f02db396c2aec16df7061d5677c4abb34aeaa8fce5b4ba28d9b0010f
+node0  | 2024-12-22 00:19:51,450 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node0  | 2024-12-22 00:19:51,450 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node1  | 2024-12-22 00:19:55,484 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node1  | 2024-12-22 00:19:55,484 - ERROR - Failed to send message to node2:5000: No active connection to node2:5000
+node2  | 2024-12-22 00:19:11,085 - INFO - Starting blockchain node...
+node2  | 2024-12-22 00:19:11,094 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (1/3)
+node2  | 2024-12-22 00:19:13,097 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (2/3)
+node2  | 2024-12-22 00:19:15,099 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (3/3)
+node2  | 2024-12-22 00:19:17,101 - ERROR - Failed to connect to node0:5000 after 3 retries.
+node2  | 2024-12-22 00:19:17,102 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (1/3)
+node2  | 2024-12-22 00:19:19,105 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (2/3)
+node2  | 2024-12-22 00:19:21,107 - WARNING - Failed to connect to node1:5000, retrying in 2 seconds (3/3)
+node2  | 2024-12-22 00:19:23,109 - ERROR - Failed to connect to node1:5000 after 3 retries.
+node2  | 2024-12-22 00:19:25,837 - INFO - New block mined: Index = 1, Hash = 000008fd6c95302fc257a83095645f68033235cb78a5dcd7328a64bb13cee693
+node2  | 2024-12-22 00:19:25,837 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:19:25,838 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node2  | 2024-12-22 00:19:25,839 - INFO - Listening for incoming connections at node2:5000
+node2  | 2024-12-22 00:19:26,998 - INFO - New block mined: Index = 2, Hash = 00000c4665e6a9da244df4003bfbc3d18b1bd6a384b343e1422af74ed6b39415
+node2  | 2024-12-22 00:19:26,998 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:19:26,998 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node2  | 2024-12-22 00:19:42,595 - INFO - New block mined: Index = 3, Hash = 00000cbb0d687c82f15cd961afc6e07b6945d0a86d39e4aeed2dcf876636c0b0
+node2  | 2024-12-22 00:19:42,595 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:19:42,595 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node2  | 2024-12-22 00:19:51,660 - INFO - New block mined: Index = 4, Hash = 0000017dac5972d78e9ad25f3b121f8ee7c89b130eab3d8c70152230d2c35bba
+node2  | 2024-12-22 00:19:51,660 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:19:51,660 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node2  | 2024-12-22 00:20:01,198 - INFO - New block mined: Index = 5, Hash = 000009cf270f07ad1730200dd66f72313fe547c111e93eeb9c4aede8dc99d22e
+node2  | 2024-12-22 00:20:01,198 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:20:01,199 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000
+node2  | 2024-12-22 00:20:02,816 - INFO - New block mined: Index = 6, Hash = 000002cf329376e6f3170f6ce9ca43ab7a1ce1a692021046596fad570a9d4903
+node2  | 2024-12-22 00:20:02,817 - ERROR - Failed to send message to node0:5000: No active connection to node0:5000
+node2  | 2024-12-22 00:20:02,817 - ERROR - Failed to send message to node1:5000: No active connection to node1:5000

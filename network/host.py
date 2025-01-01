@@ -1,164 +1,145 @@
-import logging
 import asyncio
-from config import load_config
-from aiortc import RTCPeerConnection, RTCSessionDescription
-from network.peer_discovery import PeerDiscovery
+import logging
+import json
 from network.peer_manager import PeerManager
-from network.message_handler import MessageHandler
-from network.utils import MuxAddressParser
-from network.utils import InterfaceInfo
 from network.message import Message
+from network.peer import Peer
+
 
 class Host:
-  def __init__(self, config_path: str):
-    # Load configuration
-    config = load_config(config_path)
+    def __init__(self, network_config: dict):
+        """
+        Initialize the Host with peer management.
+        """
+        peers_list = network_config.get("peers", [])
+        self.peer_manager = PeerManager(peers_list)
+        self.peer_connections = {}
 
-    self.bootstrap_nodes = config["peers"]
-    listen_ip = InterfaceInfo.get_local_ip()
+    async def start(self):
+        """
+        Start the host, establish connections to peers, and listen for incoming connections.
+        """
+        asyncio.create_task(self.listen_for_connections())
+        await self.connect_to_peers()
 
-    listen_port = InterfaceInfo.get_port()
-    self.listen_addr = f"{listen_ip}:{listen_port}"
+    async def connect_to_peers(self):
+        """
+        Connect to all peers listed in the PeerManager with retries.
+        """
+        for peer in self.peer_manager.get_peers():
+            retries = 3
+            while retries > 0:
+                try:
+                    reader, writer = await asyncio.open_connection(peer.get_hostname(), int(peer.get_port()))
+                    self.peer_connections[str(peer)] = (reader, writer)
+                    logging.info(f"Connected to peer {peer}")
+                    break
+                except Exception as e:
+                    retries -= 1
+                    logging.warning(f"Failed to connect to {peer}, retrying in 2 seconds ({3 - retries}/3)")
+                    await asyncio.sleep(2)
+            else:
+                logging.error(f"Failed to connect to {peer} after 3 retries.")
 
-    #  Initialize components
-    self.peer_manager = PeerManager()
-    self.peer_discovery = PeerDiscovery(listen_ip = listen_ip, 
-                                        listen_port = listen_port,
-                                        bootstrap_nodes_list = self.bootstrap_nodes)
-    self.message_handler = MessageHandler(self)
-    self.peer_connections = {} 
+    async def listen_for_connections(self):
+        """
+        Listen for incoming connections on the local address.
+        """
+        # server = await asyncio.start_server(self.handle_incoming_connection, self.peer_manager.this_peer.host, int(self.peer_manager.this_peer.port))
+        server = await asyncio.start_server(self.handle_incoming_connection, "0.0.0.0", int(self.peer_manager.this_peer.port))
+        logging.info(f"Listening for incoming connections at {self.peer_manager.this_peer}")
+        async with server:
+            await server.serve_forever()
 
-  async def start(self):
-    """
-      Start the host and begin peer discovery.
-    """
-    try:  
-      await self.peer_discovery.start()
-      await self.peer_discovery.announce_peer()
-    except Exception as e:
-      logging.error(f"Failed to start host: {e}")
+    async def handle_incoming_connection(self, reader, writer):
+        """
+        Handle an incoming connection from a peer.
+        """
+        peer_address = writer.get_extra_info("peername")
+        logging.info(f"Incoming connection from {peer_address}")
+        self.peer_connections[peer_address] = (reader, writer)
 
-  async def connect_to_peer(self, peer_addr: str) -> None:
-    """
-      Connect to a peer using its multiaddress.
-    """
-    async def connect_to_peer(self, peer_addr: str) -> None:
-      try:
-          pc = RTCPeerConnection()
-          pc.dataChannels = {}  # Track data channels
-          self.peer_connections[peer_addr] = pc
+        while True:
+            try:    
+                data = await reader.readline()
+                if not data:
+                    break
+                message = data.decode().strip()
+                asyncio.create_task(self.handle_message(peer_address, message))
+            except Exception as e:
+                logging.error(f"Error processing message from {peer_address}: {e}")
+                break
 
-          # Create a data channel if one doesn't exist
-          if "data_channel" not in pc.dataChannels:
-              data_channel = pc.createDataChannel("data_channel")
-              pc.dataChannels["data_channel"] = data_channel
+    async def handle_message(self, peer_address: str, message: str):
+        """
+        Handle an incoming message from a peer.
 
-              @data_channel.on("open")
-              def on_open():
-                  logging.info(f"Data channel with {peer_addr} is open.")
+        Args:
+            peer_address (str): The address of the peer sending the message.
+            message (str): The content of the message received.
+        """
+        try:
+            # Parse the message into a Message object
+            parsed_message = Message.from_json(message)
+            # logging.info(f"Received message from {peer_address}: {parsed_message}")
 
-              @data_channel.on("message")
-              def on_message(message):
-                  logging.info(f"Received message from {peer_addr}: {message}")
+            if parsed_message.content_type == "BK":  # Block message
+                logging.info(f"Received a new block from {peer_address}, (Block Index: {parsed_message.content["index"]})")
+                # Handle the block (validate and add to blockchain)
+            elif parsed_message.content_type == "TX":  # Transaction message
+                logging.info(f"Received a transaction from {peer_address}")
+                # Handle the transaction (add to transaction pool)
+            else:
+                logging.warning(f"Unknown message type from {peer_address}: {parsed_message.content_type}")
+        except json.JSONDecodeError as e:
+            logging.error(f"Invalid JSON message from {peer_address}: {e}")
+        
+        except Exception as e:
+            logging.error(f"Failed to process message from {peer_address}: {e}")
 
-          # Create and send offer
-          offer = await pc.createOffer()
-          await pc.setLocalDescription(offer)
+    async def send_message(self, peer: Peer, message: Message):
+        """
+        Send a message to a peer.
+        """
+        try:
+            if str(peer) not in self.peer_connections:
+                raise Exception(f"No active connection to {peer}")
+            
+            # connection = self.peer_connections.get(str(peer))
+            # if not connection:
+            #     raise Exception(f"No active connection to {peer}")
+            if not message or not isinstance(message, Message):
+                raise ValueError("Message is invalid or None")
+            
+            _, writer = self.peer_connections[str(peer)]
+            
+            serialized_message = message.to_json()
+            if not serialized_message.strip():
+                raise ValueError("Serialized message is empty")
+            
+            encoded_message = serialized_message.encode() + b"\n"
+            
+            writer.write(encoded_message)
+            await writer.drain()
+            
+            logging.info(f"Message sent to {peer}, Message Type: {message.content_type}")
+        except Exception as e:
+            logging.error(f"Failed to send message to {peer}: {e}")
 
-          # Store signaling data in DHT
-          await self.peer_discovery.store_signaling_data(peer_addr, {"type": "offer", "sdp": offer.sdp})
-          logging.info(f"Offer sent to peer {peer_addr}")
+    async def broadcast_message(self, message: Message):
+        """
+        Broadcast a message to all connected peers.
+        """
+        for peer in self.peer_manager.get_peers():
+            asyncio.create_task(self.send_message(peer, message))
 
-          # Add peer to PeerManager
-          self.peer_manager.add_peer(peer_addr, address=peer_addr, connection=pc)
-
-      except Exception as e:
-          logging.error(f"Failed to connect to {peer_addr}: {e}")
-
-  async def handle_incomming_offer(self, peer_addr: str, offer: str) -> None:
-    """
-      Handle an incoming offer from a peer.  
-    """
-    try:
-      # Create a new peer connection
-      pc = RTCPeerConnection()
-      
-      # Initialize data channel tracking
-      pc.dataChannels = {}
-
-      self.peer_connections[peer_addr] = pc
-
-      # Handle comming data channels
-      @pc.on("datachannel")
-      def on_datachannel(channel):
-        # Track the channel by its label
-        pc.dataChannel[channel.label] = channel 
-
-        @channel.on("message")
-        def on_message(message):
-          logging.info(f"Received message from {peer_addr}: {message}")
-
-      # Set the remote description using the received offer
-      offer = RTCSessionDescription(sdp=offer, type="offer")
-      await pc.setRemoteDescription(offer)
-
-      # Create and send an answer
-      answer = await pc.createAnswer()
-      await pc.setLocalDescription(answer)
-
-      # Use peer discovery (Kademlia DHT) to send the answer
-      await self.peer_discovery.server.set(peer_addr, answer.sdp)
-      logging.info(f"Answer sent to peer {peer_addr}")
-
-    except Exception as e:
-      logging.error(f"Failed to handle incoming offer from {peer_addr}: {e}")
-
-  
-  async def send_message(self, peer, message: Message, protocol: str=None) -> None:
-    """
-        Send a message to a peer using a specific protocol.
-    """
-    serialized_message = message.to_json()
-    await self.message_handler.send_message(peer, serialized_message)
-  
-  async def broadcast_message(self, message: Message) -> None:
-    """
-      Broadcast a message to all connected peers.
-    """
-    if not self.peer_manager.list_peers():
-        logging.info("No connected peers to broadcast to.")
-        return
-    for peer_id in self.peer_manager.list_peers():
-      try:
-        # Use the message handler object to send the message
-        await self.message_handler.send_message(peer_id, message)
-        logging.info(f"Message broadcasted to {peer_id}")
-      except Exception as e:
-        logging.error(f"Failed to broadcast message to {peer_id}: {e}")
-
-  def set_stream_handler(self, protocol: str, handler) -> None:
-    """
-      Register a handle for incoming streams.
-    """
-    self.host.set_stream_handler(protocol, handler)
-  
-  async def start_peer_discovery(self, key: str = None, limit: int = 10):
-    """
-      Discover peers using DHT.
-    """
-    try:
-      discovered_peers = await self.peer_discovery.discover_peers(limit=limit)
-      for peer in discovered_peers:
-        if peer["node_id"] not in self.peer_manager.list_peers():
-          self.peer_manager.add_peer(peer["node_id"], peer["address"])
-      return discovered_peers
-    except Exception as e:
-      logging.error(f"Peer discovery failed: {e}")
-
-  async def stop(self):
-    """
-      Close all WebRTC conncections and stop the host.
-    """
-    for pc in self.peer_connections.values():
-        await pc.close()
-        logging.info("Host stopped.")
+    async def stop(self):
+        """
+        Stop the host and clean up resources.
+        """
+        logging.info("Stopping host...")
+        # Close all peer connections
+        for peer, (reader, writer) in self.peer_connections.items():
+            writer.close()
+            await writer.wait_closed()
+            logging.info(f"Closed connection to {peer}")

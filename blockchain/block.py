@@ -1,6 +1,7 @@
 import json
 import hashlib
 from transaction.transaction_manager import TransactionManager
+from transaction.transaction import Transaction
 
 class Block:
   def __init__(self, index, timestamp, tx_root, previous_hash, nbits, nonce, transactions=[]):
@@ -20,13 +21,17 @@ class Block:
     """
     Convert JSON Data into an instance of a Block class.
     """
+    transactions = [
+        Transaction.from_dict(tx) if isinstance(tx, dict) else tx
+        for tx in block_data.get("transactions", [])
+    ]
     return cls(index = block_data["index"],
                timestamp = block_data["timestamp"], 
                previous_hash = block_data["previous_hash"],
                tx_root = block_data["tx_root"], 
                nbits = block_data["nbits"],
                nonce = block_data["nonce"],
-               transactions = block_data["transactions"] if "transactions" in block_data else []
+               transactions = transactions,
                )
 
   def to_dict(self):
@@ -40,7 +45,7 @@ class Block:
             "tx_root":self.tx_root,
             "nbits":self.nbits,
             "nonce":self.nonce,
-            "transactions":self.transactions
+            "transactions":[tx.to_dict() if hasattr(tx, "to_dict") else tx for tx in self.transactions],
             }
   
   def compute_hash(self):

@@ -1,0 +1,92 @@
+node1  | 2024-12-22 00:58:54,722 - INFO - Starting blockchain node...
+node0  | 2024-12-22 00:58:54,744 - INFO - Starting blockchain node...
+node1  | 2024-12-22 00:58:54,731 - INFO - Listening for incoming connections at node1:5000
+node1  | 2024-12-22 00:58:54,739 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (1/3)
+node1  | 2024-12-22 00:58:54,758 - INFO - Incoming connection from ('172.18.0.4', 51452)
+node1  | 2024-12-22 00:58:56,740 - INFO - Incoming connection from ('172.18.0.3', 47502)
+node1  | 2024-12-22 00:58:56,741 - INFO - Connected to peer node0:5000
+node1  | 2024-12-22 00:58:56,742 - INFO - Connected to peer node2:5000
+node1  | 2024-12-22 00:59:04,802 - INFO - New block mined: Index = 1, Hash = 000004a4348af71b77ed6db613e6f4fb5c4da6be2cf462d52d873d552c290632
+node1  | 2024-12-22 00:59:04,803 - INFO - Message sent to node0:5000: Content Type: BK
+node1  | Content: {'index': 1, 'timestamp': '1734829136.7425976', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 868498, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:04,803 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | 2024-12-22 00:58:54,751 - INFO - Listening for incoming connections at node0:5000
+node0  | 2024-12-22 00:58:54,758 - INFO - Connected to peer node1:5000
+node0  | 2024-12-22 00:58:54,760 - INFO - Connected to peer node2:5000
+node1  | Content: {'index': 1, 'timestamp': '1734829136.7425976', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 868498, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:04,803 - INFO - Received a block from ('172.18.0.3', 47502)
+node1  | 2024-12-22 00:59:06,518 - INFO - New block mined: Index = 2, Hash = 000001b4efb49c7b06009800efc2dc59853f55668077650550b01dc269ab295f
+node1  | 2024-12-22 00:59:06,519 - INFO - Message sent to node0:5000: Content Type: BK
+node1  | Content: {'index': 2, 'timestamp': '1734829145.8042119', 'previous_hash': '000004a4348af71b77ed6db613e6f4fb5c4da6be2cf462d52d873d552c290632', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 90321, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:10,107 - INFO - New block mined: Index = 1, Hash = 00000d32dd8f860d692e4fd4bff5e2b8c66f42988c83939b52f8fb69253db90c
+node0  | 2024-12-22 00:59:10,107 - INFO - Message sent to node1:5000: Content Type: BK
+node1  | 2024-12-22 00:59:06,519 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | Content: {'index': 1, 'timestamp': '1734829134.7604587', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1964736, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | Content: {'index': 2, 'timestamp': '1734829145.8042119', 'previous_hash': '000004a4348af71b77ed6db613e6f4fb5c4da6be2cf462d52d873d552c290632', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 90321, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:10,146 - INFO - New block mined: Index = 3, Hash = 0000023235dc5aef48f923b4a2e561e3f8d7b1ee56c486e690ecf2240a69ca9a
+node0  | 2024-12-22 00:59:10,107 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | Content: {'index': 1, 'timestamp': '1734829134.7604587', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1964736, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:10,108 - INFO - Incoming connection from ('172.18.0.3', 60574)
+node0  | 2024-12-22 00:59:10,109 - INFO - Incoming connection from ('172.18.0.2', 37476)
+node1  | 2024-12-22 00:59:10,146 - INFO - Message sent to node0:5000: Content Type: BK
+node0  | 2024-12-22 00:59:10,109 - INFO - Received a block from ('172.18.0.3', 60574)
+node0  | 2024-12-22 00:59:10,109 - ERROR - Failed to process message from ('172.18.0.2', 37476): Extra data: line 1 column 431 (char 430)
+node0  | 2024-12-22 00:59:10,147 - INFO - Received a block from ('172.18.0.2', 37476)
+node0  | 2024-12-22 00:59:11,230 - INFO - New block mined: Index = 2, Hash = 00000b14e4d972d1591d87c34a2f4c053a782e490b003ff59a976d3f0e226695
+node0  | 2024-12-22 00:59:11,230 - INFO - Message sent to node1:5000: Content Type: BK
+node1  | Content: {'index': 3, 'timestamp': '1734829147.5201607', 'previous_hash': '000001b4efb49c7b06009800efc2dc59853f55668077650550b01dc269ab295f', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 345759, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:10,147 - INFO - Message sent to node2:5000: Content Type: BK
+node1  | Content: {'index': 3, 'timestamp': '1734829147.5201607', 'previous_hash': '000001b4efb49c7b06009800efc2dc59853f55668077650550b01dc269ab295f', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 345759, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:10,147 - INFO - Received a block from ('172.18.0.4', 51452)
+node1  | 2024-12-22 00:59:27,631 - INFO - New block mined: Index = 4, Hash = 00000cb196ff4a553caaacf369d2ffdc2c07bc9399793898f2f95bbb3c8675c7
+node1  | 2024-12-22 00:59:27,632 - INFO - Message sent to node0:5000: Content Type: BK
+node1  | Content: {'index': 4, 'timestamp': '1734829151.1479037', 'previous_hash': '0000023235dc5aef48f923b4a2e561e3f8d7b1ee56c486e690ecf2240a69ca9a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2001131, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | Content: {'index': 2, 'timestamp': '1734829151.109108', 'previous_hash': '00000d32dd8f860d692e4fd4bff5e2b8c66f42988c83939b52f8fb69253db90c', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 14658, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:27,632 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | 2024-12-22 00:59:11,230 - INFO - Message sent to node2:5000: Content Type: BK
+node1  | Content: {'index': 4, 'timestamp': '1734829151.1479037', 'previous_hash': '0000023235dc5aef48f923b4a2e561e3f8d7b1ee56c486e690ecf2240a69ca9a', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2001131, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:27,633 - ERROR - Failed to process message from ('172.18.0.4', 51452): Extra data: line 1 column 429 (char 428)
+node0  | Content: {'index': 2, 'timestamp': '1734829151.109108', 'previous_hash': '00000d32dd8f860d692e4fd4bff5e2b8c66f42988c83939b52f8fb69253db90c', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 14658, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node1  | 2024-12-22 00:59:27,633 - INFO - Received a block from ('172.18.0.3', 47502)
+node1  | 2024-12-22 00:59:28,526 - INFO - Received a block from ('172.18.0.4', 51452)
+node0  | 2024-12-22 00:59:17,001 - INFO - New block mined: Index = 3, Hash = 00000697e35b2e2ef086da76bcc605d028a112aa187f2d92fa1cf52ad7092b04
+node0  | 2024-12-22 00:59:17,001 - INFO - Message sent to node1:5000: Content Type: BK
+node0  | Content: {'index': 3, 'timestamp': '1734829152.2311192', 'previous_hash': '00000b14e4d972d1591d87c34a2f4c053a782e490b003ff59a976d3f0e226695', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 602476, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:17,002 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | Content: {'index': 3, 'timestamp': '1734829152.2311192', 'previous_hash': '00000b14e4d972d1591d87c34a2f4c053a782e490b003ff59a976d3f0e226695', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 602476, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:28,525 - INFO - New block mined: Index = 4, Hash = 000002c8052a114e9cdcdaffab5b7cf106edf5469eddaff650b4218b614fc369
+node0  | 2024-12-22 00:59:28,526 - INFO - Message sent to node1:5000: Content Type: BK
+node0  | Content: {'index': 4, 'timestamp': '1734829158.0026362', 'previous_hash': '00000697e35b2e2ef086da76bcc605d028a112aa187f2d92fa1cf52ad7092b04', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1173809, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:28,526 - INFO - Message sent to node2:5000: Content Type: BK
+node0  | Content: {'index': 4, 'timestamp': '1734829158.0026362', 'previous_hash': '00000697e35b2e2ef086da76bcc605d028a112aa187f2d92fa1cf52ad7092b04', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 1173809, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node0  | 2024-12-22 00:59:28,526 - INFO - Received a block from ('172.18.0.3', 60574)
+node0  | 2024-12-22 00:59:28,526 - INFO - Received a block from ('172.18.0.2', 37476)
+node0  | 2024-12-22 00:59:29,062 - INFO - Received a block from ('172.18.0.3', 60574)
+node2  | 2024-12-22 00:58:54,720 - INFO - Starting blockchain node...
+node2  | 2024-12-22 00:58:54,727 - INFO - Listening for incoming connections at node2:5000
+node2  | 2024-12-22 00:58:54,734 - WARNING - Failed to connect to node0:5000, retrying in 2 seconds (1/3)
+node2  | 2024-12-22 00:58:54,760 - INFO - Incoming connection from ('172.18.0.4', 46344)
+node2  | 2024-12-22 00:58:56,738 - INFO - Connected to peer node0:5000
+node2  | 2024-12-22 00:58:56,739 - INFO - Connected to peer node1:5000
+node2  | 2024-12-22 00:58:59,093 - INFO - New block mined: Index = 1, Hash = 0000030539277c0d537fdb9ccc3675b29ed425ed1eaa730dc911e273b9c4bb9e
+node2  | 2024-12-22 00:58:59,094 - INFO - Message sent to node0:5000: Content Type: BK
+node2  | Content: {'index': 1, 'timestamp': '1734829136.7399437', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 317856, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:58:59,094 - INFO - Message sent to node1:5000: Content Type: BK
+node2  | Content: {'index': 1, 'timestamp': '1734829136.7399437', 'previous_hash': '0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 317856, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:58:59,095 - INFO - Incoming connection from ('172.18.0.2', 48624)
+node2  | 2024-12-22 00:59:22,740 - INFO - New block mined: Index = 2, Hash = 000002973d154253a4237e7cf91665f59d61188fc12778f45bdb95968e24b316
+node2  | 2024-12-22 00:59:22,741 - INFO - Message sent to node0:5000: Content Type: BK
+node2  | Content: {'index': 2, 'timestamp': '1734829140.0956874', 'previous_hash': '0000030539277c0d537fdb9ccc3675b29ed425ed1eaa730dc911e273b9c4bb9e', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2846513, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:59:22,741 - INFO - Message sent to node1:5000: Content Type: BK
+node2  | Content: {'index': 2, 'timestamp': '1734829140.0956874', 'previous_hash': '0000030539277c0d537fdb9ccc3675b29ed425ed1eaa730dc911e273b9c4bb9e', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 2846513, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:59:22,741 - ERROR - Failed to process message from ('172.18.0.2', 48624): Extra data: line 1 column 431 (char 430)
+node2  | 2024-12-22 00:59:22,741 - ERROR - Failed to process message from ('172.18.0.2', 48624): Expecting value: line 1 column 1 (char 0)
+node2  | 2024-12-22 00:59:22,742 - ERROR - Failed to process message from ('172.18.0.4', 46344): Extra data: line 1 column 432 (char 431)
+node2  | 2024-12-22 00:59:22,742 - ERROR - Failed to process message from ('172.18.0.4', 46344): Expecting value: line 1 column 1 (char 0)
+node2  | 2024-12-22 00:59:29,061 - INFO - New block mined: Index = 3, Hash = 0000002469b2ee26685bdfcb0d7e97ae2512dd908b298e5113e185e9093d1a88
+node2  | 2024-12-22 00:59:29,062 - INFO - Message sent to node0:5000: Content Type: BK
+node2  | Content: {'index': 3, 'timestamp': '1734829163.7429147', 'previous_hash': '000002973d154253a4237e7cf91665f59d61188fc12778f45bdb95968e24b316', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 524961, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:59:29,062 - INFO - Message sent to node1:5000: Content Type: BK
+node2  | Content: {'index': 3, 'timestamp': '1734829163.7429147', 'previous_hash': '000002973d154253a4237e7cf91665f59d61188fc12778f45bdb95968e24b316', 'tx_root': '8be6770ee7a7821ffba25b676d6d4ad6328baf052420342180cf99d002eb70fb', 'nbits': '0x1e0ffff0', 'nonce': 524961, 'transactions': [{'sender': 'Network', 'recipient': 'Miner', 'amount': 100, 'timestamp': '', 'metadata': {'sub_nonce': 0}, 'signature': None}]}
+node2  | 2024-12-22 00:59:29,063 - INFO - Received a block from ('172.18.0.2', 48624)
+node2  | 2024-12-22 00:59:29,063 - INFO - Received a block from ('172.18.0.4', 46344)

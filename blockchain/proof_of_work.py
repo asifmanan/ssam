@@ -6,20 +6,44 @@ class ProofOfWork:
           https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
   """
   MAX_TARGET = MAX_TARGET = int("00000FFFF0000000000000000000000000000000000000000000000000000000", 16)
-  MAX_NONCE = 2**32 - 1 # Limit the nonce to 32 bits (max 4,294,967,295)
+  MAX_NONCE_VALUE = 2**32 - 1 # Limit the nonce to 32 bits (max 4,294,967,295)
+  def __init__(self, nbits:str=None, target:str=None, max_nonce:int=None):
+    """
+    Initializes the Proof of Work.
+    """
+    if target:
+      current_target = int(target,16)
+    elif nbits:
+      current_target = self.nbits_to_target(nbits)
+
+    self.current_target = current_target if current_target else self.MAX_TARGET
+    self.max_nonce = max_nonce if max_nonce else self.MAX_NONCE_VALUE
   
+
   def find_valid_nonce(self, block):
     """
     Searches for a valid nonce that satisfies the proof of work.
     """
     target = self.nbits_to_target(block.nbits)
     while True:
-      if block.nonce >= self.MAX_NONCE:
+      if block.nonce >= self.max_nonce:
         return None
       computed_hash = block.compute_hash()
       if int(computed_hash, 16) < target:
         return block.nonce
       block.nonce += 1
+
+  def get_current_target(self):
+    """
+    Returns the current target value.
+    """
+    return self.current_target
+  
+  def get_current_target_nbits(self):
+    """
+    Returns the compact 'nbits' format for the current target.
+    """
+    return self.target_to_nbits(self.current_target)
 
   @staticmethod
   def target_to_nbits(target):

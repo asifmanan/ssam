@@ -1,74 +1,75 @@
-import logging
+import os
+import threading
+from network.peer import Peer
+
+
 class PeerManager:
-  def __init__(self):
-    """
-    Initialize the peer manager.
-    Stores peer information using a dictionary.
-    """
-    self.peers = {}
+    def __init__(self, peers_list: list):
+        """
+        Initialize the PeerManager with a list of peers.
+        """
+        self.lock = threading.Lock()  # For thread-safe operations
+        
+        # Uncomment this line if not using with docker
+        # hostname = socket.gethostname()
+        
+        # If using with docker, Get the node name from the environment, default to "node"
+        node_name = os.environ.get("NODE_NAME", "node")
+        self.this_peer = Peer(node_name, "5000")  # Determine own address
+        self.peers = [Peer(*peer.split(":")) for peer in peers_list if peer != str(self.this_peer)]
 
-  def add_peer(self, peer_id: str, address: str = None, connection=None, public_key=None):
-    """
-    Add a new peer to the peer manager.
+    def add_peer(self, peer: Peer) -> bool:
+        """
+        Add a peer to the peer list if it doesn't already exist.
 
-    :param peer_id: The unique identifier of the peer.
-    :param connection: RTCPeerConnection instance for WebRTC.
-    :param public_key: The public key of the peer for cryptographic validation.
-    """
-    if peer_id not in self.peers:
-      self.peers[peer_id] = {"address": address} 
-    if connection:
-      self.peers[peer_id]["connection"] = connection
-    if public_key:
-      self.peers[peer_id]["public_key"] = public_key
-    logging.info(f"Peer {peer_id} added with address {address}.")
+        Returns:
+            bool: True if the peer was added, False otherwise.
+        """
+        with self.lock:
+            if peer not in self.peers and peer != self.this_peer:
+                self.peers.append(peer)
+                return True
+            return False
 
-  def update_peer(self, peer_id: str, connection=None, public_key=None):
-    """
-    Update the information for an existing peer.
+    def remove_peer(self, peer: Peer) -> bool:
+        """
+        Remove a peer from the peer list.
 
-    :param peer_id: The unique identifier of the peer.
-    :param connection: Updated RTCPeerConnection instance for WebRTC.
-    :param public_key: TUpdated public key of the peer.
-    """
-    if peer_id in self.peers:
-      print(f"Warning: Updating existing peer {peer_id}")
-      if connection:
-        self.peers[peer_id]["connection"] = connection
-      if public_key:
-        self.peers[peer_id]["public_key"] = public_key
+        Returns:
+            bool: True if the peer was removed, False otherwise.
+        """
+        with self.lock:
+            if peer in self.peers:
+                self.peers.remove(peer)
+                return True
+            return False
 
-  def remove_peer(self, peer_id: str):
-    """
-    Remove a peer from the peer manager.
+    def get_peers(self) -> list:
+        """
+        Get the list of peers.
 
-    :param peer_id: The unique identifier of the peer to remove.
-    """
-    if peer_id in self.peers:
-      del self.peers[peer_id]
+        Returns:
+            list: List of Peer objects.
+        """
+        with self.lock:
+            return list(self.peers)
 
-  def get_peer_connection(self, peer_id: str):
-    """
-    Get the WebRTC connection for a specific peer.
+    def find_peer(self, host: str, port: str) -> Peer:
+        """
+        Find a peer by host and port.
 
-    :param peer_id: The unique identifier of the peer.
-    :return: The RTCPeerConnection instance for the peer (or None if not found).
-    """
-    return self.peers.get(peer_id, {}).get("connection", None)
+        Returns:
+            Peer: The matching Peer object, or None if not found.
+        """
+        with self.lock:
+            for peer in self.peers:
+                if peer.host == host and peer.port == port:
+                    return peer
+            return None
 
-  def get_peer_public_key(self, peer_id: str):
-    """
-    Get the public key of a specific peer.
-
-    :param peer_id: The unique identifier of the peer.
-    :return: The public key of the peer (or None if not found).
-    """
-    return self.peers.get(peer_id, {}).get("public_key", None)
-
-  def list_peers(self):
-    """
-    List all peer IDs managed by the PeerManager.
-
-    :return: A list of all peers IDs.
-    """
-    return list(self.peers.keys())
+    def __str__(self):
+        """
+        Get a string representation of the peer list.
+        """
+        with self.lock:
+            return ", ".join([str(peer) for peer in self.peers])

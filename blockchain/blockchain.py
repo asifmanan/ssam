@@ -32,7 +32,7 @@ class Blockchain:
     Creates a new block with the given transaction root.
     """
     if nbits is None:
-      nbits = self.pow.target_to_nbits(self.pow.MAX_TARGET)
+      nbits = self.pow.get_current_target_nbits()
     
     previous_block = self.get_last_block()
     previous_hash = previous_block.compute_hash()
