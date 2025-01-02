@@ -4,25 +4,29 @@ from typing import List
 from transaction.transaction import Transaction
 
 class TransactionManager:
-    def __init__(self, tx_list=None):
-        if tx_list:
-            self.tx_pool = tx_list
-        else:
-            self.tx_pool = self.load_transactions()
+    def __init__(self, num_miners: int, miner_id, transactions: List[Transaction]):
+        """
+        Initializes the TransactionManager with miners and a pool of transactions.
+        :param num_miners: Number of miners.
+        :param transactions: List of transactions.
+        """
+        self.num_miners = num_miners
+        self.transaction_pool = transactions
+        self.miner_id = miner_id
 
-    def load_transactions(self, tx_pool_file_path=None):
+    def get_transactions_for_miner(self, miner_id: int=None) -> List[Transaction]:
         """
-        Load transactions from the pool file.
-        :return: List of Transaction objects.
+        Returns the subset of transactions assigned to a specific miner.
+        :param miner_id: ID of the miner.
+        :return: List of transactions for the miner.
         """
-        if not tx_pool_file_path:
-            tx_pool_file_path = "transaction/transaction_pool.json"
-        try:
-            with open(tx_pool_file_path, 'r') as f:
-                data = json.load(f)
-                return [Transaction(**tx) for tx in data]
-        except FileNotFoundError:
-            return []
+        # Distribute transactions deterministically among miners
+        if miner_id is None:
+            miner_id = self.miner_id
+        miner_transactions = [
+            tx for i, tx in enumerate(self.transaction_pool) if i % self.num_miners == miner_id
+        ]
+        return miner_transactions
     
     def save_transactions(self, transactions: List[Transaction]):
         """
@@ -56,12 +60,17 @@ class TransactionManager:
         return self.tx_pool
     
     
-    def calculate_merkle_root(self):
+    def calculate_merkle_root(self, miner_id: int=None) -> str:
         """
-        Calculate the Merkle root of the transactions.
-        :return: Hexadecimal Merkle root string.
+         Calculates the Merkle root for the subset of transactions processed by a specific miner.
+        :param miner_id: ID of the miner.
+        :return: Merkle root as a hex string.
         """
-        if not self.tx_pool:
+        if miner_id is None:
+            transactions = self.transaction_pool
+        else:
+            transactions = self.get_transactions_for_miner(miner_id)
+        if not transactions:
             return None
 
         # Helper function to hash two nodes
@@ -69,7 +78,7 @@ class TransactionManager:
             return hashlib.sha256((hash1 + hash2).encode('utf-8')).hexdigest()
 
         # Get the hashes of all transactions
-        tx_hashes = [tx.calculate_hash() for tx in self.tx_pool]
+        tx_hashes = [tx.calculate_hash() for tx in transactions]
 
         # Build the Merkle tree
         while len(tx_hashes) > 1:
@@ -78,7 +87,15 @@ class TransactionManager:
                 tx_hashes.append(tx_hashes[-1])
 
             # Pairwise hash to get the next level
-            tx_hashes = [hash_pair(tx_hashes[i], tx_hashes[i + 1]) for i in range(0, len(tx_hashes), 2)]
+            tx_hashes = [hash_pair(tx_hashes[i], tx_hashes[i + 1]) 
+                         for i in range(0, len(tx_hashes), 2)
+                         ]
 
         # The final hash is the Merkle root
         return tx_hashes[0]
+    
+    def clear_transaction_pool(self):
+        """
+        Clear the transaction pool.
+        """
+        self.tx_pool = []
