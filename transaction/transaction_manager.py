@@ -14,6 +14,9 @@ class TransactionManager:
         self.num_miners = num_miners
         self.transaction_pool = transactions
         
+    def get_num_miners(self):
+        return self.num_miners
+    
     def get_transactions(self):
         return self.transaction_pool
     
