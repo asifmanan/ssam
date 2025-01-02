@@ -1,50 +1,47 @@
 import time
-from blockchain.block import Block
-from blockchain.proof_of_work import ProofOfWork
+from blockchain.main_block import MainBlock
 from transaction.transaction_manager import TransactionManager
 from transaction.utils import load_genesis_transactions
 # Blockchain Class 
 class Blockchain:
-  def __init__(self, proof_of_work):
+  def __init__(self, transaction_manager: TransactionManager):
     self.chain = []
     self.block_lookup_table = {}
-    self.pow = proof_of_work
     self.create_genesis_block()
-    self.transaction_manager = TransactionManager()
+    self.transaction_manager = transaction_manager
 
   def create_genesis_block(self):
     """
     Creates the genesis block of the blockchain.
     """
-    genesis_block = Block(
+    genesis_block = MainBlock(
       index = 0,
       timestamp = str(1734129936.8752465),
       previous_hash = "0",
       tx_root = "1011a88e4e9231ad320625b235a22997ba68d99db47a808dcc059c07395082eb",
+      staker_signature = "0x0",
       nbits = "0x1e0ffff0",
-      nonce = 484448,
+      nonce = 311285,
       transactions = load_genesis_transactions()
     )
     self.add_block(genesis_block)
 
-  def create_block(self, nonce=0, nbits=None):
+  def create_block(self, staker_signature, tx_root, nonce: int=0, nbits=None, transactions: list=[]):
     """
     Creates a new block with the given transaction root.
     """
-    if nbits is None:
-      nbits = self.pow.get_current_target_nbits()
-    
     previous_block = self.get_last_block()
     previous_hash = previous_block.compute_hash()
     
-    new_block = Block(
+    new_block = MainBlock(
       index=len(self.chain),
       timestamp = str(time.time()),
       previous_hash = previous_hash,
-      tx_root = self.transaction_manager.calculate_merkle_root(),
+      tx_root = tx_root,
+      staker_signature = staker_signature,
       nbits = nbits,
       nonce = nonce,
-      transactions = self.transaction_manager.get_transactions()
+      transactions = transactions
     )
     return new_block
   
@@ -82,17 +79,12 @@ class Blockchain:
     """
     Validates the block by checking its proof of work and previous.
     """
-    # validate proof of work
-    target = self.pow.nbits_to_target(block.nbits)
-    if not self.pow.is_valid_proof(block, target):
-      print("invalid proof")
-      return False
-    
     # Genesis block validation
     if block.index == 0:
       return (block.previous_hash == "0" and 
-              block.compute_hash() == "0000091758c7309b284edc4594e55605202e6f8ab87c57d0d8a55b1ef1e47103")
+              block.compute_hash() == "ed5fa58270a35492486115de286d6f8f7181654654091e49d311b15bbf2e0eec")
     
+    # Other block validation
     previous_block = self.get_previous_block(block)
     if previous_block is None:
       return False

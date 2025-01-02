@@ -1,4 +1,5 @@
-from shard_block import ShardBlock
+import uuid
+from blockchain.shard_block import ShardBlock
 from transaction.transaction_manager import TransactionManager
 from blockchain.blockchain import Blockchain
 
@@ -10,6 +11,7 @@ class ShardStaker:
         self.shard_block_list = []
         self.blockchain = blockchain
         self.transaction_manager = transaction_manager
+        self.staker_signature = uuid.uuid4().hex
 
     def validate_shard_block(self, shard_block: ShardBlock):
         """
@@ -38,7 +40,11 @@ class ShardStaker:
                 all_transactions.extend(shard_block.transactions)
 
             tx_root = self.transaction_manager.calculate_merkle_root(all_transactions)
-            return {"tx_root": tx_root, "shard_miners_count":shard_miners_count, "transactions": all_transactions}
+            return {"tx_root": tx_root, 
+                    "shard_miners_count":shard_miners_count, 
+                    "transactions": all_transactions,
+                    "staker_signature": self.staker_signature,
+                    }
         
         else:
             return None

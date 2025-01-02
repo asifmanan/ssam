@@ -13,7 +13,7 @@ class ShardMiner:
         :param transactions: List of transactions.
         """
         self.miner_id = miner_id
-        self.transaction_manager = TransactionManager(num_miners, miner_id=miner_id, transactions=transactions)
+        self.transaction_manager = TransactionManager(num_miners=num_miners, transactions=transactions)
         self.alocd_transactions = self.transaction_manager.get_transactions_for_miner(self.miner_id)
 
     def process_transactions(self):
@@ -24,7 +24,7 @@ class ShardMiner:
         # Transaction varification logic will be added here
 
         # Calculate the Merkle root
-        merkle_root = self.transaction_manager.calculate_merkle_root_for_miner(self.miner_id)
+        merkle_root = self.transaction_manager.get_miner_merkle_root(self.miner_id)
 
         return merkle_root
 

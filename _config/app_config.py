@@ -44,3 +44,9 @@ class AppConfig:
         Get the mining configuration from the loaded configuration.
         """
         return self.config["mining_config"]
+    
+    def get_shard_config(self) -> dict:
+        """
+        Get the shard configuration from the loaded configuration.
+        """
+        return self.config["shard_config"]

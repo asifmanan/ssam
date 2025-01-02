@@ -33,6 +33,19 @@ class TransactionManager:
         miner_transactions = [
             tx for i, tx in enumerate(self.get_transactions()) if i % self.num_miners == miner_id
         ]
+
+        # miner_transactions = []
+        # transactions = self.get_transactions() 
+        # print("miner id: " + str(miner_id)) 
+        # print(f"num miners: {self.num_miners}")
+        # # Retrieve all transactions
+        # for i, tx in enumerate(transactions):
+        #     print("i:" + str(i))
+        #     rem = i % self.num_miners
+        #     print(f"Remainder: {rem}")
+        #     if rem == miner_id:
+        #         print("appending")
+        #         miner_transactions.append(tx)
         return miner_transactions
 
     
@@ -45,7 +58,8 @@ class TransactionManager:
         miner_transactions = self.get_transactions_for_miner(miner_id)
         return self.calculate_merkle_root(miner_transactions)
 
-    def calculate_merkle_root(transactions: List[Transaction]) -> str:
+    @classmethod
+    def calculate_merkle_root(cls, transactions: List[Transaction]) -> str:
         """
         Calculates the Merkle root for the transactions in the list provided.
         :param transactions: List of Transaction objects.
@@ -102,6 +116,21 @@ class TransactionManager:
             {tx.calculate_hash() for tx in transactions_to_remove}
         ]
         self.save_transactions(current_transactions)    
+    
+    @classmethod
+    def load_transactions(cls, tx_pool_file_path=None):
+        """
+        Load transactions from the pool file.
+        :return: List of Transaction objects.
+        """
+        if not tx_pool_file_path:
+            tx_pool_file_path = "transaction/transaction_pool.json"
+        try:
+            with open(tx_pool_file_path, 'r') as f:
+                data = json.load(f)
+                return [Transaction(**tx) for tx in data]
+        except FileNotFoundError:
+            return []
     
     def clear_transaction_pool(self):
         """

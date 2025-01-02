@@ -49,7 +49,6 @@ class ShardBlock:
                 "miner_id":self.miner_id,
                 "timestamp":self.timestamp,
                 "merkle_root":self.merkle_root,
-                "transactions":self.transactions,
             }
         
         encoded_block_string = json.dumps(block_content, sort_keys=True).encode()
