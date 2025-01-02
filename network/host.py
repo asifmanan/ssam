@@ -36,8 +36,8 @@ class Host:
                     break
                 except Exception as e:
                     retries -= 1
-                    logging.warning(f"Failed to connect to {peer}, retrying in 2 seconds ({3 - retries}/3)")
-                    await asyncio.sleep(2)
+                    logging.warning(f"Failed to connect to {peer}, retrying in 5 seconds ({3 - retries}/3)")
+                    await asyncio.sleep(5)
             else:
                 logging.error(f"Failed to connect to {peer} after 3 retries.")
 

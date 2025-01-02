@@ -17,6 +17,7 @@ class AppConfig:
         :param file_path: Path to the configuration file.
         :return: Parsed configuration dictionary.
         """
+        config=None
         try:
             with open(file_path, "r") as file:
                 config = json.load(file)

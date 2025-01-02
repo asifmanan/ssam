@@ -1,13 +1,13 @@
 {
   "network_config": {
-      "peers": ["stacker0:5000", "miner0:5000", "miner1:5000", "miner2:5000"]
+      "peers": ["staker0:5000", "miner0:5000", "miner1:5000"]
   },
   
   "mining_config": {
       "nbits":"0x1f00ffff"
   },
   "shard_config": {
-      "num_miners": 3,
-      "stackers": "stacker0:5000"
+      "num_miners": 2,
+      "staker_address": "staker0:5000"
   }
 }

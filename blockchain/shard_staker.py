@@ -26,7 +26,10 @@ class ShardStaker:
         # Add the shard block to the list of received blocks
         self.shard_block_list.append(shard_block)
         print(f"Shard block from Miner {shard_block.miner_id} verified and accepted.")
-
+    
+    def get_stacker_signature(self):
+        return self.staker_signature
+    
     def get_shard_data(self):
         """
         Combines all transactions from received shard blocks into a main chain block.
