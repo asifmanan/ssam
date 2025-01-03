@@ -14,7 +14,9 @@ class PeerManager:
         # hostname = socket.gethostname()
         
         # If using with docker, Get the node name from the environment, default to "node"
+        
         node_name = os.environ.get("NODE_NAME", "node")
+        
         self.this_peer = Peer(node_name, "5000")  # Determine own address
         self.peers = [Peer(*peer.split(":")) for peer in peers_list if peer != str(self.this_peer)]
 

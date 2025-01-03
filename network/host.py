@@ -4,6 +4,7 @@ import json
 from network.peer_manager import PeerManager
 from network.message import Message
 from network.peer import Peer
+from network.message_handler import MessageHandler
 
 
 class Host:
@@ -13,6 +14,7 @@ class Host:
         """
         peers_list = network_config.get("peers", [])
         self.peer_manager = PeerManager(peers_list)
+        self.message_handler = MessageHandler()
         self.peer_connections = {}
 
     async def start(self):
@@ -36,8 +38,8 @@ class Host:
                     break
                 except Exception as e:
                     retries -= 1
-                    logging.warning(f"Failed to connect to {peer}, retrying in 2 seconds ({3 - retries}/3)")
-                    await asyncio.sleep(2)
+                    logging.warning(f"Failed to connect to {peer}, retrying in 5 seconds ({3 - retries}/3)")
+                    await asyncio.sleep(5)
             else:
                 logging.error(f"Failed to connect to {peer} after 3 retries.")
 
@@ -70,32 +72,11 @@ class Host:
                 logging.error(f"Error processing message from {peer_address}: {e}")
                 break
 
-    async def handle_message(self, peer_address: str, message: str):
+    async def handle_message(self, sender: str, message: str):
         """
         Handle an incoming message from a peer.
-
-        Args:
-            peer_address (str): The address of the peer sending the message.
-            message (str): The content of the message received.
         """
-        try:
-            # Parse the message into a Message object
-            parsed_message = Message.from_json(message)
-            # logging.info(f"Received message from {peer_address}: {parsed_message}")
-
-            if parsed_message.content_type == "BK":  # Block message
-                logging.info(f"Received a new block from {peer_address}, (Block Index: {parsed_message.content["index"]})")
-                # Handle the block (validate and add to blockchain)
-            elif parsed_message.content_type == "TX":  # Transaction message
-                logging.info(f"Received a transaction from {peer_address}")
-                # Handle the transaction (add to transaction pool)
-            else:
-                logging.warning(f"Unknown message type from {peer_address}: {parsed_message.content_type}")
-        except json.JSONDecodeError as e:
-            logging.error(f"Invalid JSON message from {peer_address}: {e}")
-        
-        except Exception as e:
-            logging.error(f"Failed to process message from {peer_address}: {e}")
+        await self.message_handler.handle_message(sender=sender, message=message)
 
     async def send_message(self, peer: Peer, message: Message):
         """

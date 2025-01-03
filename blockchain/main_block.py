@@ -3,8 +3,8 @@ import hashlib
 from transaction.transaction_manager import TransactionManager
 from transaction.transaction import Transaction
 
-class Block:
-  def __init__(self, index, timestamp, tx_root, previous_hash, nbits, nonce, transactions=[]):
+class MainBlock:
+  def __init__(self, index, timestamp, tx_root, previous_hash, staker_signature, nbits, nonce=0, transactions=[]):
     """
     Initialize a new block.
     """
@@ -12,6 +12,7 @@ class Block:
     self.timestamp = timestamp
     self.previous_hash = previous_hash
     self.tx_root = tx_root
+    self.staker_signature = staker_signature
     self.nbits = nbits
     self.nonce = nonce
     self.transactions = transactions
@@ -29,6 +30,7 @@ class Block:
                timestamp = block_data["timestamp"], 
                previous_hash = block_data["previous_hash"],
                tx_root = block_data["tx_root"], 
+               staker_signature = block_data["staker_signature"],
                nbits = block_data["nbits"],
                nonce = block_data["nonce"],
                transactions = transactions,
@@ -43,6 +45,7 @@ class Block:
             "timestamp":self.timestamp,
             "previous_hash":self.previous_hash,
             "tx_root":self.tx_root,
+            "staker_signature":self.staker_signature,
             "nbits":self.nbits,
             "nonce":self.nonce,
             "transactions":[tx.to_dict() if hasattr(tx, "to_dict") else tx for tx in self.transactions],
@@ -57,6 +60,7 @@ class Block:
       "timestamp":self.timestamp,
       "previous_hash":self.previous_hash,
       "tx_root":self.tx_root,
+      "staker_signature":self.staker_signature,
       "nbits":self.nbits,
       "nonce":self.nonce,
     }

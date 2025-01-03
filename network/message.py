@@ -1,6 +1,6 @@
 import json
 class Message:
-    def __init__(self, content_type: str, content: dict={}):
+    def __init__(self, content_type: str, content: dict={}, sender: str=None):
         """
         Initialize a new message object.
         :param content_type: The type of content in the message (BK for Block, TX for transaction).
@@ -8,12 +8,16 @@ class Message:
         """
         self.content_type = content_type
         self.content = content
+        self.sender = sender
 
     def get_content(self):
         return self.content
     
     def get_content_type(self):
         return self.content_type
+    
+    def get_sender(self):
+        return self.sender
     
     def to_dict(self) -> dict:
         """
@@ -23,6 +27,7 @@ class Message:
         dict: A dictionary representation of the message.
         """
         return {
+            "sender": self.sender,
             "content_type": self.content_type, 
             "content": self.content
             }
@@ -37,7 +42,7 @@ class Message:
         return json.dumps(self.to_dict())
     
     @classmethod
-    def from_dict(cls, data: dict):
+    def from_dict(cls, data: dict, sender: str=None):
         """
         Creates a Message object from a dictionary.
 
@@ -47,6 +52,8 @@ class Message:
         Returns:
         Message: The constructed Message object.
         """
+        if sender:
+            return cls(data["content_type"], data["content"], sender)
         return cls(data["content_type"], data["content"])
     
     @classmethod

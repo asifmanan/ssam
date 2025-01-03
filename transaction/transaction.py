@@ -20,7 +20,8 @@ class Transaction:
             "signature": self.signature,
         }
     
-    def from_dict(tx_data):
+    @classmethod
+    def from_dict(cls,tx_data: dict):
         sender = tx_data["sender"]
         recipient = tx_data["recipient"]
         amount = tx_data["amount"]

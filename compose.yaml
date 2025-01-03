@@ -12,35 +12,35 @@ networks:
     driver: bridge
   
 services:
-  node0:
+  staker0:
     build:
       context: .
-    container_name: node0
+    container_name: staker0
     environment:
-      - NODE_NAME=node0
+      - NODE_NAME=staker0
     networks:
       - blockchain_network
     ports:
       - 5000:5000
 
 
-  node1:
+  miner0:
     build:
       context: .
-    container_name: node1
+    container_name: miner0
     environment:
-      - NODE_NAME=node1
+      - NODE_NAME=miner0
     networks:
       - blockchain_network
     ports:
       - 5001:5000
 
-  node2:
+  miner1:
     build:
       context: .
-    container_name: node2
+    container_name: miner1
     environment:
-      - NODE_NAME=node2
+      - NODE_NAME=miner1
     networks:
       - blockchain_network
     ports:
