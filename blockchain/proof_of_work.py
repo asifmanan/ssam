@@ -13,11 +13,14 @@ class ProofOfWork:
     """
     if target:
       current_target = int(target,16)
+      self.current_target = current_target
     elif nbits:
       current_target = self.nbits_to_target(nbits)
+      self.current_target = current_target
 
-    self.current_target = current_target if current_target else self.MAX_TARGET
-    self.max_nonce = max_nonce if max_nonce else self.MAX_NONCE_VALUE
+    else:
+      self.current_target = self.MAX_TARGET
+      self.max_nonce = self.MAX_NONCE_VALUE
   
 
   def find_valid_nonce(self, block):

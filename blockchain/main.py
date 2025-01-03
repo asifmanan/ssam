@@ -19,7 +19,7 @@ class BlockchainNode:
         nbits = mining_config.get("nbits", "0x1e0ffff0")
 
         # Instantiate core components
-        self.proof_of_work = ProofOfWork(nbits=nbits)
+        self.proof_of_work = ProofOfWork()
         self.blockchain = Blockchain(self.proof_of_work)
         self.miner = Miner(self.blockchain)
 
