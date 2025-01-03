@@ -52,7 +52,8 @@ class BlockchainNode:
         """
         Run as a Shard Miner Node.
         """
-        await asyncio.sleep(5)  # Wait for the staker node to initialize
+        await asyncio.sleep(3)  # Wait for the staker node to initialize
+        logging.INFO("Waiting for staker node to initialize...")
         miner_id = int(node_name.replace("miner", ""))
         transactions = TransactionManager.load_transactions()  # Implement loading logic as needed
 
@@ -83,7 +84,7 @@ class BlockchainNode:
 
         # Listen for shard blocks
         while True:
-            message = await self.host.handle_message()  
+            message = await self.host.handle_message()
             if message.get_content_type() == "SHARD_BLOCK":
                 shard_block_data = message.get_content()
                 shard_block = ShardBlock.from_dict(shard_block_data)
@@ -127,6 +128,7 @@ if __name__ == "__main__":
 
     try:
         asyncio.run(node.start())
+    
     except KeyboardInterrupt:
         logging.info("Shutting down node...")
         asyncio.run(node.shutdown())
