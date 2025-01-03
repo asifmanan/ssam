@@ -4,6 +4,7 @@ class Miner:
   def __init__(self, blockchain):
     """
     Initialize the miner with a reference to the blockchain and ProofOfWork.
+    :param blockchain: The blockchain object.
     """
     self.blockchain = blockchain
     self.pow = self.blockchain.pow

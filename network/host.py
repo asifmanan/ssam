@@ -11,6 +11,7 @@ class Host:
     def __init__(self, network_config: dict):
         """
         Initialize the Host with peer management.
+        :param network_config: The network configuration.
         """
         peers_list = network_config.get("peers", [])
         self.peer_manager = PeerManager(peers_list)
@@ -47,7 +48,6 @@ class Host:
         """
         Listen for incoming connections on the local address.
         """
-        # server = await asyncio.start_server(self.handle_incoming_connection, self.peer_manager.this_peer.host, int(self.peer_manager.this_peer.port))
         server = await asyncio.start_server(self.handle_incoming_connection, "0.0.0.0", int(self.peer_manager.this_peer.port))
         logging.info(f"Listening for incoming connections at {self.peer_manager.this_peer}")
         async with server:
@@ -56,6 +56,8 @@ class Host:
     async def handle_incoming_connection(self, reader, writer):
         """
         Handle an incoming connection from a peer.
+        :param reader: The StreamReader object.
+        :param writer: The StreamWriter object.
         """
         peer_address = writer.get_extra_info("peername")
         logging.info(f"Incoming connection from {peer_address}")
@@ -75,20 +77,21 @@ class Host:
     async def handle_message(self, sender: str, message: str):
         """
         Handle an incoming message from a peer.
+        :param sender: The address of the sender.
+        :param message: The message content.
         """
         await self.message_handler.handle_message(sender=sender, message=message)
 
     async def send_message(self, peer: Peer, message: Message):
         """
         Send a message to a peer.
+        :param peer: The peer to send the message to.
+        :param message: The message to send.
         """
         try:
             if str(peer) not in self.peer_connections:
                 raise Exception(f"No active connection to {peer}")
             
-            # connection = self.peer_connections.get(str(peer))
-            # if not connection:
-            #     raise Exception(f"No active connection to {peer}")
             if not message or not isinstance(message, Message):
                 raise ValueError("Message is invalid or None")
             
@@ -110,6 +113,7 @@ class Host:
     async def broadcast_message(self, message: Message):
         """
         Broadcast a message to all connected peers.
+        :param message: The message to broadcast.
         """
         for peer in self.peer_manager.get_peers():
             asyncio.create_task(self.send_message(peer, message))

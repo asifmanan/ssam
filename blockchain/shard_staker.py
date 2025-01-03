@@ -7,6 +7,8 @@ class ShardStaker:
     def __init__(self, transaction_manager: TransactionManager, blockchain: Blockchain):
         """
         Initializes the Staker Node.
+        :param transaction_manager: The Transaction Manager object.
+        :param blockchain: The Blockchain object.
         """
         self.shard_block_list = []
         self.blockchain = blockchain
@@ -28,8 +30,23 @@ class ShardStaker:
         print(f"Shard block from Miner {shard_block.miner_id} verified and accepted.")
         return True
     
-    def get_stacker_signature(self):
-        return self.staker_signature
+    def propose_block(self):
+        """
+        Propose a new block to the blockchain.
+        """
+        incomplete_shard_data = len(self.shard_block_list) < self.transaction_manager.get_num_miners()
+        if not self.shard_block_list or incomplete_shard_data:
+            return None
+        
+        shard_data = self.get_shard_data()
+        if shard_data:
+            new_block = self.blockchain.create_block(
+                staker_signature = self.get_stacker_signature(),
+                tx_root = shard_data["tx_root"], 
+                transactions = shard_data["transactions"])
+            return self.blockchain.add_block(new_block), new_block
+        else:
+            return None
     
     def get_shard_data(self):
         """
@@ -52,4 +69,11 @@ class ShardStaker:
         
         else:
             return None
+        
+    def get_stacker_signature(self):
+        """
+        Get the staker signature.
+        :return: The staker signature.
+        """
+        return self.staker_signature
         

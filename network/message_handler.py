@@ -15,9 +15,8 @@ class MessageHandler:
         """
         Handle incoming messages from peers. 
 
-        Args:
-            sender (str): The address of the sender.
-            message (str): The message content.
+        :param: sender (str): The address of the sender.
+        :param: message (str): The message content.
         """
         try:
             # Parse the message into a Message object
@@ -47,6 +46,7 @@ class MessageHandler:
     async def add_shard_block(self, shard_block):
         """
         Add a shard block to the list of shard blocks.
+        :params: shard_block (ShardBlock): The shard block to add.
         """
         self.shard_blocks.append(shard_block)
 
@@ -59,6 +59,7 @@ class MessageHandler:
     async def add_main_block(self, main_block):
         """
         Add a main block to the list of main blocks.
+        :params: main_block (MainBlock): The main block to add.
         """
         self.main_blocks.append(main_block)
     
@@ -71,6 +72,7 @@ class MessageHandler:
     async def add_transaction(self, transaction):
         """
         Add a transaction to the list of transactions.
+        :params: transaction (Transaction): The transaction to add.
         """
         self.transactions.append(transaction)
     

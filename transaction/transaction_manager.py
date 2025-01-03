@@ -15,9 +15,15 @@ class TransactionManager:
         self.transaction_pool = transactions
         
     def get_num_miners(self):
+        """
+        Get the number of miners.
+        """
         return self.num_miners
     
     def get_transactions(self):
+        """
+        Get all transactions from the pool.
+        """
         return self.transaction_pool
     
     def get_transactions_for_miner(self, miner_id: int=None) -> List[Transaction]:
@@ -34,18 +40,6 @@ class TransactionManager:
             tx for i, tx in enumerate(self.get_transactions()) if i % self.num_miners == miner_id
         ]
 
-        # miner_transactions = []
-        # transactions = self.get_transactions() 
-        # print("miner id: " + str(miner_id)) 
-        # print(f"num miners: {self.num_miners}")
-        # # Retrieve all transactions
-        # for i, tx in enumerate(transactions):
-        #     print("i:" + str(i))
-        #     rem = i % self.num_miners
-        #     print(f"Remainder: {rem}")
-        #     if rem == miner_id:
-        #         print("appending")
-        #         miner_transactions.append(tx)
         return miner_transactions
 
     
@@ -121,6 +115,7 @@ class TransactionManager:
     def load_transactions(cls, tx_pool_file_path=None):
         """
         Load transactions from the pool file.
+        :param tx_pool_file_path: Path to the transaction pool file.
         :return: List of Transaction objects.
         """
         if not tx_pool_file_path:

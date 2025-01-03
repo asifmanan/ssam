@@ -41,10 +41,3 @@ class ShardMiner:
 
         return shard_block
     
-    def send_to_staker(self, staker_node):
-        """
-        Sends the processed result to the Staker Node.
-        :param staker_node: Instance of the Staker Node.
-        """
-        result = self.process_transactions()
-        staker_node.receive_merkle_root(result)

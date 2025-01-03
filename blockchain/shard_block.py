@@ -7,6 +7,9 @@ class ShardBlock:
     def __init__(self, miner_id, merkle_root, timestamp, transactions: List[Transaction]):  
         """
         Initialize a new block.
+        :param miner_id: The ID of the miner.
+        :param merkle_root: The Merkle root of the transactions.
+        :param timestamp: The timestamp of the block.
         """
         self.miner_id = miner_id
         self.timestamp = timestamp
@@ -17,6 +20,7 @@ class ShardBlock:
     def from_dict(cls, block_data):
         """
         Convert JSON Data into an instance of a Block class.
+        :param block_data: The JSON data to be converted into a block.
         """
         transactions = [
             Transaction.from_dict(tx) if isinstance(tx, dict) else 

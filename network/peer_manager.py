@@ -7,6 +7,7 @@ class PeerManager:
     def __init__(self, peers_list: list):
         """
         Initialize the PeerManager with a list of peers.
+        :params: peers_list (list): A list of peers in the format "host:port".
         """
         self.lock = threading.Lock()  # For thread-safe operations
         
@@ -14,7 +15,6 @@ class PeerManager:
         # hostname = socket.gethostname()
         
         # If using with docker, Get the node name from the environment, default to "node"
-        
         node_name = os.environ.get("NODE_NAME", "node")
         
         self.this_peer = Peer(node_name, "5000")  # Determine own address
@@ -24,8 +24,9 @@ class PeerManager:
         """
         Add a peer to the peer list if it doesn't already exist.
 
-        Returns:
-            bool: True if the peer was added, False otherwise.
+        :params: peer (Peer): The peer to add.
+
+        :Returns: bool: True if the peer was added, False otherwise.
         """
         with self.lock:
             if peer not in self.peers and peer != self.this_peer:
@@ -37,8 +38,8 @@ class PeerManager:
         """
         Remove a peer from the peer list.
 
-        Returns:
-            bool: True if the peer was removed, False otherwise.
+        :params: peer (Peer): The peer to remove.
+        :Returns: bool: True if the peer was removed, False otherwise.
         """
         with self.lock:
             if peer in self.peers:
@@ -50,8 +51,7 @@ class PeerManager:
         """
         Get the list of peers.
 
-        Returns:
-            list: List of Peer objects.
+        :Returns: list: List of Peer objects.
         """
         with self.lock:
             return list(self.peers)
@@ -60,8 +60,9 @@ class PeerManager:
         """
         Find a peer by host and port.
 
-        Returns:
-            Peer: The matching Peer object, or None if not found.
+        :params: host (str): The host of the peer.
+        :params: port (str): The port of the peer.
+        :Returns: Peer: The matching Peer object, or None if not found.
         """
         with self.lock:
             for peer in self.peers:

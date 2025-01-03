@@ -16,17 +16,27 @@ from transaction.transaction_manager import TransactionManager
 
 from _config.app_config import AppConfig
 
+# Simulation of Sharded Stake Aggregation Model (SSAM)
 
 class BlockchainNode:
     def __init__(self):
         """
-        Initializes the blockchain node with all core components.
+        Initializes the node with all core components.
         """
         self.config = AppConfig(config_file_path="_config/config.json")
         self.network_config = self.config.get_network_config()
         self.shard_config = self.config.get_shard_config()
         self.mining_config = self.config.get_mining_config()
+
+        num_miners = self.shard_config["num_miners"]
+
+        
         self.host = Host(self.network_config)
+        
+        self.transactions = TransactionManager.load_transactions()
+        self.transaction_manager = TransactionManager(transactions=self.transactions, num_miners=num_miners)
+
+        self.blockchain = Blockchain(transaction_manager=self.transaction_manager)
 
     async def start(self):
         """
@@ -59,9 +69,8 @@ class BlockchainNode:
         Run Shard Miner Node.
         """
         miner_id = int(node_name.replace("miner", ""))
-        transactions = TransactionManager.load_transactions()
-
-        transaction_manager = TransactionManager(transactions=transactions, num_miners=self.shard_config["num_miners"])
+        transactions = self.transactions
+        
         shard_miner = ShardMiner(miner_id=miner_id, 
                                  num_miners=self.shard_config["num_miners"], 
                                  transactions=transactions)
@@ -82,11 +91,7 @@ class BlockchainNode:
         """
         Run as a Staker Node.
         """
-        transactions = TransactionManager.load_transactions()
-        transaction_manager = TransactionManager(transactions=transactions, num_miners=self.shard_config["num_miners"])
-        blockchain = Blockchain(transaction_manager=transaction_manager)
-
-        shard_staker = ShardStaker(transaction_manager=transaction_manager, blockchain=blockchain)
+        shard_staker = ShardStaker(transaction_manager=self.transaction_manager, blockchain=self.blockchain)
         logging.info("Waiting for shard block messages...")
 
         while True:
@@ -103,18 +108,12 @@ class BlockchainNode:
                     is_valid = shard_staker.validate_shard_block(shard_block)
 
                     if is_valid:
-                    # Create and append the main block
-                        shard_data = shard_staker.get_shard_data()
-                        if shard_data:
-                            new_block = blockchain.create_block(
-                                                    staker_signature = shard_staker.get_stacker_signature(),
-                                                    tx_root = shard_data["tx_root"], 
-                                                    transactions = shard_data["transactions"])
-                            proposed_block = blockchain.add_block(new_block)
-                            if proposed_block:
-                                logging.info(f"Block added to the blockchain with index {new_block.index}.")
-                            else:
-                                logging.info(f"Block rejected by the blockchain with index {new_block.index}.")
+                        is_block_added, added_block = shard_staker.propose_block()
+                        
+                        if is_block_added:
+                            logging.info(f"Block added to the blockchain with index {added_block.index}.")
+                        else:
+                            logging.info(f"Block rejected by the blockchain")
 
             except Exception as e:
                 logging.error(f"Error processing shard block message: {e}")

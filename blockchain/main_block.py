@@ -7,6 +7,14 @@ class MainBlock:
   def __init__(self, index, timestamp, tx_root, previous_hash, staker_signature, nbits, nonce=0, transactions=[]):
     """
     Initialize a new block.
+    :param index: The index of the block.
+    :param timestamp: The timestamp of the block.
+    :param tx_root: The Merkle root of the transactions.
+    :param previous_hash: The hash of the previous block.
+    :param staker_signature: The signature of the staker.
+    :param nbits: The target difficulty for the block. (for compatability with PoW Systems).
+    :param nonce: The nonce value for the block (for compatability with PoW Sytems).
+    :param transactions: List of transactions in the block.
     """
     self.index = index
     self.timestamp = timestamp
@@ -21,6 +29,7 @@ class MainBlock:
   def from_dict(cls, block_data):
     """
     Convert JSON Data into an instance of a Block class.
+    :param block_data: The JSON data to be converted into a block.
     """
     transactions = [
         Transaction.from_dict(tx) if isinstance(tx, dict) else tx

@@ -10,6 +10,9 @@ class ProofOfWork:
   def __init__(self, nbits:str=None, target:str=None, max_nonce:int=None):
     """
     Initializes the Proof of Work.
+    :param nbits: The compact 'nbits' format for the target.
+    :param target: The 256-bit target value.
+    :param max_nonce: The maximum nonce value.
     """
     if target:
       current_target = int(target,16)
@@ -26,6 +29,7 @@ class ProofOfWork:
   def find_valid_nonce(self, block):
     """
     Searches for a valid nonce that satisfies the proof of work.
+    :param block: The block to be mined.
     """
     target = self.nbits_to_target(block.nbits)
     while True:
@@ -71,6 +75,7 @@ class ProofOfWork:
   def nbits_to_target(nbits):
     """
     Converts the compact `nBits` value back into the full 256-bit target.
+    :param nbits: The compact 'nbits' format for the target.
     """
     if isinstance(nbits, str):
       nbits = int(nbits, 16)
@@ -84,5 +89,6 @@ class ProofOfWork:
   def is_valid_proof(block, target):
     """
     Validates if the block hash is less than the target.
+    :param block: The block to be validated.
     """
     return int(block.compute_hash(), 16) < target

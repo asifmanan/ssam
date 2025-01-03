@@ -5,6 +5,9 @@ from transaction.utils import load_genesis_transactions
 # Blockchain Class 
 class Blockchain:
   def __init__(self, transaction_manager: TransactionManager):
+    """
+    Initializes the blockchain with the genesis block.
+    """
     self.chain = []
     self.block_lookup_table = {}
     self.create_genesis_block()
@@ -29,6 +32,11 @@ class Blockchain:
   def create_block(self, staker_signature, tx_root, nonce: int=0, nbits=None, transactions: list=[]):
     """
     Creates a new block with the given transaction root.
+    :param staker_signature: The signature of the staker.
+    :param tx_root: The Merkle root of the transactions.
+    :param nonce: The nonce value for the block (for backward compatability).
+    :param nbits: The target difficulty for the block. (for backward compatability).
+    :param transactions: List of transactions to be included in the block.
     """
     previous_block = self.get_last_block()
     previous_hash = previous_block.compute_hash()
@@ -48,6 +56,7 @@ class Blockchain:
   def add_block(self, block):
     """
     Add a block to the blockchain after validation.
+    :param block: The block to be added.
     """
     if not self.is_block_valid(block):
       return False
@@ -64,11 +73,9 @@ class Blockchain:
   def get_previous_block(self, block):
     """
     Returns the previous block in the chain based on the hash of previous block.
-    Params:
-        block (Block): The Block object who's predecessor is required.
+    :Params: block (Block): The Block object who's predecessor is required.
 
-    Returns:
-        Block: The previous block in the chain, or None if the block is the genesis block.
+    :Returns: Block: The previous block in the chain, or None if the block is the genesis block.
     """
     previous_hash = block.previous_hash
     if previous_hash == "0":
@@ -78,6 +85,8 @@ class Blockchain:
   def is_block_valid(self, block):
     """
     Validates the block by checking its proof of work and previous.
+
+    :param block: The block to be validated.
     """
     # Genesis block validation
     if block.index == 0:
@@ -111,5 +120,15 @@ class Blockchain:
             return False
     return True
 
-  def replace_chain(self):
-    pass
+  def replace_chain(self, new_chain):
+    """
+    Replaces the current chain with a new chain if the new chain is valid.
+    :param new_chain: The new chain to replace the current chain with.
+    """
+    if len(new_chain) <= len(self.chain):
+      return False
+    if not self.is_chain_valid():
+      return False
+    self.chain = new_chain
+    self.block_lookup_table = {block.compute_hash(): block for block in new_chain}
+    return True

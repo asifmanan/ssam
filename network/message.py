@@ -5,26 +5,35 @@ class Message:
         Initialize a new message object.
         :param content_type: The type of content in the message (BK for Block, TX for transaction).
         :param content: The content of the message.
+        :param sender: The sender of the message.
         """
         self.content_type = content_type
         self.content = content
         self.sender = sender
 
     def get_content(self):
+        """
+        Get the content of the message.
+        """
         return self.content
     
     def get_content_type(self):
+        """
+        Get the content type of the message.
+        """
         return self.content_type
     
     def get_sender(self):
+        """
+        Get the sender of the message.
+        """
         return self.sender
     
     def to_dict(self) -> dict:
         """
         Converts the Message object to a dictionary.
 
-        Returns:
-        dict: A dictionary representation of the message.
+        :Returns: (dict) A dictionary representation of the message.
         """
         return {
             "sender": self.sender,
@@ -36,8 +45,7 @@ class Message:
         """
         Converts the Message object to a JSON string.
 
-        Returns:
-        str: A JSON representation of the message.
+        Returns: (str) A JSON representation of the message.
         """
         return json.dumps(self.to_dict())
     
@@ -46,11 +54,9 @@ class Message:
         """
         Creates a Message object from a dictionary.
 
-        Args:
-        data (dict): A dictionary containing the message data.
+        :param: data (dict): A dictionary containing the message data.
 
-        Returns:
-        Message: The constructed Message object.
+        :Returns: (Message) The constructed Message object.
         """
         if sender:
             return cls(data["content_type"], data["content"], sender)
@@ -61,14 +67,15 @@ class Message:
         """
         Creates a Message object from a JSON string.
 
-        Args:
-        data (str): A JSON string containing the message data.
+        :param: json_data (str): A JSON string containing the message data.
 
-        Returns:
-        Message: The constructed Message object.
+        :Returns: (Message) The constructed Message object.
         """
         data = json.loads(json_data)
         return cls.from_dict(data)
     
     def __str__(self):
+        """
+        Get a string representation of the message.
+        """
         return f"Content Type: {self.content_type}\nContent: {self.content}"
