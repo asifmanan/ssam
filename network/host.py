@@ -76,7 +76,7 @@ class Host:
         """
         Handle an incoming message from a peer.
         """
-        self.message_handler.handle_message(sender=sender, message=message)
+        await self.message_handler.handle_message(sender=sender, message=message)
 
     async def send_message(self, peer: Peer, message: Message):
         """

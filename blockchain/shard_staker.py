@@ -21,11 +21,12 @@ class ShardStaker:
         # Verify the Merkle root
         calculated_merkle_root = self.transaction_manager.calculate_merkle_root(shard_block.transactions)
         if calculated_merkle_root != shard_block.merkle_root:
-            raise ValueError(f"Merkle root mismatch! Expected {shard_block.merkle_root}, got {calculated_merkle_root}")
+            return False
 
         # Add the shard block to the list of received blocks
         self.shard_block_list.append(shard_block)
         print(f"Shard block from Miner {shard_block.miner_id} verified and accepted.")
+        return True
     
     def get_stacker_signature(self):
         return self.staker_signature

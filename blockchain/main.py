@@ -1,17 +1,21 @@
 import os
 import asyncio
 import logging
+
 from network.host import Host
 from network.message import Message
-from network.peer_manager import PeerManager
 from network.peer import Peer
+
 from blockchain.shard_miner import ShardMiner
 from blockchain.shard_staker import ShardStaker
 from blockchain.shard_block import ShardBlock
-from transaction.transaction_manager import TransactionManager
 from blockchain.main_block import MainBlock
-from _config.app_config import AppConfig
 from blockchain.blockchain import Blockchain
+
+from transaction.transaction_manager import TransactionManager
+
+from _config.app_config import AppConfig
+
 
 class BlockchainNode:
     def __init__(self):
@@ -30,19 +34,21 @@ class BlockchainNode:
         """
         logging.info("Starting blockchain node...")
         try:
-            # Start the network host
             await self.host.start()
 
             # Identify node type from environment
-            
             node_name = os.getenv("NODE_NAME")
             if not node_name:
                 raise ValueError("NODE_NAME environment variable is required to identify the node.")
 
+            # Run the subsystem based on the node type
             if node_name.startswith("miner"):
                 await self.run_miner(node_name)
-            elif node_name.startswith("stacker"):
+
+            elif node_name.startswith("staker"):
                 await self.run_staker()
+        
+        # Hanlde shutdown gracefully
         except asyncio.CancelledError:
             logging.info("Shutdown initiated via KeyboardInterrupt.")
         except Exception as e:
@@ -50,66 +56,69 @@ class BlockchainNode:
 
     async def run_miner(self, node_name):
         """
-        Run as a Shard Miner Node.
+        Run Shard Miner Node.
         """
-        await asyncio.sleep(3)  # Wait for the staker node to initialize
-        logging.INFO("Waiting for staker node to initialize...")
         miner_id = int(node_name.replace("miner", ""))
-        transactions = TransactionManager.load_transactions()  # Implement loading logic as needed
+        transactions = TransactionManager.load_transactions()
 
         transaction_manager = TransactionManager(transactions=transactions, num_miners=self.shard_config["num_miners"])
         shard_miner = ShardMiner(miner_id=miner_id, 
                                  num_miners=self.shard_config["num_miners"], 
                                  transactions=transactions)
 
-        # Process transactions and send shard block to Staker Node
-        shard_block = shard_miner.create_shard_block()
-        staker_address = self.shard_config["staker_address"]
-        message = Message(content_type="SHARD_BLOCK", content=shard_block.to_dict())
-        
-        # print(staker_address)
+        while True:
+            # Process transactions and send shard block to Staker Node
+            shard_block = shard_miner.create_shard_block()
+            staker_address = self.shard_config["staker_address"]
+            message = Message(content_type="SHARD_BLOCK", content=shard_block.to_dict())
 
-        await self.host.send_message(staker_address, message)
-        logging.info(f"Shard Miner {miner_id} sent shard block to staker {staker_address}.")
+            staker_peer = Peer(*staker_address.split(":"))
+            await self.host.send_message(staker_peer, message)
+            logging.info(f"Shard Miner {miner_id} sent shard block to staker {staker_address}.")
+            
+            await asyncio.sleep(2)
 
     async def run_staker(self):
         """
         Run as a Staker Node.
         """
-        blockchain = Blockchain()  # Blockchain class handles appending to the chain
-        transactions = TransactionManager.load_transactions()  # Implement loading logic as needed
+        transactions = TransactionManager.load_transactions()
         transaction_manager = TransactionManager(transactions=transactions, num_miners=self.shard_config["num_miners"])
+        blockchain = Blockchain(transaction_manager=transaction_manager)
 
-        staker_node = ShardStaker(transaction_manager=transaction_manager, blockchain=blockchain)
+        shard_staker = ShardStaker(transaction_manager=transaction_manager, blockchain=blockchain)
+        logging.info("Waiting for shard block messages...")
 
-        # Listen for shard blocks
         while True:
-            message = await self.host.handle_message()
-            if message.get_content_type() == "SHARD_BLOCK":
-                shard_block_data = message.get_content()
-                shard_block = ShardBlock.from_dict(shard_block_data)
-                staker_node.validate_shard_block(shard_block)
+            try:
+                # Wait for the next shard block message
+                shard_block_message = await self.host.message_handler.get_shard_block()
 
-            # Create the main block and append to the main chain
-            shard_data = staker_node.get_shard_data()
+                if shard_block_message:
+                    logging.info(f"Received shard block: {shard_block_message.content} from {shard_block_message.sender}")
 
-            if shard_data:
-                main_block = blockchain.create_block(staker_signature=shard_data["staker_signature"],
-                                                      tx_root=shard_data["tx_root"],
-                                                      transactions=shard_data["transactions"])
+                    # Process the received shard block
+                    shard_block_data = shard_block_message.get_content()
+                    shard_block = ShardBlock.from_dict(shard_block_data)
+                    is_valid = shard_staker.validate_shard_block(shard_block)
 
-                main_block = MainBlock(
-                    index=len(blockchain.chain) + 1,
-                    timestamp="2025-01-01T12:00:00",
-                    tx_root=shard_data["tx_root"],
-                    previous_hash=blockchain.get_last_block().compute_hash() if blockchain.chain else "0",
-                    staker_signature=staker_node.sign_block(),  
-                    nbits=self.mining_config["nbits"],
-                    transactions=shard_data["transactions"]
-                )
+                    if is_valid:
+                    # Create and append the main block
+                        shard_data = shard_staker.get_shard_data()
+                        if shard_data:
+                            new_block = blockchain.create_block(
+                                                    staker_signature = shard_staker.get_stacker_signature(),
+                                                    tx_root = shard_data["tx_root"], 
+                                                    transactions = shard_data["transactions"])
+                            proposed_block = blockchain.add_block(new_block)
+                            if proposed_block:
+                                logging.info(f"Block added to the blockchain with index {new_block.index}.")
+                            else:
+                                logging.info(f"Block rejected by the blockchain with index {new_block.index}.")
 
-                blockchain.add_block(main_block)
-                logging.info(f"Staker created and added Main Block with Index: {main_block.index}.")
+            except Exception as e:
+                logging.error(f"Error processing shard block message: {e}")
+        
 
     async def shutdown(self):
         """
