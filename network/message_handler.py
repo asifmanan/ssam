@@ -24,15 +24,15 @@ class MessageHandler:
             content_type = parsed_message.get_content_type()
             if content_type == "SHARD_BLOCK":
                 logging.info(f"Received SHARD_BLOCK from {sender}")
-                await self.add_shard_block(parsed_message.get_content())
+                await self.add_shard_block(parsed_message)
 
             elif content_type == "TRANSACTION":
                 logging.info(f"Received TRANSACTION from {sender}")
-                await self.add_transaction(parsed_message.get_content())
+                await self.add_transaction(parsed_message)
 
             elif content_type == "MAIN_BLOCK":
                 logging.info(f"Received MAIN_BLOCK from {sender}")
-                await self.add_main_block(parsed_message.get_content())
+                await self.add_main_block(parsed_message)
 
             else:
                 logging.warning(f"Unknown message type from {sender}: {content_type}")

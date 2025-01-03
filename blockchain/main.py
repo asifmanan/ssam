@@ -100,7 +100,7 @@ class BlockchainNode:
                 shard_block_message = await self.host.message_handler.get_shard_block()
 
                 if shard_block_message:
-                    logging.info(f"Received shard block: {shard_block_message.content} from {shard_block_message.sender}")
+                    logging.info(f"Received shard block: {shard_block_message.get_content()} from {shard_block_message.get_sender()}")
 
                     # Process the received shard block
                     shard_block_data = shard_block_message.get_content()
