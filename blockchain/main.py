@@ -16,8 +16,19 @@ from transaction.transaction_manager import TransactionManager
 
 from _config.app_config import AppConfig
 
-# Simulation of Sharded Stake Aggregation Model (SSAM)
+# Simulation of Sharded Stake Aggregation Model (SSAM) 
 
+"""  
+The basic idea of the core blockchain application was adopted from 
+(https://github.com/ratteripenta/blockchain-a-z/tree/master/notebooks) 
+and then modified as per the project requirements and proposed techniques. 
+
+Other references include:
+https://en.bitcoin.it/wiki/Difficulty
+https://bitcoin.stackexchange.com/questions/30467/what-are-the-equations-to-convert-between-bits-and-difficulty
+https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
+  
+"""
 class BlockchainNode:
     def __init__(self):
         """
