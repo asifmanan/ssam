@@ -1,12 +1,13 @@
 import logging
 import json
 from network.message import Message
-from network.peer import Peer
+import asyncio
 
 
 class MessageHandler:
     def __init__(self):
-        self.shard_blocks = []
+        self.lock = asyncio.Lock()
+        self.shard_blocks = asyncio.Queue()
         self.main_blocks = []
         self.transactions = []
         self.other = []
@@ -23,7 +24,7 @@ class MessageHandler:
             parsed_message = Message.from_json(message)
             content_type = parsed_message.get_content_type()
             if content_type == "SHARD_BLOCK":
-                logging.info(f"Received SHARD_BLOCK from {sender}")
+                logging.info(f"[MessageHandler (handle_message)] Received SHARD_BLOCK from {sender}")
                 await self.add_shard_block(parsed_message)
 
             elif content_type == "TRANSACTION":
@@ -48,13 +49,16 @@ class MessageHandler:
         Add a shard block to the list of shard blocks.
         :params: shard_block (ShardBlock): The shard block to add.
         """
-        self.shard_blocks.append(shard_block)
+        await self.shard_blocks.put(shard_block)
+        logging.info(f"[MessageHandler (add_shard_block)] Added shard block to list")
 
     async def get_shard_block(self):
         """
         Get the list of shard blocks.
         """
-        return self.shard_blocks.pop() if self.shard_blocks else None
+            
+        shard_block = await self.shard_blocks.get()
+        return shard_block
 
     async def add_main_block(self, main_block):
         """

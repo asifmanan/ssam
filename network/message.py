@@ -71,8 +71,15 @@ class Message:
 
         :Returns: (Message) The constructed Message object.
         """
-        data = json.loads(json_data)
-        return cls.from_dict(data)
+        try:
+            data = json.loads(json_data)
+            if not isinstance(data, dict):
+                raise ValueError("JSON data is not a valid dictionary")
+            return cls.from_dict(data)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON string: {e}")
+
+
     
     def __str__(self):
         """

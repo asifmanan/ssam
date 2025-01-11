@@ -67,6 +67,7 @@ class Host:
             try:    
                 data = await reader.readline()
                 if not data:
+                    logging.info(f"Connection closed by {peer_address}")
                     break
                 message = data.decode().strip()
                 asyncio.create_task(self.handle_message(peer_address, message))

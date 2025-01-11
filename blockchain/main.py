@@ -79,6 +79,7 @@ class BlockchainNode:
         """
         Run Shard Miner Node.
         """
+        await asyncio.sleep(3)
         miner_id = int(node_name.replace("miner", ""))
         transactions = self.transactions
         
@@ -94,9 +95,9 @@ class BlockchainNode:
 
             staker_peer = Peer(*staker_address.split(":"))
             await self.host.send_message(staker_peer, message)
-            logging.info(f"Shard Miner {miner_id} sent shard block to staker {staker_address}.")
+            # logging.info(f"Shard Miner {miner_id} sent shard block to staker {staker_address}.")
             
-            await asyncio.sleep(2)
+            await asyncio.sleep(5)
 
     async def run_staker(self):
         """
@@ -110,8 +111,8 @@ class BlockchainNode:
                 # Wait for the next shard block message
                 shard_block_message = await self.host.message_handler.get_shard_block()
 
-                if shard_block_message:
-                    logging.info(f"Received shard block: {shard_block_message.get_content()} from {shard_block_message.get_sender()}")
+                if shard_block_message is not None:
+                    logging.info(f"[MAIN (run_staker)] Received shard block from {shard_block_message.get_sender()}")
 
                     # Process the received shard block
                     shard_block_data = shard_block_message.get_content()
@@ -125,6 +126,13 @@ class BlockchainNode:
                             logging.info(f"Block added to the blockchain with index {added_block.index}.")
                         else:
                             logging.info(f"Block rejected by the blockchain")
+                    else:
+                        logging.info("Shard block is NOT VALID.")
+                else: 
+                    continue
+
+                # else:
+                #     logging.info("No shard block message received.")
 
             except Exception as e:
                 logging.error(f"Error processing shard block message: {e}")
@@ -141,7 +149,7 @@ class BlockchainNode:
             logging.error(f"Error during shutdown: {e}")
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     node = BlockchainNode()
 
