@@ -25,7 +25,8 @@ class MessageHandler:
             content_type = parsed_message.get_content_type()
             if content_type == "SHARD_BLOCK":
                 logging.info(f"[MessageHandler (handle_message)] Received SHARD_BLOCK from {sender}")
-                await self.add_shard_block(parsed_message)
+                shard_block = parsed_message.get_content()
+                await self.add_shard_block(shard_block)
 
             elif content_type == "TRANSACTION":
                 logging.info(f"Received TRANSACTION from {sender}")

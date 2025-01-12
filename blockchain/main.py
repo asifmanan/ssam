@@ -89,9 +89,9 @@ class BlockchainNode:
 
         while True:
             # Process transactions and send shard block to Staker Node
-            shard_block = shard_miner.create_shard_block()
+            shard_block = shard_miner.mine_shard_block()
             staker_address = self.shard_config["staker_address"]
-            message = Message(content_type="SHARD_BLOCK", content=shard_block.to_dict())
+            message = Message(content_type="SHARD_BLOCK", content=shard_block.to_dict(), sender=f"miner{miner_id}")
 
             staker_peer = Peer(*staker_address.split(":"))
             await self.host.send_message(staker_peer, message)
@@ -109,14 +109,14 @@ class BlockchainNode:
         while True:
             try:
                 # Wait for the next shard block message
-                shard_block_message = await self.host.message_handler.get_shard_block()
+                block_data = await self.host.message_handler.get_shard_block()
 
-                if shard_block_message is not None:
-                    logging.info(f"[MAIN (run_staker)] Received shard block from {shard_block_message.get_sender()}")
+                if block_data is not None:
+                    logging.info(f"[MAIN (run_staker)] Received shard block {block_data}.")
 
                     # Process the received shard block
-                    shard_block_data = shard_block_message.get_content()
-                    shard_block = ShardBlock.from_dict(shard_block_data)
+                    shard_block = ShardBlock.from_dict(block_data)
+                    logging.info(f"Shard block from Miner {shard_block.miner_id} has a block hash {shard_block.compute_hash()}.")
                     is_valid = shard_staker.validate_shard_block(shard_block)
 
                     if is_valid:

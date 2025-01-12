@@ -4,7 +4,7 @@ from typing import List
 from transaction.transaction import Transaction
 
 class ShardBlock:
-    def __init__(self, miner_id, merkle_root, timestamp, transactions: List[Transaction]):  
+    def __init__(self, miner_id, merkle_root,timestamp, transactions: List[Transaction], nonce: int=0, nbits: str="0x1f00ffff"):  
         """
         Initialize a new block.
         :param miner_id: The ID of the miner.
@@ -15,6 +15,8 @@ class ShardBlock:
         self.timestamp = timestamp
         self.merkle_root = merkle_root
         self.transactions = transactions
+        self.nbits = nbits
+        self.nonce = nonce
 
     @classmethod
     def from_dict(cls, block_data):
@@ -29,6 +31,8 @@ class ShardBlock:
         return cls(miner_id = block_data["miner_id"],
                 timestamp = block_data["timestamp"], 
                 merkle_root = block_data["merkle_root"],
+                nonce = block_data["nonce"],
+                nbits = block_data["nbits"],
                 transactions = transactions,
                 )
 
@@ -40,6 +44,8 @@ class ShardBlock:
                 "miner_id":self.miner_id,
                 "timestamp":self.timestamp,
                 "merkle_root":self.merkle_root,
+                "nonce":self.nonce,
+                "nbits":self.nbits,
                 "transactions":
                     [tx.to_dict() if hasattr(tx, "to_dict") 
                      else tx for tx in self.transactions],
@@ -53,6 +59,8 @@ class ShardBlock:
                 "miner_id":self.miner_id,
                 "timestamp":self.timestamp,
                 "merkle_root":self.merkle_root,
+                "nonce":self.nonce,
+                "nbits":self.nbits,
             }
         
         encoded_block_string = json.dumps(block_content, sort_keys=True).encode()

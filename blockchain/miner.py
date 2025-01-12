@@ -1,33 +1,23 @@
 import logging
+from blockchain.proof_of_work import ProofOfWork
 
 class Miner:
-  def __init__(self, blockchain):
+  def __init__(self):
     """
-    Initialize the miner with a reference to the blockchain and ProofOfWork.
-    :param blockchain: The blockchain object.
+    Initialize the miner.
     """
-    self.blockchain = blockchain
-    self.pow = self.blockchain.pow
+    self.pow = ProofOfWork()
   
-  def mine_block(self):
+  def mine_block(self, block_data):
     """
     Mines a new block with the given transaction root.
     """
-
-    # Create a new block with the given parameters
-    new_block = self.blockchain.create_block()
-    
     # Get the target from (difficulty) nbits
-    golden_nonce = self.pow.find_valid_nonce(new_block)
+    golden_nonce = self.pow.find_valid_nonce(block_data)
     if golden_nonce is None:
       logging.warning("Failed to find a valid nonce for the block.")
       return None
 
-    new_block.nonce = golden_nonce
+    block_data.nonce = golden_nonce
 
-    # Add the mined block to the blockchain
-    if self.blockchain.add_block(new_block):
-      return new_block
-    else:
-      logging.warning("Failed to add the mined block to the blockchain.")
-      return None
+    return block_data
