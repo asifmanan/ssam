@@ -26,7 +26,7 @@ def simulate_staker_selection_rounds(rounds=4):
     # Add stakers and stakes
     shard_staker.add_stake("staker1", 40)
     shard_staker.add_stake("staker2", 25)
-    shard_staker.add_stake("staker3", 20)
+    # shard_staker.add_stake("staker3", 20)
 
     print("\n=== Staker Selection Simulation ===\n")
 
@@ -55,4 +55,4 @@ def simulate_staker_selection_rounds(rounds=4):
 
 # Run the simulation
 if __name__ == "__main__":
-    simulate_staker_selection_rounds(rounds=10)
+    simulate_staker_selection_rounds(rounds=4)

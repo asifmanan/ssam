@@ -1,13 +1,23 @@
 {
-  "network_config": {
-      "peers": ["staker0:5000", "miner0:5000", "miner1:5000"]
-  },
-  
-  "mining_config": {
-      "nbits":"0x1f00ffff"
-  },
-  "shard_config": {
-      "num_miners": 2,
-      "staker_address": "staker0:5000"
-  }
+    "network_config": {
+      "peers": [
+        "staker10:5000",
+        "staker20:5000",
+        "miner11:5000",
+        "miner12:5000",
+        "miner21:5000",
+        "miner22:5000"
+      ]
+    },
+    "mining_config": {
+      "nbits": "0x1f00ffff"
+    },
+    "shard_config": {
+        "shard10": ["staker10:5000","miner11:5000", "miner12:5000"],
+        "shard20": ["staker20:5000","miner21:5000", "miner22:5000"]
+    },
+    "stake_info": {
+      "staker10": 100,
+      "staker20": 150
+    }
 }

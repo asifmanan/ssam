@@ -6,11 +6,10 @@ import asyncio
 
 class MessageHandler:
     def __init__(self):
-        self.lock = asyncio.Lock()
         self.shard_blocks = asyncio.Queue()
-        self.main_blocks = []
-        self.transactions = []
-        self.other = []
+        self.main_blocks = asyncio.Queue()
+        self.transactions = asyncio.Queue()
+        self.control_message = asyncio.Queue()
 
     async def handle_message(self, sender: str, message: str):
         """
@@ -27,6 +26,11 @@ class MessageHandler:
                 logging.info(f"[MessageHandler (handle_message)] Received SHARD_BLOCK from {sender}")
                 shard_block = parsed_message.get_content()
                 await self.add_shard_block(shard_block)
+
+            elif content_type == "CONTROL":
+                logging.info(f"Received CONTROL message from {sender}")
+                message_content = parsed_message.get_content()
+                await self.add_control_message(message_content)
 
             elif content_type == "TRANSACTION":
                 logging.info(f"Received TRANSACTION from {sender}")
@@ -47,15 +51,14 @@ class MessageHandler:
     
     async def add_shard_block(self, shard_block):
         """
-        Add a shard block to the list of shard blocks.
+        Add a shard block to the Shard Message Queue.
         :params: shard_block (ShardBlock): The shard block to add.
         """
         await self.shard_blocks.put(shard_block)
-        logging.info(f"[MessageHandler (add_shard_block)] Added shard block to list")
 
     async def get_shard_block(self):
         """
-        Get the list of shard blocks.
+        Get the Shard block from the Shard Message Queue.
         """
             
         shard_block = await self.shard_blocks.get()
@@ -63,26 +66,44 @@ class MessageHandler:
 
     async def add_main_block(self, main_block):
         """
-        Add a main block to the list of main blocks.
+        Add a main block to the Queue.
         :params: main_block (MainBlock): The main block to add.
         """
-        self.main_blocks.append(main_block)
+        await self.main_blocks.put(main_block)
     
     async def get_main_block(self):
         """
-        Get the list of main blocks.
+        Get the Main block from the Queue.
         """
-        return self.main_blocks.pop() if self.main_blocks else None
+        main_block = await self.main_blocks.get()
+        return main_block
 
+    async def add_control_message(self, content):
+        """
+        Add a control message to the Queue.
+        :params: control_message: The control message to add.
+        """
+        await self.shard_blocks.put(content)
+    
+    
+    async def get_control_message(self):
+        """
+        Get the latest control message.
+        """
+        control_message = await self.shard_blocks.get()
+        return control_message
+    
+    
     async def add_transaction(self, transaction):
         """
-        Add a transaction to the list of transactions.
+        Add a transaction to the Queue.
         :params: transaction (Transaction): The transaction to add.
         """
-        self.transactions.append(transaction)
+        await self.transactions.put(transaction)
     
     async def get_transaction(self):
         """
-        Get the list of transactions.
+        Get and return the transaction.
         """
-        return self.transactions.pop() if self.transactions else None
+        transaction = await self.transactions.get()
+        return transaction

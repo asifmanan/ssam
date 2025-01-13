@@ -1,0 +1,104 @@
+Attaching to miner11, miner12, miner21, miner22, staker10, staker20
+miner21   | 2025-01-12 18:35:35,693 - INFO - Starting blockchain node...
+miner11   | 2025-01-12 18:35:35,693 - INFO - Starting blockchain node...
+staker20  | 2025-01-12 18:35:35,695 - INFO - Starting blockchain node...
+miner22   | 2025-01-12 18:35:35,695 - INFO - Starting blockchain node...
+miner12   | 2025-01-12 18:35:35,700 - INFO - Starting blockchain node...
+staker10  | 2025-01-12 18:35:35,701 - INFO - Starting blockchain node...
+miner11   | 2025-01-12 18:35:35,717 - INFO - Listening for incoming connections at miner11:5000
+miner21   | 2025-01-12 18:35:35,738 - INFO - Listening for incoming connections at miner21:5000
+staker20  | 2025-01-12 18:35:35,713 - INFO - Listening for incoming connections at staker20:5000
+miner22   | 2025-01-12 18:35:35,733 - INFO - Listening for incoming connections at miner22:5000
+miner12   | 2025-01-12 18:35:35,723 - INFO - Listening for incoming connections at miner12:5000
+staker10  | 2025-01-12 18:35:35,709 - INFO - Listening for incoming connections at staker10:5000
+miner11   | 2025-01-12 18:35:35,745 - INFO - Connected to peer staker10:5000
+miner21   | 2025-01-12 18:35:35,745 - INFO - Connected to peer staker10:5000
+staker20  | 2025-01-12 18:35:35,745 - INFO - Connected to peer staker10:5000
+miner22   | 2025-01-12 18:35:35,750 - INFO - Connected to peer staker10:5000
+miner12   | 2025-01-12 18:35:35,759 - INFO - Connected to peer staker10:5000
+staker10  | 2025-01-12 18:35:35,745 - INFO - Incoming connection from ('172.18.0.2', 37102)
+miner11   | 2025-01-12 18:35:35,748 - INFO - Incoming connection from ('172.18.0.6', 56166)
+miner21   | 2025-01-12 18:35:35,747 - INFO - Connected to peer staker20:5000
+staker20  | 2025-01-12 18:35:35,748 - INFO - Incoming connection from ('172.18.0.2', 44114)
+miner22   | 2025-01-12 18:35:35,763 - INFO - Connected to peer staker20:5000
+miner12   | 2025-01-12 18:35:35,760 - INFO - Incoming connection from ('172.18.0.6', 55178)
+staker10  | 2025-01-12 18:35:35,745 - INFO - Incoming connection from ('172.18.0.6', 52848)
+miner11   | 2025-01-12 18:35:35,748 - INFO - Connected to peer staker20:5000
+miner21   | 2025-01-12 18:35:35,750 - INFO - Connected to peer miner11:5000
+staker20  | 2025-01-12 18:35:35,748 - INFO - Incoming connection from ('172.18.0.4', 52278)
+miner22   | 2025-01-12 18:35:35,793 - INFO - Incoming connection from ('172.18.0.4', 50932)
+miner12   | 2025-01-12 18:35:35,760 - INFO - Incoming connection from ('172.18.0.4', 58488)
+staker10  | 2025-01-12 18:35:35,745 - INFO - Incoming connection from ('172.18.0.3', 44562)
+miner11   | 2025-01-12 18:35:35,750 - INFO - Incoming connection from ('172.18.0.2', 54936)
+miner21   | 2025-01-12 18:35:35,753 - INFO - Connected to peer miner12:5000
+staker20  | 2025-01-12 18:35:35,748 - INFO - Incoming connection from ('172.18.0.3', 47890)
+miner22   | 2025-01-12 18:35:35,793 - INFO - Incoming connection from ('172.18.0.3', 43336)
+miner12   | 2025-01-12 18:35:35,760 - INFO - Incoming connection from ('172.18.0.2', 43774)
+staker10  | 2025-01-12 18:35:35,747 - INFO - Connected to peer staker20:5000
+miner11   | 2025-01-12 18:35:35,750 - INFO - Incoming connection from ('172.18.0.4', 45844)
+miner21   | 2025-01-12 18:35:35,763 - INFO - Incoming connection from ('172.18.0.4', 42782)
+staker20  | 2025-01-12 18:35:35,748 - INFO - Connected to peer miner11:5000
+miner22   | 2025-01-12 18:35:35,793 - INFO - Incoming connection from ('172.18.0.2', 52710)
+miner12   | 2025-01-12 18:35:35,761 - INFO - Incoming connection from ('172.18.0.3', 49672)
+staker10  | 2025-01-12 18:35:35,750 - INFO - Incoming connection from ('172.18.0.5', 56094)
+miner11   | 2025-01-12 18:35:35,761 - INFO - Connected to peer miner12:5000
+miner21   | 2025-01-12 18:35:35,763 - INFO - Incoming connection from ('172.18.0.6', 39434)
+staker20  | 2025-01-12 18:35:35,751 - INFO - Connected to peer miner12:5000
+miner22   | 2025-01-12 18:35:35,793 - INFO - Incoming connection from ('172.18.0.7', 43342)
+miner12   | 2025-01-12 18:35:35,763 - INFO - Connected to peer staker20:5000
+staker10  | 2025-01-12 18:35:35,750 - INFO - Incoming connection from ('172.18.0.7', 44996)
+miner11   | 2025-01-12 18:35:35,763 - INFO - Connected to peer miner21:5000
+miner21   | 2025-01-12 18:35:35,764 - INFO - Incoming connection from ('172.18.0.3', 57874)
+staker20  | 2025-01-12 18:35:35,766 - INFO - Incoming connection from ('172.18.0.7', 59074)
+miner22   | 2025-01-12 18:35:35,794 - INFO - Connected to peer miner11:5000
+miner12   | 2025-01-12 18:35:35,765 - INFO - Connected to peer miner11:5000
+staker10  | 2025-01-12 18:35:35,750 - INFO - Connected to peer miner11:5000
+miner11   | 2025-01-12 18:35:35,776 - INFO - Incoming connection from ('172.18.0.7', 52688)
+miner21   | 2025-01-12 18:35:35,765 - INFO - Connected to peer miner22:5000
+staker20  | 2025-01-12 18:35:35,766 - INFO - Incoming connection from ('172.18.0.5', 34968)
+miner22   | 2025-01-12 18:35:35,796 - INFO - Connected to peer miner12:5000
+miner12   | 2025-01-12 18:35:35,776 - INFO - Connected to peer miner21:5000
+staker10  | 2025-01-12 18:35:35,751 - INFO - Connected to peer miner12:5000
+miner11   | 2025-01-12 18:35:35,777 - INFO - Connected to peer miner22:5000
+miner21   | 2025-01-12 18:35:35,765 - INFO - Miner miner21 is waiting for shard shard20's turn...
+staker20  | 2025-01-12 18:35:35,766 - INFO - Connected to peer miner21:5000
+miner22   | 2025-01-12 18:35:35,798 - INFO - Connected to peer miner21:5000
+miner12   | 2025-01-12 18:35:35,780 - INFO - Connected to peer miner22:5000
+staker10  | 2025-01-12 18:35:35,753 - INFO - Connected to peer miner21:5000
+miner11   | 2025-01-12 18:35:35,778 - INFO - Miner miner11 is waiting for shard shard10's turn...
+miner21   | 2025-01-12 18:35:35,799 - INFO - Incoming connection from ('172.18.0.7', 52456)
+staker20  | 2025-01-12 18:35:35,803 - INFO - Connected to peer miner22:5000
+miner22   | 2025-01-12 18:35:35,798 - INFO - Miner miner22 is waiting for shard shard20's turn...
+miner12   | 2025-01-12 18:35:35,780 - INFO - Miner miner12 is waiting for shard shard10's turn...
+staker10  | 2025-01-12 18:35:35,764 - INFO - Connected to peer miner22:5000
+miner11   | 2025-01-12 18:35:35,794 - INFO - Incoming connection from ('172.18.0.5', 40998)
+miner21   | 2025-01-12 18:35:35,799 - INFO - Incoming connection from ('172.18.0.5', 49320)
+staker20  | 2025-01-12 18:35:35,803 - INFO - Staker staker20 initialized with stake 150.
+miner22   | 2025-01-12 18:35:35,802 - INFO - Incoming connection from ('172.18.0.6', 36660)
+miner12   | 2025-01-12 18:35:35,800 - INFO - Incoming connection from ('172.18.0.5', 52468)
+staker10  | 2025-01-12 18:35:35,765 - INFO - Staker staker10 initialized with stake 100.
+staker20  | 2025-01-12 18:35:35,803 - INFO - Shard shard20 selected for block proposal.
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,765 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,766 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range
+staker10  | 2025-01-12 18:35:35,767 - ERROR - Error in staker operation: list index out of range

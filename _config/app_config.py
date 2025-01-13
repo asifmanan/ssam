@@ -1,11 +1,13 @@
 import json
+import logging
+
 
 class AppConfig:
-    def __init__(self, config_file_path: str=None):
+    def __init__(self, config_file_path: str = None):
         """
         Initialize the AppConfig with the configuration file path.
         """
-        if config_file_path==None:
+        if config_file_path is None:
             config_file_path = "_config/config.json"
 
         self.config = self.load_config(config_file_path)
@@ -17,37 +19,51 @@ class AppConfig:
         :param file_path: Path to the configuration file.
         :return: Parsed configuration dictionary.
         """
-        config=None
         try:
             with open(file_path, "r") as file:
                 config = json.load(file)
         except Exception as e:
-            print(f"Error loading configuration: {e}")
+            raise ValueError(f"Error loading configuration: {e}")
 
-        # Validation checks
-        if "network_config" not in config or not isinstance(config["network_config"], dict):
-            raise ValueError("Invalid configuration: 'network_config' is missing or not a dictionary.")
-        if "peers" not in config["network_config"] or not isinstance(config["network_config"]["peers"], list):
-            raise ValueError("Invalid configuration: 'peers' is missing or not a list.")
-        if "mining_config" not in config or not isinstance(config["mining_config"], dict):
-            raise ValueError("Invalid configuration: 'mining_config' is missing or not a dictionary.")
+        required_keys = ["network_config", "mining_config", "shard_config", "stake_info"]
+        for key in required_keys:
+            if key not in config:
+                raise ValueError(f"Invalid configuration: '{key}' is missing.")
 
         return config
 
     def get_network_config(self) -> dict:
-        """
-        Get the network configuration from the loaded configuration.
-        """
         return self.config["network_config"]
-    
+
     def get_mining_config(self) -> dict:
-        """
-        Get the mining configuration from the loaded configuration.
-        """
         return self.config["mining_config"]
-    
+
     def get_shard_config(self) -> dict:
-        """
-        Get the shard configuration from the loaded configuration.
-        """
         return self.config["shard_config"]
+
+    def get_stake_info(self) -> dict:
+        return self.config["stake_info"]
+
+    def get_peers_for_shard(self, shard: str) -> list:
+        """
+        Get the list of peers for a given shard.
+        :param shard: The shard identifier (e.g., "shard10").
+        :return: List of peers for the shard.
+        """
+        shard_config = self.get_shard_config()
+        peers = shard_config.get(shard, [])
+        if not peers:
+            logging.error(f"No peers found for shard {shard}. Check the shard configuration.")
+        return peers
+
+    def get_staker_for_shard(self, shard: str) -> str:
+        """
+        Get the staker address for a given shard.
+        :param shard: The shard identifier (e.g., "shard10").
+        :return: The staker's address (e.g., "staker10:5000").
+        """
+        peers = self.get_peers_for_shard(shard)
+        for peer in peers:
+            if "staker" in peer:
+                return peer
+        raise ValueError(f"No staker found for shard {shard}.")

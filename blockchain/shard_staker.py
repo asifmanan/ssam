@@ -38,6 +38,7 @@ class ShardStaker:
         # Get the hash of the previous block
         previous_block = self.blockchain.get_last_block()
         previous_block_hash = previous_block.compute_hash()
+        epoch = previous_block.index + 1
 
         # Sort staker IDs to ensure consistent ordering
         sorted_stakers = sorted(self.stakes.keys())
@@ -57,7 +58,7 @@ class ShardStaker:
             stake_weight = self.stakes[staker]
             cumulative_weight += stake_weight
             if hash_number % total_stake < cumulative_weight:
-                return staker
+                return staker, epoch
 
     
     def validate_shard_block(self, shard_block: ShardBlock):
