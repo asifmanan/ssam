@@ -10,6 +10,7 @@ from blockchain.shard_miner import ShardMiner
 from blockchain.shard_staker import ShardStaker
 from blockchain.blockchain import Blockchain
 from blockchain.shard_block import ShardBlock
+from blockchain.main_block import MainBlock
 
 from transaction.transaction_manager import TransactionManager
 
@@ -69,17 +70,12 @@ class BlockchainNode:
         while True:
             try:
                 # Wait for control messages
-                control_message = await self.host.message_handler.get_control_message()
+                message = await self.host.message_handler.get_control_message()
+                if message.get_content_type() == "CONTROL":
+                    control_message = message.get_content()
+                
                 if control_message:
-                    action = control_message.get("action")
-                    shard = control_message.get("shard")
-                    if shard == self.shard_name:
-                        if action == "START":
-                            mining_allowed = True
-                            logging.info(f"Miner {self.node_name} received START message. Mining allowed.")
-                        elif action == "STOP":
-                            mining_allowed = False
-                            logging.info(f"Miner {self.node_name} received STOP message. Mining halted.")
+                    mining_allowed = self.process_control_message(control_message)
 
                 # Perform mining if allowed
                 if mining_allowed:
@@ -94,66 +90,80 @@ class BlockchainNode:
                 logging.error(f"Error in miner operation: {e}")
                 await asyncio.sleep(5)
 
+    def process_control_message(self, control_message):
+        action = control_message.get("action")
+        shard = control_message.get("shard")
+        if shard == self.shard_name:
+            if action == "START":
+                logging.info(f"Miner {self.node_name} received START message. Mining allowed.")
+                return True
+                
+            elif action == "STOP":
+                logging.info(f"Miner {self.node_name} received STOP message. Mining halted.")
+                return False
+                
+    
     async def run_staker(self, shard_peers):
         """
         Run Shard Staker Node.
         """
-        shard_staker = ShardStaker(transaction_manager=self.transaction_manager, blockchain=self.blockchain)
-        shard_staker.add_stake(self.node_name, self.stake_info.get(self.node_name, 0))
-        logging.info(f"Staker {self.node_name} initialized with stake {self.stake_info.get(self.node_name, 0)}.")
+        shard_staker = ShardStaker(transaction_manager=self.transaction_manager, blockchain=self.blockchain, node_name=self.node_name)
+        shard_staker.initialize_stakes(self.stake_info)
 
         while True:
             try:
                 # Determine active shard
+                mining_turn = False
                 selected_staker, epoch = shard_staker.select_staker()
                 logging.info(f"Selected staker: {selected_staker} for epoch {epoch}.")
-
+                
                 if selected_staker != self.node_name:
-                    logging.info(f"Staker {self.node_name} waiting for its turn.")
-                    await asyncio.sleep(5)
-                    continue   
+                    logging.info(f"Staker {self.node_name} waiting for Main Block.")
+                    
+                    message = await self.host.message_handler.get_main_block()  # Wait for main block message
+                    is_added = shard_staker.receive_main_block(message, block_sender=selected_staker)
+                    
+                    continue
+                         
+                elif selected_staker == self.node_name:
+                    # The part of the program which will execute if the selected staker is the current node
 
+                    mining_turn = True                
+                    logging.info(f"Shard {self.shard_name} selected for mining.")
+                    
+                    shard_peers = self.config.get_peers_for_shard(self.shard_name)
+
+                    # Wait for shard block messages
+                    if mining_turn == True:
+                        for peer in shard_peers:
+                            if "miner" in peer:
+                                miner_peer = Peer(*peer.split(":"))
+                                control_message = Message.generate_start_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
+                                await self.host.send_message(miner_peer, control_message)
+
+                        message = await self.host.message_handler.get_shard_block()
+                        is_valid, shard_block = shard_staker.process_shard_block(message)
+
+                        
+                        if is_valid:
+                            is_accepted, new_main_block = shard_staker.propose_block(shard_block=shard_block)
+                        
+                        for peer in shard_peers:
+                            if "miner" in peer:
+                                miner_peer = Peer(*peer.split(":"))
+                                control_message = Message.generate_stop_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
+                                await self.host.send_message(miner_peer, control_message)
+
+                        staker_peers = self.config.get_other_stakers(self.node_name)
+                        if is_accepted:
+                            for peer in staker_peers:
+                                staker_peer = Peer(*peer.split(":"))
+                                message = Message(content_type="MAIN_BLOCK", content=new_main_block.to_dict(), sender=self.node_name)
+                                await self.host.send_message(staker_peer, message)
+                                logging.info(f"Staker {self.node_name} sent main block to {peer}.")
                 
-                logging.info(f"Shard {self.shard_name} selected for mining.")
-                
-                # Send START message to miners in this shard
-                shard_peers = self.config.get_peers_for_shard(self.shard_name)
-                for peer in shard_peers:
-                    if "miner" in peer:
-                        miner_peer = Peer(*peer.split(":"))
-                        control_message = Message(content_type="CONTROL", content={
-                            "action": "START",
-                            "shard": self.shard_name,
-                            "epoch": epoch
-                        }, sender=self.node_name)
-                        await self.host.send_message(miner_peer, control_message)
-
-                # Wait for shard block messages
-                shard_block_data = await self.host.message_handler.get_shard_block()
-                if shard_block_data:
-                    shard_block = ShardBlock.from_dict(shard_block_data)
-                    logging.info(f"Staker {self.node_name} received shard block from {shard_block.miner_id}.")
-
-                    if shard_staker.validate_shard_block(shard_block):
-                        is_added, new_block = shard_staker.propose_block()
-                        if is_added:
-                            logging.info(f"Staker {self.node_name} added Block {new_block.index} to the blockchain.")
-                            self.host.broadcast_message(Message(content_type="MAIN_BLOCK", content=new_block.to_dict(), sender=self.node_name))
-                        else:
-                            logging.warning(f"Staker {self.node_name} rejected the block.")
-
-                # Send STOP message to miners in this shard
-                for peer in shard_peers:
-                    if "miner" in peer:
-                        miner_peer = Peer(*peer.split(":"))
-                        control_message = Message(content_type="CONTROL", content={
-                            "action": "STOP",
-                            "shard": self.shard_name
-                        }, sender=self.node_name)
-                        await self.host.send_message(miner_peer, control_message)
-
                 # Wait before rotating to the next shard
-                await asyncio.sleep(10)  
+                await asyncio.sleep(3)  
             except Exception as e:
                 logging.error(f"Error in staker operation: {e}")
 

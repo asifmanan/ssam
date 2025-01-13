@@ -10,6 +10,8 @@ class MessageHandler:
         self.main_blocks = asyncio.Queue()
         self.transactions = asyncio.Queue()
         self.control_message = asyncio.Queue()
+        self.message_queue = asyncio.Queue()
+        self.other_messages = asyncio.Queue()
 
     async def handle_message(self, sender: str, message: str):
         """
@@ -23,31 +25,44 @@ class MessageHandler:
             parsed_message = Message.from_json(message)
             content_type = parsed_message.get_content_type()
             if content_type == "SHARD_BLOCK":
-                logging.info(f"[MessageHandler (handle_message)] Received SHARD_BLOCK from {sender}")
-                shard_block = parsed_message.get_content()
-                await self.add_shard_block(shard_block)
-
-            elif content_type == "CONTROL":
-                logging.info(f"Received CONTROL message from {sender}")
-                message_content = parsed_message.get_content()
-                await self.add_control_message(message_content)
-
-            elif content_type == "TRANSACTION":
-                logging.info(f"Received TRANSACTION from {sender}")
-                await self.add_transaction(parsed_message)
+                logging.info(f"Received {content_type} from {sender}")
+                await self.add_shard_block(parsed_message)
 
             elif content_type == "MAIN_BLOCK":
-                logging.info(f"Received MAIN_BLOCK from {sender}")
+                logging.info(f"Received {content_type} from {sender}")
                 await self.add_main_block(parsed_message)
+            
+            elif content_type == "CONTROL":
+                logging.info(f"Received {content_type} from {sender}")
+                await self.add_control_message(parsed_message)
+
+            elif content_type == "TRANSACTION":
+                logging.info(f"Received {content_type} from {sender}")
+                await self.add_transaction(parsed_message)
 
             else:
                 logging.warning(f"Unknown message type from {sender}: {content_type}")
+                await self.other_messages.put(parsed_message)
 
         except json.JSONDecodeError as e:
             logging.error(f"Invalid JSON message from {sender}: {e}")
 
         except Exception as e:
             logging.error(f"Failed to handle message from {sender}: {e}")
+    
+    async def add_to_queue(self, message):
+        """
+        Add a message to the message queue.
+        :params: message (Message): The Message object to add.
+        """
+        await self.message_queue.put(message)
+
+    async def get_from_queue(self):
+        """
+        Get a message from the message queue.
+        """
+        message = await self.message_queue.get()
+        return message
     
     async def add_shard_block(self, shard_block):
         """

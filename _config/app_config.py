@@ -67,3 +67,16 @@ class AppConfig:
             if "staker" in peer:
                 return peer
         raise ValueError(f"No staker found for shard {shard}.")
+    
+    def get_other_stakers(self, node_name: str) -> list:
+        """
+        Get a list of all stakers except the one specified by node_name.
+
+        :param node_name: The name of the current staker node.
+        :return: A list of other stakers in the network.
+        """
+        all_peers = self.config.get("network_config", {}).get("peers", [])
+        other_stakers = [
+            peer for peer in all_peers if "staker" in peer and not peer.startswith(node_name)
+        ]
+        return other_stakers

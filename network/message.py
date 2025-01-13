@@ -79,6 +79,27 @@ class Message:
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON string: {e}")
 
+    @classmethod
+    def generate_start_message(cls, shard_name: str, epoch: int, node_name: str):
+        """
+        Generate a START message.
+        """
+        return Message(content_type="CONTROL", content={
+            "action": "START",
+            "shard": shard_name,
+            "epoch": epoch
+        }, sender=node_name)
+    
+    @classmethod
+    def generate_stop_message(cls, shard_name: str, epoch: int, node_name: str):
+        """
+        Generate a STOP message.
+        """
+        return Message(content_type="CONTROL", content={
+            "action": "STOP",
+            "shard": shard_name,
+            "epoch": epoch
+        }, sender=node_name)
 
     
     def __str__(self):
