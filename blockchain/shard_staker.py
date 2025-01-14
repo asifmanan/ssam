@@ -1,6 +1,7 @@
 import uuid
 import hashlib
 import logging
+from typing import List
 from blockchain.shard_block import ShardBlock
 from transaction.transaction_manager import TransactionManager
 from blockchain.blockchain import Blockchain
@@ -88,20 +89,42 @@ class ShardStaker:
         # print(f"Shard block from Miner {shard_block.miner_id} verified and accepted.")
         return True
     
-    def propose_block(self, shard_block: ShardBlock):
+    def propose_main_block(self, shard_blocks: List[ShardBlock]):
         """
-        Propose a new block to the blockchain.
+        Propose a new main block to the blockchain using transactions from multiple shard blocks.
+
+        :param shard_blocks: A list of ShardBlock objects.
+        :return: A tuple containing a boolean indicating whether the block was added successfully and the newly added block.
         """
-        # shard_block = self.get_shard_block()
-        if shard_block:
-            print(f"Shard Merkle_Root {shard_block.merkle_root} to the blockchain.")
+        if shard_blocks:
+            # Collect all transactions from the shard blocks
+            combined_transactions = []
+            shard_data = {}
+            for shard_block in shard_blocks:
+                shard_data[shard_block.miner_node_name] = {
+                "block_hash": shard_block.compute_hash(),
+                "miner_numeric_id": shard_block.miner_numeric_id,
+                "timestamp": shard_block.timestamp,
+                "merkle_root": shard_block.merkle_root,
+                "nonce" : shard_block.nonce,
+                "nbits" : shard_block.nbits,
+                }
+                combined_transactions.extend(shard_block.transactions)
+
+            # Calculate a single Merkle root for all transactions
+            transaction_merkle_root = self.transaction_manager.calculate_merkle_root(combined_transactions)
+
+            # Create and propose the new main block
             new_block = self.blockchain.create_block(
-                staker_signature = self.get_stacker_signature(),
-                tx_root = shard_block.merkle_root, 
-                transactions = shard_block.transactions)
+                staker_signature=self.get_stacker_signature(),
+                tx_root=transaction_merkle_root,
+                shard_data=shard_data,
+                transactions=combined_transactions,
+            )
             return self.blockchain.add_block(new_block), new_block
         else:
-            return None
+            print("No shard blocks provided for proposing the main block.")
+            return None, None
     
     # def get_shard_block(self):
     #     """
@@ -138,7 +161,7 @@ class ShardStaker:
         if message.get_content_type() == "SHARD_BLOCK":
             message_payload = message.get_content()
             shard_block = ShardBlock.from_dict(message_payload)
-            logging.info(f"Staker {self.staker_node_name} received shard block from {shard_block.miner_id}.")
+            logging.info(f"Staker {self.staker_node_name} received shard block from {shard_block.miner_node_name}.")
             is_valid = self.validate_shard_block(shard_block)
             if is_valid:
                 return True, shard_block

@@ -22,7 +22,8 @@ class ProofOfWork:
 
     else:
       self.current_target = self.MAX_TARGET
-      self.max_nonce = self.MAX_NONCE_VALUE
+    
+    self.max_nonce = self.MAX_NONCE_VALUE
   
 
   def find_valid_nonce(self, block):

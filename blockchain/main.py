@@ -37,7 +37,7 @@ class BlockchainNode:
         self.transactions = TransactionManager.load_transactions()
         self.transaction_manager = TransactionManager(transactions=self.transactions, num_miners=self.num_of_miners)
 
-        self.blockchain = Blockchain(transaction_manager=self.transaction_manager)
+        self.blockchain = Blockchain()
 
     async def start(self):
         """
@@ -67,7 +67,7 @@ class BlockchainNode:
         """
         Run Shard Miner Node.
         """
-        shard_miner = ShardMiner(miner_id=self.get_miner_id(), num_miners=self.num_of_miners, transactions=self.transactions)
+        shard_miner = ShardMiner(miner_numeric_id=self.get_miner_id(), miner_node_name=self.node_name, num_miners=self.num_of_miners, transactions=self.transactions)
         mining_allowed = False  # Control variable for mining
 
         while True:
@@ -134,13 +134,16 @@ class BlockchainNode:
         """
         shard_staker = ShardStaker(transaction_manager=self.transaction_manager, blockchain=self.blockchain, node_name=self.node_name)
         shard_staker.initialize_stakes(self.stake_info)
+        genesis_block = self.blockchain.get_last_block()
+        self.blockchain.write_to_json(node_name=self.node_name, block=genesis_block)
+        current_epoch = genesis_block.index + 1
 
         while True:
             try:
                 # Determine active shard
                 mining_turn = False
-                selected_staker, epoch = shard_staker.select_staker()
-                logging.info(f"Selected staker: {selected_staker} for epoch {epoch}.")
+                selected_staker, next_epoch = shard_staker.select_staker()
+                logging.info(f"Selected staker: {selected_staker} for epoch {next_epoch}.")
                 
                 if selected_staker != self.node_name:
                     logging.info(f"Staker {self.node_name} waiting for Main Block.")
@@ -164,25 +167,27 @@ class BlockchainNode:
                         for peer in shard_peers:
                             if "miner" in peer:
                                 miner_peer = Peer(*peer.split(":"))
-                                control_message = Message.generate_start_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
+                                control_message = Message.generate_start_message(shard_name=self.shard_name, epoch=next_epoch, node_name=self.node_name)
                                 await self.host.send_message(miner_peer, control_message)
 
                         shard_blocks=[]
-                        
-                        message = await self.host.message_handler.get_shard_block()
-                        is_valid, shard_block = shard_staker.process_shard_block(message)
-                        
-                        # print(f"Shard block hash: {shard_block.compute_hash()}")
+                        for _ in range(self.num_of_miners):
+                            message = await self.host.message_handler.get_shard_block()
+                            is_valid, shard_block = shard_staker.process_shard_block(message)
+                            if is_valid:
+                                shard_blocks.append(shard_block)
+                            else:
+                                logging.warning(f"Invalid shard block received: {message}")
 
-                        
-                        if is_valid:
-                            is_accepted, new_main_block = shard_staker.propose_block(shard_block=shard_block)
+                        if len(shard_blocks) == self.num_of_miners:
+                            is_accepted, new_main_block = shard_staker.propose_main_block(shard_blocks=shard_blocks)
                             self.blockchain.write_to_json(node_name=self.node_name, block=new_main_block)
+                            
                         
                         for peer in shard_peers:
                             if "miner" in peer:
                                 miner_peer = Peer(*peer.split(":")) #Unpack. 
-                                control_message = Message.generate_stop_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
+                                control_message = Message.generate_stop_message(shard_name=self.shard_name, epoch=next_epoch, node_name=self.node_name)
                                 await self.host.send_message(miner_peer, control_message)
 
                         staker_peers = self.config.get_other_stakers(self.node_name)

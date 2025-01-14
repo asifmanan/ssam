@@ -3,18 +3,17 @@ import json
 import logging
 import os
 from blockchain.main_block import MainBlock
-from transaction.transaction_manager import TransactionManager
 from transaction.utils import load_genesis_transactions
 # Blockchain Class 
 class Blockchain:
-  def __init__(self, transaction_manager: TransactionManager):
+  def __init__(self):
     """
     Initializes the blockchain with the genesis block.
     """
     self.chain = []
     self.block_lookup_table = {}
     self.create_genesis_block()
-    self.transaction_manager = transaction_manager
+    
 
   def create_genesis_block(self):
     """
@@ -27,12 +26,15 @@ class Blockchain:
       tx_root = "1011a88e4e9231ad320625b235a22997ba68d99db47a808dcc059c07395082eb",
       staker_signature = "0x0",
       nbits = "0x1e0ffff0",
-      nonce = 311285,
+      nonce = 820329,
+      shard_data = {},
       transactions = load_genesis_transactions()
     )
+    
     self.add_block(genesis_block)
+    
 
-  def create_block(self, staker_signature, tx_root, nonce: int=0, nbits=None, transactions: list=[]):
+  def create_block(self, staker_signature, tx_root, nonce: int=0, nbits=None, shard_data: dict=None,transactions: list=[]):
     """
     Creates a new block with the given transaction root.
     :param staker_signature: The signature of the staker.
@@ -52,6 +54,7 @@ class Blockchain:
       staker_signature = staker_signature,
       nbits = nbits,
       nonce = nonce,
+      shard_data = shard_data if shard_data is not None else {},
       transactions = transactions
     )
     return new_block
@@ -94,7 +97,7 @@ class Blockchain:
     # Genesis block validation
     if block.index == 0:
       return (block.previous_hash == "0" and 
-              block.compute_hash() == "ed5fa58270a35492486115de286d6f8f7181654654091e49d311b15bbf2e0eec")
+              block.compute_hash() == "00000110b03f6bca0513e614094a7d3b42729bacc65d6ae99b7088f5eebe0f28")
     
     # Other block validation
     previous_block = self.get_previous_block(block)
@@ -149,13 +152,17 @@ class Blockchain:
           if not file_path:
               file_path = f"/app/data/{node_name}_blockchain.json"
 
-          # Check if file exists
-          if os.path.exists(file_path):
-              # Read existing blockchain from the file
-              with open(file_path, "r") as json_file:
-                  blockchain_data = json.load(json_file)
+          # Check if the file exists and is not empty
+          if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+              # Try reading the existing blockchain
+              try:
+                  with open(file_path, "r") as json_file:
+                      blockchain_data = json.load(json_file)
+              except json.JSONDecodeError:
+                  logging.warning(f"File {file_path} is corrupted. Reinitializing.")
+                  blockchain_data = []
           else:
-              # Start a new blockchain if file does not exist
+              # Initialize a new blockchain file if it does not exist or is empty
               blockchain_data = []
 
           # Add the new block

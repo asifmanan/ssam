@@ -4,14 +4,15 @@ from typing import List
 from transaction.transaction import Transaction
 
 class ShardBlock:
-    def __init__(self, miner_id, merkle_root,timestamp, transactions: List[Transaction], nonce: int=0, nbits: str="0x1f00ffff"):  
+    def __init__(self, miner_numeric_id, miner_node_name, merkle_root,timestamp, transactions: List[Transaction], nonce: int=0, nbits: str="0x1f00ffff"):  
         """
         Initialize a new block.
-        :param miner_id: The ID of the miner.
+        :param miner_numeric_id: The numeric ID of the miner.
         :param merkle_root: The Merkle root of the transactions.
         :param timestamp: The timestamp of the block.
         """
-        self.miner_id = miner_id
+        self.miner_numeric_id = miner_numeric_id
+        self.miner_node_name = miner_node_name
         self.timestamp = timestamp
         self.merkle_root = merkle_root
         self.transactions = transactions
@@ -28,7 +29,8 @@ class ShardBlock:
             Transaction.from_dict(tx) if isinstance(tx, dict) else 
             tx for tx in block_data.get("transactions", [])
         ]
-        return cls(miner_id = block_data["miner_id"],
+        return cls(miner_numeric_id = block_data["miner_numeric_id"],
+                miner_node_name = block_data["miner_node_name"],
                 timestamp = block_data["timestamp"], 
                 merkle_root = block_data["merkle_root"],
                 nonce = block_data["nonce"],
@@ -41,7 +43,8 @@ class ShardBlock:
         Convert the block object into a dictionary for JSON serialization.
         """
         return {
-                "miner_id":self.miner_id,
+                "miner_numeric_id":self.miner_numeric_id,
+                "miner_node_name":self.miner_node_name,
                 "timestamp":self.timestamp,
                 "merkle_root":self.merkle_root,
                 "nonce":self.nonce,
@@ -56,7 +59,8 @@ class ShardBlock:
         Compute the hash of the block.
         """
         block_content = {
-                "miner_id":self.miner_id,
+                "miner_numeric_id":self.miner_numeric_id,
+                "miner_node_name":self.miner_node_name,
                 "timestamp":self.timestamp,
                 "merkle_root":self.merkle_root,
                 "nonce":self.nonce,
