@@ -1,4 +1,7 @@
 import time
+import json
+import logging
+import os
 from blockchain.main_block import MainBlock
 from transaction.transaction_manager import TransactionManager
 from transaction.utils import load_genesis_transactions
@@ -132,3 +135,36 @@ class Blockchain:
     self.chain = new_chain
     self.block_lookup_table = {block.compute_hash(): block for block in new_chain}
     return True
+  
+  def write_to_json(self, node_name, block, file_path=None):
+      """
+      Append a new block to the blockchain JSON file in the shared volume.
+
+      :param node_name: The name of the staker node.
+      :param block: The new block to append.
+      :param file_path: Optional custom file path. If not provided, the filename will be based on the node name.
+      """
+      try:
+          # Default filename in the shared volume directory
+          if not file_path:
+              file_path = f"/app/data/{node_name}_blockchain.json"
+
+          # Check if file exists
+          if os.path.exists(file_path):
+              # Read existing blockchain from the file
+              with open(file_path, "r") as json_file:
+                  blockchain_data = json.load(json_file)
+          else:
+              # Start a new blockchain if file does not exist
+              blockchain_data = []
+
+          # Add the new block
+          blockchain_data.append(block.to_dict())
+
+          # Write back to the JSON file
+          with open(file_path, "w") as json_file:
+              json.dump(blockchain_data, json_file, indent=4)
+
+          logging.info(f"Block {block.index} added to {file_path}.")
+      except Exception as e:
+          logging.error(f"Failed to append block to {file_path}: {e}")

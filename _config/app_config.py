@@ -55,6 +55,19 @@ class AppConfig:
         if not peers:
             logging.error(f"No peers found for shard {shard}. Check the shard configuration.")
         return peers
+    
+    def get_number_of_miners(self, shard_name: str) -> int:
+        """
+        Get the number of miner nodes in the specified shard.
+
+        :param shard_name: The name of the shard 
+        :return: The number of miner nodes in the shard.
+        """
+        shard_config = self.config.get("shard_config", {})
+        peers = shard_config.get(shard_name, [])
+        # Count entries in the shard that are miner nodes
+        miner_count = sum(1 for peer in peers if "miner" in peer)
+        return miner_count
 
     def get_staker_for_shard(self, shard: str) -> str:
         """

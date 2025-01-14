@@ -25,19 +25,19 @@ class MessageHandler:
             parsed_message = Message.from_json(message)
             content_type = parsed_message.get_content_type()
             if content_type == "SHARD_BLOCK":
-                logging.info(f"Received {content_type} from {sender}")
+                # logging.info(f"Received {content_type} from {sender}")
                 await self.add_shard_block(parsed_message)
 
             elif content_type == "MAIN_BLOCK":
-                logging.info(f"Received {content_type} from {sender}")
+                # logging.info(f"Received {content_type} from {sender}")
                 await self.add_main_block(parsed_message)
             
             elif content_type == "CONTROL":
-                logging.info(f"Received {content_type} from {sender}")
+                # logging.info(f"Received {content_type} from {sender}")
                 await self.add_control_message(parsed_message)
 
             elif content_type == "TRANSACTION":
-                logging.info(f"Received {content_type} from {sender}")
+                # logging.info(f"Received {content_type} from {sender}")
                 await self.add_transaction(parsed_message)
 
             else:

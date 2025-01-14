@@ -94,6 +94,7 @@ class ShardStaker:
         """
         # shard_block = self.get_shard_block()
         if shard_block:
+            print(f"Shard Merkle_Root {shard_block.merkle_root} to the blockchain.")
             new_block = self.blockchain.create_block(
                 staker_signature = self.get_stacker_signature(),
                 tx_root = shard_block.merkle_root, 
@@ -128,7 +129,7 @@ class ShardStaker:
 
             if is_added:
                 logging.info(f"Block proposed by {block_sender} added Block {main_block.index} to the blockchain.")
-                return True
+                return True, main_block
             else:
                 logging.info(f"Staker {block_sender} rejected the block.")
                 return False

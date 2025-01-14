@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import json
 from network.peer_manager import PeerManager
 from network.message import Message
 from network.peer import Peer
@@ -60,7 +59,7 @@ class Host:
         :param writer: The StreamWriter object.
         """
         peer_address = writer.get_extra_info("peername")
-        logging.info(f"Incoming connection from {peer_address}")
+        # logging.info(f"Incoming connection from {peer_address}")
         self.peer_connections[peer_address] = (reader, writer)
 
         while True:

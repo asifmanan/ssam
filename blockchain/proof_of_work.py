@@ -7,12 +7,11 @@ class ProofOfWork:
   """
   MAX_TARGET = MAX_TARGET = int("00000FFFF0000000000000000000000000000000000000000000000000000000", 16)
   MAX_NONCE_VALUE = 2**32 - 1 # Limit the nonce to 32 bits (max 4,294,967,295)
-  def __init__(self, nbits:str=None, target:str=None, max_nonce:int=None):
+  def __init__(self, nbits:str=None, target:str=None):
     """
     Initializes the Proof of Work.
     :param nbits: The compact 'nbits' format for the target.
     :param target: The 256-bit target value.
-    :param max_nonce: The maximum nonce value.
     """
     if target:
       current_target = int(target,16)

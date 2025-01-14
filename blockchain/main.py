@@ -30,9 +30,12 @@ class BlockchainNode:
         self.node_name = os.getenv("NODE_NAME")
         self.shard_name = os.getenv("SHARD")
 
+        self.num_of_miners = self.config.get_number_of_miners(self.shard_name)
+        self.miner_id_map = self.generate_miner_id_map()
+
         self.host = Host(self.network_config)
         self.transactions = TransactionManager.load_transactions()
-        self.transaction_manager = TransactionManager(transactions=self.transactions, num_miners=2)
+        self.transaction_manager = TransactionManager(transactions=self.transactions, num_miners=self.num_of_miners)
 
         self.blockchain = Blockchain(transaction_manager=self.transaction_manager)
 
@@ -51,7 +54,7 @@ class BlockchainNode:
             shard_peers = self.config.get_peers_for_shard(self.shard_name)
             staker_address = self.config.get_staker_for_shard(self.shard_name)
 
-            logging.info(f"Node {self.node_name} belongs to {self.shard_name} with staker {staker_address}.")
+            # logging.info(f"Node {self.node_name} belongs to {self.shard_name} with staker {staker_address}.")
 
             if self.node_name.startswith("miner"):
                 await self.run_miner(staker_address)
@@ -64,7 +67,7 @@ class BlockchainNode:
         """
         Run Shard Miner Node.
         """
-        shard_miner = ShardMiner(miner_id=self.node_name, num_miners=2, transactions=self.transactions)
+        shard_miner = ShardMiner(miner_id=self.get_miner_id(), num_miners=self.num_of_miners, transactions=self.transactions)
         mining_allowed = False  # Control variable for mining
 
         while True:
@@ -84,11 +87,12 @@ class BlockchainNode:
                     message = Message(content_type="SHARD_BLOCK", content=shard_block.to_dict(), sender=self.node_name)
 
                     await self.host.send_message(staker_peer, message)
+                    mining_allowed = False
                     logging.info(f"Miner {self.node_name} sent shard block to Staker {staker_address}.")
-                    await asyncio.sleep(5)
+                    await asyncio.sleep(1)
             except Exception as e:
                 logging.error(f"Error in miner operation: {e}")
-                await asyncio.sleep(5)
+            
 
     def process_control_message(self, control_message):
         action = control_message.get("action")
@@ -99,9 +103,30 @@ class BlockchainNode:
                 return True
                 
             elif action == "STOP":
-                logging.info(f"Miner {self.node_name} received STOP message. Mining halted.")
+                # logging.info(f"Miner {self.node_name} received STOP message. Mining halted.")
                 return False
                 
+    def generate_miner_id_map(self) -> dict:
+        """
+        Generate a mapping of miner node names to zero-based IDs for the current shard.
+
+        :return: A dictionary mapping miner node names to their IDs.
+        """
+        shard_peers = self.shard_config.get(self.shard_name, [])
+        miner_peers = [peer.split(":")[0] for peer in shard_peers if "miner" in peer]
+        return {miner: idx for idx, miner in enumerate(miner_peers)}
+    
+    def get_miner_id(self) -> int:
+        """
+        Retrieve the miner ID for the current node.
+
+        :return: The zero-based ID of the miner.
+        """
+        if self.node_name in self.miner_id_map:
+            return self.miner_id_map[self.node_name]
+        raise ValueError(f"Node name {self.node_name} not found in miner ID map.")
+    
+    
     
     async def run_staker(self, shard_peers):
         """
@@ -121,7 +146,8 @@ class BlockchainNode:
                     logging.info(f"Staker {self.node_name} waiting for Main Block.")
                     
                     message = await self.host.message_handler.get_main_block()  # Wait for main block message
-                    is_added = shard_staker.receive_main_block(message, block_sender=selected_staker)
+                    is_added, received_main_block = shard_staker.receive_main_block(message, block_sender=selected_staker)
+                    self.blockchain.write_to_json(node_name=self.node_name, block=received_main_block)
                     
                     continue
                          
@@ -141,16 +167,21 @@ class BlockchainNode:
                                 control_message = Message.generate_start_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
                                 await self.host.send_message(miner_peer, control_message)
 
+                        shard_blocks=[]
+                        
                         message = await self.host.message_handler.get_shard_block()
                         is_valid, shard_block = shard_staker.process_shard_block(message)
+                        
+                        # print(f"Shard block hash: {shard_block.compute_hash()}")
 
                         
                         if is_valid:
                             is_accepted, new_main_block = shard_staker.propose_block(shard_block=shard_block)
+                            self.blockchain.write_to_json(node_name=self.node_name, block=new_main_block)
                         
                         for peer in shard_peers:
                             if "miner" in peer:
-                                miner_peer = Peer(*peer.split(":"))
+                                miner_peer = Peer(*peer.split(":")) #Unpack. 
                                 control_message = Message.generate_stop_message(shard_name=self.shard_name, epoch=epoch, node_name=self.node_name)
                                 await self.host.send_message(miner_peer, control_message)
 
