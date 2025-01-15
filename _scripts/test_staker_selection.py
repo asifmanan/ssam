@@ -1,7 +1,6 @@
 from blockchain.blockchain import Blockchain
 from blockchain.shard_staker import ShardStaker
 from transaction.transaction_manager import TransactionManager
-from blockchain.main_block import MainBlock
 
 
 class MockTransactionManager(TransactionManager):
@@ -18,10 +17,10 @@ def simulate_staker_selection_rounds(rounds=4):
     transaction_manager = MockTransactionManager()
 
     # Initialize blockchain
-    blockchain = Blockchain(transaction_manager)
+    blockchain = Blockchain()
 
     # Initialize ShardStaker
-    shard_staker = ShardStaker(transaction_manager, blockchain)
+    shard_staker = ShardStaker(transaction_manager, blockchain, node_name="staker1")
 
     # Add stakers and stakes
     shard_staker.add_stake("staker1", 40)
@@ -34,8 +33,8 @@ def simulate_staker_selection_rounds(rounds=4):
     for round_number in range(1, rounds + 1):
         print(f"--- Round {round_number} ---")
         # Select a staker
-        selected_staker = shard_staker.select_staker()
-        print(f"Selected Staker: {selected_staker}")
+        selected_staker, epoch = shard_staker.select_staker()
+        print(f"Selected Staker: {selected_staker} for epoch {epoch}")
 
         # Simulate block proposal
         new_block = blockchain.create_block(

@@ -8,16 +8,16 @@ class Miner:
     """
     self.pow = ProofOfWork()
   
-  def mine_block(self, block_data):
+  def mine_block(self, block):
     """
-    Mines a new block with the given transaction root.
+    Mines a new block with the given the block_data.
     """
     # Get the target from (difficulty) nbits
-    golden_nonce = self.pow.find_valid_nonce(block_data)
+    golden_nonce = self.pow.find_valid_nonce(block)
     if golden_nonce is None:
       logging.warning("Failed to find a valid nonce for the block.")
       return None
 
-    block_data.nonce = golden_nonce
+    block.nonce = golden_nonce
 
-    return block_data
+    return block
