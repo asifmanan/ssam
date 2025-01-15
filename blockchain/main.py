@@ -72,7 +72,7 @@ class BlockchainNode:
             elif self.node_name.startswith("staker"):
                 await self.run_staker(shard_peers)
         except Exception as e:
-            logging.error(f"Unexpected error: {e}")
+            logging.error(f"Unexpected error occured in BlockchainNode.start(): {e}")
 
     async def run_miner(self, staker_address):
         """
@@ -110,6 +110,11 @@ class BlockchainNode:
             
 
     def process_control_message(self, control_message):
+        """
+        Process the control message to determine if mining is allowed.
+        : param control_message: The control message to process.
+        : return: True if mining is allowed, False otherwise.
+        """
         action = control_message.get("action")
         shard = control_message.get("shard")
         if shard == self.shard_name:
@@ -124,7 +129,6 @@ class BlockchainNode:
     def generate_miner_id_map(self) -> dict:
         """
         Generate a mapping of miner node names to zero-based IDs for the current shard.
-
         :return: A dictionary mapping miner node names to their IDs.
         """
         shard_peers = self.shard_config.get(self.shard_name, [])
@@ -134,7 +138,6 @@ class BlockchainNode:
     def get_miner_id(self) -> int:
         """
         Retrieve the miner ID for the current node.
-
         :return: The zero-based ID of the miner.
         """
         if self.node_name in self.miner_id_map:
@@ -161,6 +164,7 @@ class BlockchainNode:
                 logging.info(f"Selected staker: {selected_staker} for epoch {next_epoch}.")
                 
                 if selected_staker != self.node_name:
+                    # This part of the program will execute if the selected staker not the current node
                     logging.info(f"Staker {self.node_name} waiting for Main Block.")
                     
                     message = await self.host.message_handler.get_main_block()  # Wait for main block message
@@ -170,7 +174,7 @@ class BlockchainNode:
                     continue
                          
                 elif selected_staker == self.node_name:
-                    # The part of the program which will execute if the selected staker is the current node
+                    # This part of the program will execute if the selected staker is the current node
 
                     mining_turn = True                
                     logging.info(f"Shard {self.shard_name} selected for mining.")
@@ -213,7 +217,7 @@ class BlockchainNode:
                                 await self.host.send_message(staker_peer, message)
                                 logging.info(f"Staker {self.node_name} sent main block to {peer}.")
                 
-                # Wait before rotating to the next shard
+                # Wait before rotating to the next round
                 await asyncio.sleep(3)  
             except Exception as e:
                 logging.error(f"Error in staker operation: {e}")

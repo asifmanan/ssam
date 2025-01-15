@@ -8,6 +8,8 @@ class PeerManager:
         """
         Initialize the PeerManager with a list of peers.
         :params: peers_list (list): A list of peers in the format "host:port".
+
+        reference: https://docs.python.org/3/library/threading.html#lock-objects
         """
         self.lock = threading.Lock()  # For thread-safe operations
         
@@ -52,6 +54,8 @@ class PeerManager:
         Get the list of peers.
 
         :Returns: list: List of Peer objects.
+
+        reference: https://docs.python.org/3/library/threading.html#lock-objects
         """
         with self.lock:
             return list(self.peers)

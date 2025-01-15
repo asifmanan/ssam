@@ -12,8 +12,8 @@ class MainBlock:
     :param tx_root: The Merkle root of the transactions.
     :param previous_hash: The hash of the previous block.
     :param staker_signature: The signature of the staker.
-    :param nbits: The target difficulty for the block. (for compatability with PoW Systems).
-    :param nonce: The nonce value for the block (for compatability with PoW Sytems).
+    :param nbits: The target difficulty for the block. (used here for compatability with PoW Systems).
+    :param nonce: The nonce value for the block (used here for compatability with PoW Sytems).
     :param transactions: List of transactions in the block.
     :param shard_data: Dictionary of shard data for the block.
     """
@@ -31,8 +31,8 @@ class MainBlock:
   @classmethod
   def from_dict(cls, block_data):
     """
-    Convert JSON Data into an instance of a Block class.
-    :param block_data: The JSON data to be converted into a block.
+    Convert Dictionary Data into an instance of a Block class.
+    :param block_data: The dictionary data to be converted into a block.
     """
     transactions = [
         Transaction.from_dict(tx) if isinstance(tx, dict) else tx

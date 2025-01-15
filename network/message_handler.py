@@ -6,6 +6,10 @@ import asyncio
 
 class MessageHandler:
     def __init__(self):
+        """
+        Initialize the Message Handler with message queues.
+        Refernce: https://docs.python.org/3/library/asyncio-queue.html
+        """
         self.shard_blocks = asyncio.Queue()
         self.main_blocks = asyncio.Queue()
         self.transactions = asyncio.Queue()

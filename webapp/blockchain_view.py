@@ -5,7 +5,7 @@ app = Flask(__name__, template_folder="templates")
 
 # Placeholder for the blockchain object
 blockchain = None
-
+# Reference: https://flask.palletsprojects.com/en/2.0.x/quickstart/
 @app.route('/')
 def home():
     """

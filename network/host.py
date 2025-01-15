@@ -57,6 +57,7 @@ class Host:
         Handle an incoming connection from a peer.
         :param reader: The StreamReader object.
         :param writer: The StreamWriter object.
+        reference: https://docs.python.org/3/library/asyncio-stream.html#asyncio.StreamReader
         """
         peer_address = writer.get_extra_info("peername")
         # logging.info(f"Incoming connection from {peer_address}")
@@ -87,6 +88,12 @@ class Host:
         Send a message to a peer.
         :param peer: The peer to send the message to.
         :param message: The message to send.
+
+        References: 
+        https://docs.python.org/3/library/asyncio-stream.html#asyncio.StreamWriter.write
+        https://stackoverflow.com/questions/19143360/python-writing-to-and-reading-from-serial-port
+        https://stackoverflow.com/questions/44056846/how-to-read-and-write-from-a-com-port-using-pyserial
+
         """
         try:
             if str(peer) not in self.peer_connections:

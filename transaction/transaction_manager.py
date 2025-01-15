@@ -48,6 +48,7 @@ class TransactionManager:
         Get the Merkle root for a specific miner.
         :param miner_id: ID of the miner.
         :return: Merkle root as a hex string.
+        reference: https://learnmeabitcoin.com/technical/block/merkle-root/
         """
         miner_transactions = self.get_transactions_for_miner(miner_id)
         return self.calculate_merkle_root(miner_transactions)
@@ -58,6 +59,8 @@ class TransactionManager:
         Calculates the Merkle root for the transactions in the list provided.
         :param transactions: List of Transaction objects.
         :return: Merkle root as a hex string.
+        
+        reference: https://learnmeabitcoin.com/technical/block/merkle-root/
         """
         if not transactions:
             return ""

@@ -64,17 +64,21 @@ class ProofOfWork:
     Converts a 256-bit target to the compact 'nbits' format.
     :param target: 256-bit target value
     """
-    target_hex = f"{target:064x}"
-    target_bytes = bytes.fromhex(target_hex)
+    target_hex = f"{target:064x}" # Pad with zeros to ensure 64 characters
+    target_bytes = bytes.fromhex(target_hex) # Convert to bytes
     target_bytes = target_bytes.lstrip(b'\x00') # remove leading zeros
-    exponent = len(target_bytes) # position of MBS
+    exponent = len(target_bytes) # position of MSB
     coefficient = int.from_bytes(target_bytes[:3], byteorder='big')
 
-    if coefficient >= 0x7FFFFF:
+    # Adjust the coefficient if it exceeds 24 bits (i.e., is >= 0x7FFFFF)
+    if coefficient >= 0x7FFFFF: 
         coefficient >>= 8
         exponent += 1
 
+    # Combine the exponent and coefficient into the compact nBits format
     nbits = (exponent << 24) | coefficient
+
+    # Return the nBits value as a hexadecimal string formatted into 8 characters hexadecimal string
     return f"0x{nbits:08x}"
   
   @staticmethod
@@ -85,10 +89,10 @@ class ProofOfWork:
     """
     if isinstance(nbits, str):
       nbits = int(nbits, 16)
-    exponent = (nbits >> 24) & 0xFF
-    coefficient = nbits & 0xFFFFFF
+    exponent = (nbits >> 24) & 0xFF # Shift right 24 bits and mask with 0xFF (8 bits)
+    coefficient = nbits & 0xFFFFFF # Mask with 0xFFFFFF to get the last 24 bits
 
-    target = coefficient * (256 ** (exponent - 3))
+    target = coefficient * (256 ** (exponent - 3)) # Compute the full 256-bit target
     return target
   
   @staticmethod

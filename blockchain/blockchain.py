@@ -141,7 +141,7 @@ class Blockchain:
   
   def write_to_json(self, node_name, block, file_path=None):
       """
-      Append a new block to the blockchain JSON file in the shared volume.
+      Append a new block to the blockchain JSON file in the shared docker volume.
 
       :param node_name: The name of the staker node.
       :param block: The new block to append.
@@ -154,7 +154,7 @@ class Blockchain:
 
           # Check if the file exists and is not empty
           if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-              # Try reading the existing blockchain
+              # Reading the existing blockchain
               try:
                   with open(file_path, "r") as json_file:
                       blockchain_data = json.load(json_file)
@@ -172,6 +172,6 @@ class Blockchain:
           with open(file_path, "w") as json_file:
               json.dump(blockchain_data, json_file, indent=4)
 
-          logging.info(f"Block {block.index} added to {file_path}.")
+          # logging.info(f"Block {block.index} added to {file_path}.")
       except Exception as e:
           logging.error(f"Failed to append block to {file_path}: {e}")
