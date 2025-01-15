@@ -19,6 +19,8 @@ from transaction.transaction_manager import TransactionManager
 from _config.app_config import AppConfig
 
 # ssam - Sharded Stake Aggregation Mechanism/Model
+# ENHANCING BLOCKCHAIN SCALABILITY AND TRANSACTION EFFICIENCY USING SHARDED CHAIN ARCHITECTURE
+
 class BlockchainNode:
     def __init__(self):
         """
