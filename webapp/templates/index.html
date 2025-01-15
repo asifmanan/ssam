@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Viewer</title>
+    <script>
+        let latestBlockIndex = -1; // Tracks the index of the latest block displayed
+
+        async function fetchBlocks() {
+            try {
+                // Fetch the blocks from the Flask server
+                const response = await fetch('/blocks');
+                const blocks = await response.json();
+        
+                // Reverse the blocks to show the latest block at the top
+                blocks.reverse();
+        
+                // Check if a new block has been added
+                if (blocks.length > 0 && blocks[0].index > latestBlockIndex) {
+                    latestBlockIndex = blocks[0].index; // Update the latest block index
+        
+                    // Update the display
+                    const container = document.getElementById('block-container');
+                    container.innerHTML = ''; // Clear the existing content
+        
+                    // Loop through and display each block
+                    blocks.forEach(block => {
+                        const blockDiv = document.createElement('div');
+                        blockDiv.classList.add('block');
+                        blockDiv.innerHTML = `
+                            <h3>Block ${block.index}</h3>
+                            <p><strong>Timestamp:</strong> ${block.timestamp}</p>
+                            <p><strong>Previous Hash:</strong> ${block.previous_hash}</p>
+                            <p><strong>Merkle Root:</strong> ${block.tx_root}</p>
+                            <p><strong>Staker Signature:</strong> ${block.staker_signature}</p>
+                        `;
+                        container.appendChild(blockDiv);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching blocks:', error);
+            }
+        }
+
+        // Periodically fetch and update the blocks every 5 seconds
+        setInterval(fetchBlocks, 5000);
+
+        // Fetch the blocks once when the page loads
+        window.onload = fetchBlocks;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .block {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .block h3 {
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Blockchain Viewer</h1>
+    <div id="block-container"></div>
+</body>
+</html>

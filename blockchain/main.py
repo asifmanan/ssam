@@ -1,6 +1,8 @@
 import os
 import asyncio
 import logging
+import threading
+from webapp.blockchain_view import start_webserver
 
 from network.host import Host
 from network.message import Message
@@ -40,6 +42,13 @@ class BlockchainNode:
         self.transaction_manager = TransactionManager(transactions=self.transactions, num_miners=self.num_of_miners)
 
         self.blockchain = Blockchain()
+
+        if self.node_name.startswith("staker"):
+            flask_thread = threading.Thread(
+                target=start_webserver, args=(self.blockchain, self.node_name), daemon=True
+            )
+            flask_thread.start()
+            logging.info(f"Flask webserver started for {self.node_name}.")
 
     async def start(self):
         """

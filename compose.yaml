@@ -14,7 +14,7 @@ services:
       - blockchain_network
     ports:
       - 5010:5000
-      - 6010:6000
+      - 8001:8000
     volumes:
       - ./data:/app/data
 
@@ -29,7 +29,7 @@ services:
       - blockchain_network
     ports:
       - 5020:5000
-      - 6020:6000
+      - 8002:8000
     volumes:
       - ./data:/app/data
 
