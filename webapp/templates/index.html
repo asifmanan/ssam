@@ -28,12 +28,38 @@
                     blocks.forEach(block => {
                         const blockDiv = document.createElement('div');
                         blockDiv.classList.add('block');
+                        const stakerSignature = block.staker_signature || "N/A"; 
+                        const [stakerName, signature] = stakerSignature.includes(":")
+                            ? stakerSignature.split(":")
+                            : ["N/A", stakerSignature]; // If no ":", assume no staker name is present
                         blockDiv.innerHTML = `
                             <h3>Block ${block.index}</h3>
                             <p><strong>Timestamp:</strong> ${block.timestamp}</p>
                             <p><strong>Previous Hash:</strong> ${block.previous_hash}</p>
                             <p><strong>Merkle Root:</strong> ${block.tx_root}</p>
-                            <p><strong>Staker Signature:</strong> ${block.staker_signature}</p>
+                            <p><strong>Staker Node:</strong> ${stakerName}</p>
+                            <p><strong>Staker Signature:</strong> ${signature}</p>
+                            <p><strong>Number of Transactions:</strong> ${block.transactions.length}</p>
+                            <p><strong>Number of Shard Miners:</strong> ${Object.keys(block.shard_data).length}</p>
+                            <p><strong>Shard Data:</strong></p>
+                            <div style="font-size: 0.9em; margin-left: 20px;">
+                                ${
+                                    block.shard_data && Object.keys(block.shard_data).length > 0
+                                        ? Object.entries(block.shard_data).map(([minerId, minerData]) => `
+                                            <div style="margin-bottom: 10px;">
+                                                <p><strong>${minerId}:</strong></p>
+                                                <ul>
+                                                    <li><strong>Block Hash:</strong> ${minerData.block_hash || "N/A"}</li>
+                                                    <li><strong>Timestamp:</strong> ${minerData.timestamp || "N/A"}</li>
+                                                    <li><strong>Merkle Root:</strong> ${minerData.merkle_root || "N/A"}</li>
+                                                    <li><strong>Nonce:</strong> ${minerData.nonce || "N/A"}</li>
+                                                    <li><strong>nBits:</strong> ${minerData.nbits || "N/A"}</li>
+                                                </ul>
+                                            </div>
+                                        `).join("")
+                                        : "<p>N/A</p>"
+                                    }
+                            </div>
                         `;
                         container.appendChild(blockDiv);
                     });

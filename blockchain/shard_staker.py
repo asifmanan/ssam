@@ -19,7 +19,8 @@ class ShardStaker:
         self.stakes = {}
         self.staker_node_name = node_name
         self.transaction_manager = transaction_manager
-        self.staker_signature = uuid.uuid4().hex
+        staker_signature = uuid.uuid4().hex
+        self.staker_signature = f"{self.staker_node_name}:{staker_signature}"
 
     def initialize_stakes(self, stake_info):
         """
