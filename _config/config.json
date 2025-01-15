@@ -10,7 +10,7 @@
       ]
     },
     "mining_config": {
-      "nbits": "0x1f00ffff"
+      "nbits": "0x1e0ffff0"
     },
     "shard_config": {
         "shard10": ["staker10:5000","miner11:5000", "miner12:5000"],

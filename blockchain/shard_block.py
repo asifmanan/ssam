@@ -4,7 +4,7 @@ from typing import List
 from transaction.transaction import Transaction
 
 class ShardBlock:
-    def __init__(self, miner_numeric_id, miner_node_name, merkle_root,timestamp, transactions: List[Transaction], nonce: int=0, nbits: str="0x1f00ffff"):  
+    def __init__(self, miner_numeric_id, miner_node_name, merkle_root,timestamp, transactions: List[Transaction], nonce: int=0, nbits: str=None):  
         """
         Initialize a new block.
         :param miner_numeric_id: The numeric ID of the miner.
@@ -16,7 +16,7 @@ class ShardBlock:
         self.timestamp = timestamp
         self.merkle_root = merkle_root
         self.transactions = transactions
-        self.nbits = nbits
+        self.nbits = nbits if nbits is not None else None
         self.nonce = nonce
 
     @classmethod

@@ -6,7 +6,7 @@ from blockchain.shard_block import ShardBlock
 from blockchain.proof_of_work import ProofOfWork
 
 class ShardMiner:
-    def __init__(self, miner_numeric_id: int, miner_node_name: str, num_miners: int, transactions: List[Transaction]):
+    def __init__(self, miner_numeric_id: int, miner_node_name: str, num_miners: int, transactions: List[Transaction], nbits: str=None):
         """
         Initializes the Shard Miner with its ID and access to the Transaction Manager.
         :param miner_id: ID of the miner.
@@ -16,7 +16,8 @@ class ShardMiner:
         self.miner_numeric_id = miner_numeric_id
         self.miner_node_name = miner_node_name
         self.transaction_manager = TransactionManager(num_miners=num_miners, transactions=transactions)
-        self.pow = ProofOfWork()
+        self.pow = ProofOfWork() if nbits is None else ProofOfWork(nbits=nbits)
+        self.nbits = self.pow.get_current_target_nbits()
         self.alocd_transactions = self.transaction_manager.get_transactions_for_miner(self.miner_numeric_id)
 
     def process_transactions(self):
@@ -44,6 +45,7 @@ class ShardMiner:
                                  miner_node_name=self.miner_node_name, 
                                  merkle_root=merkle_root, 
                                  timestamp=timestamp, 
+                                 nbits=self.nbits,
                                  transactions=transactions)
         
         golden_nonce = self.get_golden_nonce(shard_block)
@@ -55,6 +57,7 @@ class ShardMiner:
         Mines a new block with the given transaction root.
         :param shard_block: The shard block to be mined.
         """
+        # print(f"Dificulty: {self.pow.current_target:064x}")
         golden_nonce = self.pow.find_valid_nonce(shard_block)
         return golden_nonce
     

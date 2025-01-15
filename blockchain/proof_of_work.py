@@ -5,7 +5,7 @@ class ProofOfWork:
           https://bitcoin.stackexchange.com/questions/30467/what-are-the-equations-to-convert-between-bits-and-difficulty
           https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
   """
-  MAX_TARGET = MAX_TARGET = int("00000FFFF0000000000000000000000000000000000000000000000000000000", 16)
+  MAX_TARGET = int("0000FFFF00000000000000000000000000000000000000000000000000000000", 16)
   MAX_NONCE_VALUE = 2**32 - 1 # Limit the nonce to 32 bits (max 4,294,967,295)
   def __init__(self, nbits:str=None, target:str=None):
     """
@@ -14,11 +14,12 @@ class ProofOfWork:
     :param target: The 256-bit target value.
     """
     if target:
-      current_target = int(target,16)
-      self.current_target = current_target
+      new_target = int(target,16)
+      self.current_target = new_target
+    
     elif nbits:
-      current_target = self.nbits_to_target(nbits)
-      self.current_target = current_target
+      new_target = self.nbits_to_target(nbits)
+      self.current_target = new_target
 
     else:
       self.current_target = self.MAX_TARGET
@@ -31,7 +32,7 @@ class ProofOfWork:
     Searches for a valid nonce that satisfies the proof of work.
     :param block: The block to be mined.
     """
-    target = self.nbits_to_target(block.nbits)
+    target = self.current_target
     while True:
       if block.nonce >= self.max_nonce:
         return None
@@ -51,6 +52,11 @@ class ProofOfWork:
     Returns the compact 'nbits' format for the current target.
     """
     return self.target_to_nbits(self.current_target)
+  def get_current_target_hex(self):
+    """
+    Returns the current target value in hexadecimal.
+    """
+    return f"{self.current_target:064x}"
 
   @staticmethod
   def target_to_nbits(target):

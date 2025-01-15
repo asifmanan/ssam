@@ -26,6 +26,8 @@ class BlockchainNode:
         self.network_config = self.config.get_network_config()
         self.shard_config = self.config.get_shard_config()
         self.stake_info = self.config.get_stake_info()
+        self.mining_config = self.config.get_mining_config()
+        self.nbits = self.mining_config.get("nbits")
 
         self.node_name = os.getenv("NODE_NAME")
         self.shard_name = os.getenv("SHARD")
@@ -67,7 +69,11 @@ class BlockchainNode:
         """
         Run Shard Miner Node.
         """
-        shard_miner = ShardMiner(miner_numeric_id=self.get_miner_id(), miner_node_name=self.node_name, num_miners=self.num_of_miners, transactions=self.transactions)
+        shard_miner = ShardMiner(miner_numeric_id=self.get_miner_id(), 
+                                 miner_node_name=self.node_name, 
+                                 num_miners=self.num_of_miners, 
+                                 transactions=self.transactions, 
+                                 nbits=self.nbits)
         mining_allowed = False  # Control variable for mining
 
         while True:
