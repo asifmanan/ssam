@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blockchain Viewer</title>
     <script>
+        function formatTimestamp(timestamp) {
+            // Convert the timestamp to milliseconds
+            const date = new Date(timestamp * 1000);
+        
+            // Format the date and time using Intl.DateTimeFormat
+            const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'UTC',
+                hourCycle: 'h23',
+            }).format(date);
+        
+            // Calculate milliseconds from the fractional part
+            const milliseconds = Math.floor((timestamp % 1) * 1000).toString().padStart(3, '0');
+        
+            // Combine formatted date with milliseconds
+            return `${formattedDate}.${milliseconds}`;
+        }        
+        
         let latestBlockIndex = -1; // Tracks the index of the latest block displayed
 
         async function fetchBlocks() {
@@ -34,7 +57,8 @@
                             : ["N/A", stakerSignature]; // If no ":", assume no staker name is present
                         blockDiv.innerHTML = `
                             <h3>Block ${block.index}</h3>
-                            <p><strong>Timestamp:</strong> ${block.timestamp}</p>
+                            <p><strong>Block Hash:</strong> ${block.block_hash}</p>
+                            <p><strong>Timestamp:</strong> ${block.timestamp} (${formatTimestamp(block.timestamp)})</p>
                             <p><strong>Previous Hash:</strong> ${block.previous_hash}</p>
                             <p><strong>Merkle Root:</strong> ${block.tx_root}</p>
                             <p><strong>Staker Node:</strong> ${stakerName}</p>

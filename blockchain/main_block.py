@@ -26,6 +26,7 @@ class MainBlock:
     self.nonce = nonce
     self.shard_data = shard_data if shard_data is not None else {}
     self.transactions = transactions if transactions is not None else []
+    self.block_hash = self.compute_hash()
 
   @classmethod
   def from_dict(cls, block_data):
@@ -61,6 +62,7 @@ class MainBlock:
             "nbits":self.nbits,
             "nonce":self.nonce,
             "shard_data":self.shard_data,
+            "block_hash":self.block_hash,
             "transactions":[tx.to_dict() if hasattr(tx, "to_dict") else tx for tx in self.transactions],
             }
   
