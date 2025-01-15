@@ -18,7 +18,7 @@ from transaction.transaction_manager import TransactionManager
 
 from _config.app_config import AppConfig
 
-
+# ssam - Sharded Stake Aggregation Mechanism/Model
 class BlockchainNode:
     def __init__(self):
         """
@@ -221,6 +221,13 @@ class BlockchainNode:
                 await asyncio.sleep(3)  
             except Exception as e:
                 logging.error(f"Error in staker operation: {e}")
+
+    async def shutdown(self):
+        """
+        Shutdown the blockchain node gracefully.
+        """
+        await self.host.stop()
+        logging.info("Blockchain node stopped.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
