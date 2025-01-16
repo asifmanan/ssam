@@ -1,7 +1,9 @@
 class ProofOfWork:
   """
   The Proof of Work algorithm for mining blocks.
-  refs:   https://en.bitcoin.it/wiki/Difficulty
+  refs:   
+          https://learnmeabitcoin.com/technical/block/bits/
+          https://en.bitcoin.it/wiki/Difficulty
           https://bitcoin.stackexchange.com/questions/30467/what-are-the-equations-to-convert-between-bits-and-difficulty
           https://stackoverflow.com/questions/22059359/trying-to-understand-nbits-value-from-stratum-protocol/22161019#22161019
   """
